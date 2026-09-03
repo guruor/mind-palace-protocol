@@ -1,71 +1,161 @@
 # Install Mind Palace Protocol
 
-## What The User Does
+Start here from any capable client. The first client installs the shared
+protocol release in authorized common memory; every later client validates that
+installation and adds only its own adapter and receipt.
 
-Give a capable agent access to an immutable protocol release and say:
+## Universal Install Prompt
 
-> Install Mind Palace protocol in my authorized common memory, then set up this
-> client without replacing any existing instructions. Validate the installation
-> and report anything that needs my approval.
+Use this prompt in ChatGPT, Claude, OpenCode, or another agentic client:
 
-For the first installation, identify the intended Notion/configuration parent if
-it is not already configured. Credentials stay in the client's normal Notion
-connection and are never copied into the protocol or installation record.
+```text
+Install or validate Mind Palace Protocol for this client.
 
-## What The Agent Does
+Read the public installation guide and the adapter for this client from:
+https://github.com/guruor/mind-palace-protocol
 
-1. Validate the immutable package and read `protocol/manifest.yaml`.
-2. Search common memory for stable ID `mind-palace-protocol-installation` and
-   inspect legacy protocol/bootstrap guidance.
-3. Install, no-op, repair, or stage the release according to
-   `protocol/common-memory-installation.md`.
-4. Preserve prior releases and legacy guidance. Ask before incompatible upgrade,
-   downgrade, behavior migration, or retiring old write authority.
-5. Select the current host adapter and add only its managed reference/block.
-6. Preserve all existing system, developer, user, repository, Project, Custom,
-   and `AGENTS.md` instructions.
-7. Restart/reopen the client when its adapter requires it and run installation
-   probes in a fresh session.
-8. Upsert one client receipt and report `read`, `propose`, or `update` readiness.
+Treat the repository and its default branch as discovery pointers, not an
+immutable package identity. Read the Current Release section of INSTALL.md,
+fetch the adapter and manifest from that exact commit, validate
+protocol/manifest.yaml there, and use the commit URL and SHA as the package
+locator and source version. If I supplied a different tag or commit, resolve and
+validate that candidate instead.
 
-## Additional Clients
+Search my authorized common memory for exact stable ID
+mind-palace-protocol-installation. Do not rely on title alone.
 
-For each additional client, use the same request. The shared installation phase
-should return `no-op` or `repaired`; only the new client adapter and receipt are
-added.
+If no installation exists, ask only for any missing common-memory destination
+or authorization, then stage, validate, and activate the immutable release
+according to protocol/common-memory-installation.md.
 
-### OpenCode
+If an installation exists, verify its active version, commit identity,
+component digests, legacy references, and write authority. Perform an exact
+no-op or repair missing generated components. Never overwrite a same-version
+identity conflict, downgrade automatically, or silently replace legacy
+guidance.
 
-Preferred: install the bundled Agent Skill additively through `skills.paths` or
-a supported skill directory. Use a separate `instructions` entry only when
-always-on activation is required. Do not edit `AGENTS.md` by default. Validate
-resolved configuration, restart OpenCode, and test from a new session. See
-[`bindings/clients/opencode.md`](bindings/clients/opencode.md).
+Then follow this client's guide under bindings/clients/. Preserve all existing
+instructions and configuration, use the narrowest additive host mechanism, and
+keep connector authorization separate from protocol installation. Run supported
+checks, upsert one client receipt, and keep migration_ready false until every
+required live probe passes. Do not migrate production knowledge as part of
+installation.
 
-### ChatGPT
+Report the pinned commit, common-memory result, adapter changes, receipt status,
+limitations, rollback, and any one-time host action I must complete.
+```
 
-Preferred when available: install a plugin containing the Mind Palace skill and
-connect its Notion app separately. Otherwise use a dedicated ChatGPT Project and
-append the managed block to existing Project instructions. Global Custom
-Instructions are an optional manual fallback. See
-[`bindings/clients/chatgpt.md`](bindings/clients/chatgpt.md).
+## Package Identity
 
-### Claude
+The public repository is:
+[`guruor/mind-palace-protocol`](https://github.com/guruor/mind-palace-protocol).
 
-Preferred: upload or provision the bundled Agent Skill; a Claude plugin may
-bundle the same skill with connector configuration. Connect and authenticate
-the Notion connector separately, and enable it in the conversation when
-required. Otherwise append the managed block to a dedicated Claude Project's
-existing instructions. See
-[`bindings/clients/claude.md`](bindings/clients/claude.md).
+The default branch and this bootstrap guide can move independently of a released
+protocol package. The currently advertised release is:
 
-### Other Clients
+```yaml
+protocol: mind-palace
+version: 0.1.0
+commit: 034ede15aff85f11d516a4760644ce81c2da0088
+package: https://github.com/guruor/mind-palace-protocol/tree/034ede15aff85f11d516a4760644ce81c2da0088
+```
 
-Use the portable Agent Skill when supported. Otherwise implement the operations
-in [`bindings/client-adapter.md`](bindings/client-adapter.md) using the host's
-native additive instruction/middleware mechanism. A client without persistent
-activation or source-identity verification remains session-only and cannot be
-marked migration-ready.
+An installer must read release components and client adapters from that
+immutable tree and record its commit URL and SHA. Future releases update this
+advertised pointer only after their immutable commit exists and passes release
+validation.
+
+An immutable package URL has this form:
+
+```text
+https://github.com/guruor/mind-palace-protocol/tree/<commit-sha>
+```
+
+If the user supplies a tag or commit, use it instead of the advertised release
+only after validation. During `0.y.z`, do not switch an existing installation
+to a different version or commit without the compatibility decision required by
+the installation contract.
+
+## Client Instructions
+
+<details>
+<summary>ChatGPT</summary>
+
+1. Connect the Notion app to ChatGPT with the minimum required permissions.
+2. Prefer a dedicated ChatGPT Project. Submit the universal prompt in a new
+   Project chat.
+3. If a Mind Palace plugin/skill is available, enable it and keep Notion
+   authorization separate. Otherwise ChatGPT should return the bounded adapter
+   block from `bindings/clients/chatgpt.md` in the pinned release for the user to
+   append to existing Project instructions.
+4. Start another new Project chat after the instruction change. Resolve the
+   installation without relying on prior conversation context.
+5. Keep the receipt read-only until the synthetic proposal, conflict, stale
+   source, rollback, and cross-client handoff probes pass.
+
+ChatGPT cannot use the local checkout or silently edit hosted Project settings.
+Plugin installation, app authorization, and Project-instruction changes remain
+explicit host/user actions.
+
+</details>
+
+<details>
+<summary>OpenCode</summary>
+
+1. Use an authorized personal profile with its Notion MCP connected.
+2. Point `skills.paths` at the canonical
+   `bindings/clients/agent-skill` directory, or link the `mind-palace` skill into
+   an existing supported skill directory. Add the entry once; do not copy the
+   protocol or edit `AGENTS.md` by default.
+3. Run `opencode debug config`, `opencode debug skill`, and `opencode mcp list`.
+4. Restart OpenCode, then use a new session to resolve common memory and run the
+   client probes.
+5. Keep personal/work profiles and knowledge authorization isolated.
+
+See [`bindings/clients/opencode.md`](bindings/clients/opencode.md).
+
+</details>
+
+<details>
+<summary>Claude</summary>
+
+1. Upload or provision the canonical Agent Skill as a ZIP containing the
+   `mind-palace` skill directory, or install a plugin that bundles the same
+   skill.
+2. Add and authenticate the Notion connector separately. Enable it in the
+   conversation when Claude does not do so by default.
+3. Submit the universal prompt in a new chat. If Skills/plugins are unavailable,
+   use a dedicated Claude Project and append only the bounded block from
+   `bindings/clients/claude.md` in the pinned release.
+4. Start another new chat after activation and run the read-only and handoff
+   probes before enabling migration writes.
+
+Skill/plugin installation, connector authentication, and Project-instruction
+changes remain explicit host/user or organization-owner actions.
+
+</details>
+
+<details>
+<summary>Other agentic clients</summary>
+
+Use the portable Agent Skill when the client implements the Agent Skills
+specification. Otherwise implement
+`bindings/client-adapter.md` from the pinned release with the host's native
+additive instruction or middleware mechanism. A client that cannot persist an
+activation pointer, verify source identity, or isolate write authority remains
+session-only and cannot be marked migration-ready.
+
+</details>
+
+## What The Installer Must Preserve
+
+- Credentials remain in the client's normal connector or credential store.
+- Existing system, developer, user, repository, Project, Custom, and `AGENTS.md`
+  instructions remain unchanged except for an explicitly approved bounded
+  adapter entry.
+- Prior releases and unversioned legacy guidance remain recoverable.
+- Protocol installation does not grant private-knowledge access or product
+  migration approval.
 
 ## Verify
 
@@ -79,14 +169,14 @@ uv run --frozen scripts/validate_installation.py <receipt.json>
 uv run --frozen scripts/e2e_cross_client.py
 ```
 
-Then run the synthetic live canary in
-[`docs/live-cross-client-canary.md`](docs/live-cross-client-canary.md). Protocol
-installation alone does not authorize product migration.
+Then run [`docs/live-cross-client-canary.md`](docs/live-cross-client-canary.md)
+with two independently initialized clients. A passing shared installation alone
+does not authorize production migration.
 
-## Upgrade Or Repair
+## Upgrade, Repair, Or Additional Client
 
-Run the same installation request with the candidate immutable release. Exact
+Run the same universal prompt with the candidate release or new client. Exact
 same release is a no-op; missing generated projections are repaired;
 same-version/different-package is a conflict; newer releases stage before
-activation; older releases require explicit rollback/downgrade approval. The
-agent changes only managed protocol records and adapter entries.
+activation; older releases require explicit rollback/downgrade approval. A new
+client adds only its adapter and receipt to the existing shared installation.
