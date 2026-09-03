@@ -1,0 +1,25 @@
+{
+  "installation_id": "synthetic-mind-palace-installation",
+  "trust_domain": "synthetic",
+  "storage_binding": "notion",
+  "active_release": "mind-palace-release-001",
+  "releases": [
+    {
+      "id": "mind-palace-release-001",
+      "protocol": {"id": "mind-palace", "version": "0.1.0"},
+      "package_locator": "synthetic://mind-palace/release-001",
+      "source_version": "release-001",
+      "status": "active",
+      "components": [
+        {
+          "path": "protocol/manifest.yaml",
+          "digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "locator": "synthetic://mind-palace/release-001/manifest"
+        }
+      ],
+      "omissions": []
+    }
+  ],
+  "legacy_installations": [],
+  "client_receipts": []
+}

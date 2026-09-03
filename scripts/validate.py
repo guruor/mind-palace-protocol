@@ -12,7 +12,10 @@ import yaml
 from jsonschema import Draft202012Validator
 from referencing import Registry, Resource
 
+from client_adapter_config import run_scenario as run_client_adapter_scenario
+from common_memory_install import run_scenario as run_common_memory_install_scenario
 from digest import canonical_digest
+from e2e_cross_client import run_scenario
 from validate_installation import installation_errors, load_manifest
 
 
