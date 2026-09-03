@@ -93,6 +93,9 @@ The 2026-09-03 synthetic proof established:
 - an uploaded text attachment was recoverable through the integration-created
   upload identity, but the fetched page used an opaque storage locator, so
   export must copy assets rather than preserve that locator;
+- a 451-byte synthetic SVG image survived upload, attachment, recovery,
+  re-upload, and target attachment with identical payload; binary PNG/PDF and
+  arbitrary pre-existing upload coverage remain unproven;
 - comments/discussions are separately retrievable and can include user identity
   metadata. Export them only when required, minimize/redact identity, and
   promote material conclusions into durable artifacts.
