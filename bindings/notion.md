@@ -25,6 +25,32 @@ pages and ID, title, revision, relation, or locator drift.
 
 The bridge is migration state, not the target architecture.
 
+## Protocol Installation Registry
+
+Represent shared protocol installation as one full-page registry database in
+the configured AI-collaboration/configuration area. Use one item per root,
+release, projected component, client receipt, legacy reference, or conflict.
+Recommended properties are:
+
+- `Record` (title);
+- `Stable ID` (text, unique by validation);
+- `Record Type` (installation, release, component, client-receipt, legacy, or
+  conflict);
+- `Protocol Version`, `Source Version`, `Status`, `Trust Domain`, and `Digest`;
+- `Package Locator` when the immutable package is reachable;
+- self-relation `Parent Record`/`Child Records`.
+
+The root stable ID defaults to `mind-palace-protocol-installation`. Its active
+release is a relation, not copied content. Release components are generated from
+the immutable package and carry per-component digests; clients fetch their page
+bodies when direct repository access is unavailable. Client receipts and legacy
+guidance are related records, so reinstall can upsert them without changing the
+legacy page.
+
+Before creating the registry, search both exact stable ID and title. A title
+match without the stable ID is an unversioned candidate requiring review, not a
+safe upsert target.
+
 ## Required Capabilities
 
 The binding must be able to:
