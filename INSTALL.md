@@ -1,144 +1,134 @@
 # Install Mind Palace Protocol
 
-Start here from any capable client. The first client installs the shared
-protocol release in authorized common memory; every later client validates that
-installation and adds only its own adapter and receipt.
+This is the only installation entry point a user needs. The first capable
+client installs the shared protocol in authorized common memory. Later clients
+validate that installation and add only their own adapter and receipt.
 
-## Universal Install Prompt
+## One-Link Prompt
 
-Use this prompt in ChatGPT, Claude, OpenCode, or another agentic client:
-
-```text
-Install or validate Mind Palace Protocol for this client.
-
-Read the public installation guide and the adapter for this client from:
-https://github.com/guruor/mind-palace-protocol
-
-Search my authorized common memory for exact stable ID
-mind-palace-protocol-installation. Do not rely on title alone.
-
-If an installation exists, verify its active version, commit identity,
-component digests, legacy references, and write authority. Fetch the manifest
-and this client's adapter from the active release's recorded immutable package,
-not from the repository's default branch. Perform an exact no-op or repair
-missing generated components. Do not consult the latest release unless I ask
-for an upgrade.
-
-If no installation exists, select the release I supplied or discover the latest
-published GitHub Release from:
-https://github.com/guruor/mind-palace-protocol/releases/latest
-
-Resolve its tag to an exact Git commit, validate protocol/manifest.yaml at that
-commit, and use the commit URL and SHA as the package locator and source
-version. Ask only for any missing common-memory destination or authorization,
-then stage, validate, and activate it according to
-protocol/common-memory-installation.md.
-
-Treat the repository, default branch, release page, and tag as discovery
-pointers rather than immutable package identity. Never overwrite a same-version
-identity conflict, downgrade automatically, or silently replace legacy
-guidance.
-
-Then follow this client's guide under bindings/clients/. Preserve all existing
-instructions and configuration, use the narrowest additive host mechanism, and
-keep connector authorization separate from protocol installation. Run supported
-checks, upsert one client receipt, and keep migration_ready false until every
-required live probe passes. Do not migrate production knowledge as part of
-installation.
-
-Report the pinned commit, common-memory result, adapter changes, receipt status,
-limitations, rollback, and any one-time host action I must complete.
-```
-
-## Package Identity
-
-The public repository is:
-[`guruor/mind-palace-protocol`](https://github.com/guruor/mind-palace-protocol).
-
-Fresh installations discover the current published version through
-[`releases/latest`](https://github.com/guruor/mind-palace-protocol/releases/latest).
-Existing installations use their recorded active release unless an upgrade is
-explicitly requested.
-
-The default branch, release page, and semantic tag can move or be superseded.
-An installer resolves the selected tag to its exact commit, reads release
-components and client adapters from that immutable tree, and records the commit
-URL, SHA, and component digests in common memory and the client receipt.
-
-An immutable package URL has this form:
+Give a client this prompt:
 
 ```text
-https://github.com/guruor/mind-palace-protocol/tree/<commit-sha>
+Install or validate Mind Palace Protocol by following:
+https://github.com/guruor/mind-palace-protocol/blob/main/INSTALL.md
+
+Follow the guide for your actual host capabilities. If a host setting or
+connector requires my action, give me the exact text and location, then stop and
+wait for confirmation. Do not claim persistent setup from this conversation
+alone and do not migrate production knowledge during installation.
 ```
 
-If the user supplies a tag or commit for a fresh install or explicit upgrade,
-use it instead of `releases/latest` only after validation. During `0.y.z`, do
-not switch an existing installation to a different version or commit without
-the compatibility decision required by the installation contract.
+## Instructions For The Installing Client
 
-## Client Instructions
+Complete these steps in order:
+
+1. Identify the current host as a hosted chat, an agentic client, or a
+   session-only client.
+2. Check whether the host can read the public repository, access authorized
+   common memory, and persist an additive adapter without replacing existing
+   instructions.
+3. Resolve or install the shared immutable release using the rules below.
+4. Follow exactly one client section from this guide.
+5. If the host cannot edit its own persistent settings, print the exact custom
+   instruction block and the host setting where the user must append it. Stop
+   until the user confirms completion.
+6. After activation, require a new conversation or session and run the
+   Fresh-Client Setup Check. The installer conversation is not persistence
+   evidence.
+7. Update one client receipt. Do not create duplicate receipts and do not mark
+   migration readiness while required checks remain unrun.
+
+## Resolve Or Install Common Memory
+
+Search authorized common memory for exact stable ID
+`mind-palace-protocol-installation`. Do not rely on title alone.
+
+If an installation exists:
+
+- verify its active version, commit identity, component digests, legacy
+  references, trust domain, and effective write authority;
+- fetch the manifest and adapter from its recorded immutable package, not from
+  the repository's default branch;
+- perform an exact no-op or repair only missing generated components; and
+- do not consult the latest release unless the user asks for an upgrade.
+
+If no installation exists:
+
+- use a user-supplied release or discover the latest published release at
+  [`releases/latest`](https://github.com/guruor/mind-palace-protocol/releases/latest);
+- resolve the tag to an exact Git commit and validate
+  `protocol/manifest.yaml` at that commit;
+- use the commit URL and SHA as package identity; and
+- ask only for missing destination or authorization, then follow
+  [`protocol/common-memory-installation.md`](protocol/common-memory-installation.md).
+
+Repository branches, release pages, and tags are discovery pointers. The exact
+commit and component digests are installation evidence. Never overwrite a
+same-version identity conflict, downgrade automatically, replace legacy
+guidance, or infer private-knowledge authority from protocol access.
+
+## Choose The Client Adapter
+
+<details>
+<summary>Hosted chat: any provider</summary>
+
+Use [`bindings/clients/hosted-chat.md`](bindings/clients/hosted-chat.md) for a
+hosted chat with persistent custom instructions and an authorized knowledge
+connector. This is the canonical binding for ChatGPT, hosted Claude, and other
+chat providers with equivalent capabilities.
+
+The normal setup is:
+
+1. The user connects and authorizes Notion or the configured common-memory
+   service through the host's connector settings.
+2. The client prints the exact managed block from the hosted-chat binding.
+3. The user appends it to existing account custom instructions, or to Project
+   instructions when project scope is preferred or overrides account settings.
+4. The user starts a new conversation and runs the Fresh-Client Setup Check.
+
+Skills and plugins are not required. If the host lacks persistent instructions
+or an authorized connector, report session-only or documentation-only status
+instead of claiming installation.
+
+</details>
 
 <details>
 <summary>ChatGPT</summary>
 
-1. Connect the Notion app to ChatGPT with the minimum required permissions.
-2. Prefer a dedicated ChatGPT Project. Open its settings and append the
-   [ChatGPT managed block](bindings/clients/chatgpt.md#managed-bootstrap-block)
-   from the active or selected release to its existing Project instructions. Do
-   not replace existing instructions.
-3. In that block, configure the installation ID as
-   `mind-palace-protocol-installation`; this lets a fresh chat resolve the shared
-   installation without relying on the installer conversation.
-4. If a Mind Palace plugin/skill becomes available, it may supply the same thin
-   bootstrap instead; keep Notion authorization separate.
-5. Submit the universal prompt in a new Project chat after the instruction
-   change. Resolve the installation without relying on prior conversation
-   context.
-6. Keep the receipt read-only until the synthetic proposal, conflict, stale
-   source, rollback, and cross-client handoff probes pass.
+Follow [`bindings/clients/chatgpt.md`](bindings/clients/chatgpt.md).
 
-ChatGPT cannot use the local checkout or silently edit hosted Project settings.
-Plugin installation, app authorization, and Project-instruction changes remain
-explicit host/user actions. The managed block activates Mind Palace for durable
-knowledge handled through Notion; it intentionally does not reinterpret
-unrelated Notion work. Append the same block to global Custom Instructions only
-when Mind Palace should be available outside the dedicated Project too.
+Use global Custom Instructions when Mind Palace should be available in normal
+chats. Use Project instructions when the setup should be scoped to one Project
+or that Project overrides account instructions. Connect the Notion app
+separately. ChatGPT must provide the exact custom-instruction block because it
+cannot silently edit these host settings.
+
+</details>
+
+<details>
+<summary>Claude chat</summary>
+
+Follow [`bindings/clients/claude.md`](bindings/clients/claude.md).
+
+Use persistent personalization or Project instructions and connect Notion
+separately. A Skill or plugin is not required for hosted Claude. Claude Code is
+an agentic client and may use the Agent Skill route instead.
 
 </details>
 
 <details>
 <summary>OpenCode</summary>
 
-1. Use an authorized personal profile with its Notion MCP connected.
-2. Point `skills.paths` at the canonical
-   `bindings/clients/agent-skill` directory, or link the `mind-palace` skill into
-   an existing supported skill directory. Add the entry once; do not copy the
-   protocol or edit `AGENTS.md` by default.
-3. Run `opencode debug config`, `opencode debug skill`, and `opencode mcp list`.
-4. Restart OpenCode, then use a new session to resolve common memory and run the
-   client probes.
-5. Keep personal/work profiles and knowledge authorization isolated.
+Follow [`bindings/clients/opencode.md`](bindings/clients/opencode.md).
 
-See [`bindings/clients/opencode.md`](bindings/clients/opencode.md).
+Use an authorized profile with its Notion MCP connected. Point `skills.paths`
+at the canonical `bindings/clients/agent-skill` directory, or link the
+`mind-palace` skill into an existing supported skill directory. Add the entry
+once; do not copy the protocol or edit `AGENTS.md` by default.
 
-</details>
-
-<details>
-<summary>Claude</summary>
-
-1. Upload or provision the canonical Agent Skill as a ZIP containing the
-   `mind-palace` skill directory, or install a plugin that bundles the same
-   skill.
-2. Add and authenticate the Notion connector separately. Enable it in the
-   conversation when Claude does not do so by default.
-3. Submit the universal prompt in a new chat. If Skills/plugins are unavailable,
-   use a dedicated Claude Project and append only the bounded block from
-   `bindings/clients/claude.md` in the pinned release.
-4. Start another new chat after activation and run the read-only and handoff
-   probes before enabling migration writes.
-
-Skill/plugin installation, connector authentication, and Project-instruction
-changes remain explicit host/user or organization-owner actions.
+Run `opencode debug config`, `opencode debug skill`, and `opencode mcp list`,
+then restart OpenCode and run the Fresh-Client Setup Check in a new session.
+Keep personal/work profiles and knowledge authorization isolated.
 
 </details>
 
@@ -147,24 +137,42 @@ changes remain explicit host/user or organization-owner actions.
 
 Use the portable Agent Skill when the client implements the Agent Skills
 specification. Otherwise implement
-`bindings/client-adapter.md` from the pinned release with the host's native
-additive instruction or middleware mechanism. A client that cannot persist an
-activation pointer, verify source identity, or isolate write authority remains
-session-only and cannot be marked migration-ready.
+[`bindings/client-adapter.md`](bindings/client-adapter.md) with the host's native
+additive instruction or middleware mechanism. Preserve existing configuration
+and ask before any host-level change outside already authorized scope.
 
 </details>
 
-## What The Installer Must Preserve
+<details>
+<summary>Session-only clients</summary>
 
-- Credentials remain in the client's normal connector or credential store.
-- Existing system, developer, user, repository, Project, Custom, and `AGENTS.md`
-  instructions remain unchanged except for an explicitly approved bounded
-  adapter entry.
-- Prior releases and unversioned legacy guidance remain recoverable.
-- Protocol installation does not grant private-knowledge access or product
-  migration approval.
+A client that cannot persist instructions, verify package identity, or isolate
+write authority may use the active protocol per session in `read` or `propose`
+mode. It must not claim durable installation or migration readiness. Give it the
+one-link prompt at the start of each relevant conversation.
 
-## Verify
+</details>
+
+## Validation Stages
+
+Use these names instead of the ambiguous phrase "run the live canary":
+
+1. **Fresh-Client Setup Check:** a new conversation/session independently
+   resolves the active release and runs synthetic read, proposal, and stale-
+   source refusal checks. This proves the client adapter is active.
+2. **Cross-Client Handoff Check:** Client A emits a schema-valid synthetic
+   handoff and a separately initialized Client B consumes it without hidden chat
+   history. This proves portability between clients.
+3. **Approved Write Canary:** with explicit bounded approval, migrate one
+   synthetic artifact, repeat the request to prove idempotency, then execute and
+   verify rollback. This tests write behavior, not installation.
+
+Run the stages through
+[`docs/live-cross-client-canary.md`](docs/live-cross-client-canary.md). A client
+may pass setup while handoff and write checks remain `not-run`; in that state its
+receipt remains `migration_ready: false`.
+
+## Repository Validation
 
 Repository-capable clients run:
 
@@ -176,14 +184,20 @@ uv run --frozen scripts/validate_installation.py <receipt.json>
 uv run --frozen scripts/e2e_cross_client.py
 ```
 
-Then run [`docs/live-cross-client-canary.md`](docs/live-cross-client-canary.md)
-with two independently initialized clients. A passing shared installation alone
-does not authorize production migration.
+## Preserve And Roll Back
 
-## Upgrade, Repair, Or Additional Client
+- Keep credentials in the host's connector or credential store.
+- Preserve existing system, developer, user, repository, Project, Custom, and
+  `AGENTS.md` instructions.
+- Keep prior releases and legacy guidance recoverable.
+- Treat protocol installation, connector authorization, private-knowledge
+  access, and production migration approval as separate permissions.
+- Remove only the managed adapter block/path/link during client rollback.
 
-Run the same universal prompt with the candidate release or new client. Exact
-same release is a no-op; missing generated projections are repaired;
+## Upgrade, Repair, Or Add A Client
+
+Run the one-link prompt with the candidate release or new client. Exact same
+release is a no-op; missing generated projections are repaired;
 same-version/different-package is a conflict; newer releases stage before
 activation; older releases require explicit rollback/downgrade approval. A new
 client adds only its adapter and receipt to the existing shared installation.

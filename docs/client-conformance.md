@@ -61,7 +61,7 @@ Run `uv run --frozen scripts/e2e_cross_client.py` for the local simulation. It
 uses independent synthetic OpenCode and ChatGPT installation identities and
 proves fresh handoff, idempotent migration, stale-source refusal, conflict
 preservation, trust isolation, refreshed migration, and rollback. This test does
-not substitute for the live client canary below.
+not substitute for the fresh-client and cross-client checks below.
 
 ## Product Migration Readiness
 

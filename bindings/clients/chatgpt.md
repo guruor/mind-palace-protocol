@@ -2,65 +2,42 @@
 
 ## Recommended Mechanism
 
-Use the least invasive mechanism available, in this order:
+Use ChatGPT Custom Instructions as the default adapter for normal chats. Append
+the canonical block from
+[`hosted-chat.md`](hosted-chat.md#managed-custom-instructions) without replacing
+existing instructions.
 
-1. **Plugin with a skill plus the Notion app:** preferred when the account or
-   workspace supports plugins/skills. The skill supplies the thin workflow and
-   the app supplies separately authorized common-memory access. Plugin install
-   never grants Notion access by itself.
-2. **Dedicated ChatGPT Project:** broadly available. Add a bounded Mind Palace
-   block to Project instructions and use the connected Notion app. Project
-   instructions are scoped, but they override global Custom Instructions inside
-   that project, so preserve all existing project instructions.
-3. **Global Custom Instructions:** optional fallback for users who want the
-   protocol available in all chats. Append the bounded block manually without
-   replacing existing content. Respect the account's character limit and data
-   controls.
-4. **API client:** inject the thin bootstrap through the application's normal
-   system/developer-message middleware. ChatGPT Custom Instructions have no API.
+For a dedicated ChatGPT Project, use Project instructions when project-specific
+scope is preferable or when Project instructions override account Custom
+Instructions. An API client injects the same thin bootstrap through its normal
+system/developer-message middleware. A custom GPT, plugin, Skill, or uploaded
+Knowledge file is not required for installation.
 
-A custom GPT is not the default installer: creation availability depends on
-plan/workspace, and uploaded Knowledge is reference material rather than the
-right location for behavioral rules.
+## Install
 
-## Managed Bootstrap Block
+1. Resolve the active or selected immutable protocol release.
+2. Connect the Notion app separately with the minimum required permissions.
+3. Open Custom Instructions and append the canonical hosted-chat managed block.
+4. If the intended Project overrides account instructions, append the block to
+   that Project's existing instructions instead.
+5. Start a new conversation and run the fresh-client setup check from
+   [`hosted-chat.md`](hosted-chat.md#fresh-client-setup-check).
+6. Update one ChatGPT receipt with the observed checks. Leave
+   `handoff_probe: not-run` and `migration_ready: false` until the separate
+   cross-client handoff and remaining migration checks pass.
 
-```text
-[Mind Palace adapter: start]
-For durable knowledge, product-documentation, protocol-installation, or
-migration tasks, use the authorized Notion app to resolve the common-memory
-record with stable installation ID supplied by the user configuration. Read its
-active immutable release, then follow that release's General Guide, selected
-methodology, and binding. Protocol access does not grant knowledge access.
-Preserve existing instructions, remain read-only when trust/write authority is
-ambiguous, and never replace a prior release or migrate content silently.
-[Mind Palace adapter: end]
-```
+ChatGPT cannot silently modify account or Project instructions. When asked to
+install, it must provide the exact block and settings location, then wait for the
+user to confirm the change before requesting a fresh conversation.
 
-Use default stable ID `mind-palace-protocol-installation` unless instance
-configuration explicitly overrides it.
+## Upgrade And Removal
 
-The adapter changes only this delimited block. Exact reinstall is a no-op;
-upgrade replaces only the block after release validation; removal deletes only
-the block. One missing or duplicate marker is an error requiring user review.
-
-## Install And Validate
-
-1. Run common-memory install/check and note the active release identity.
-2. Discover existing Project/Custom Instructions, plugins, apps, and legacy
-   Mind Palace blocks before editing.
-3. Prefer the plugin/skill route when available; otherwise select/create a
-   dedicated Project and append the managed block.
-4. Connect the Notion app separately and choose conservative action permissions.
-5. Start a new conversation with no prior context. Resolve the common-memory
-   installation and report release, methodology, binding, trust domain, access
-   mode, and limitations.
-6. Run the handoff and synthetic migration canary before marking the receipt
-   migration-ready.
+An exact reinstall is a no-op. An approved adapter upgrade replaces only the
+delimited block. Removal deletes only that block; Notion authorization is
+revoked separately through ChatGPT settings.
 
 ## Official References
 
-- [Plugins in ChatGPT and Codex](https://help.openai.com/en/articles/20001256-plugins-in-chatgpt-and-codex)
 - [Apps in ChatGPT and permission controls](https://help.openai.com/en/articles/11487775-apps-in-chatgpt)
 - [Projects and Project instructions](https://help.openai.com/en/articles/10169521-using-projects-in-chatgpt)
 - [ChatGPT Custom Instructions](https://help.openai.com/en/articles/8096356-custom-instructions-for-chatgpt)

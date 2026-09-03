@@ -9,8 +9,8 @@ knowledge and user configuration do not belong in this repository.
 
 ## Status
 
-Version `0.1.0` is an initial implementation of the approved architecture. It
-defines the general guide, portable artifact envelope, the first
+Version `0.1.1` is an experimental implementation of the approved architecture.
+It defines the general guide, portable artifact envelope, the first
 `product-engineering` methodology, binding contracts, examples, and
 deterministic validation. Existing Mind Palace content is not yet migrated.
 
@@ -47,7 +47,8 @@ Run shared-installation and non-destructive client-configuration cases with
 `uv run --frozen scripts/client_adapter_config.py`.
 
 Use [`docs/live-cross-client-canary.md`](docs/live-cross-client-canary.md) for
-the final live OpenCode/hosted-chat gate.
+the Fresh-Client Setup Check, Cross-Client Handoff Check, approved write canary,
+and rollback stages.
 
 ## Layout
 

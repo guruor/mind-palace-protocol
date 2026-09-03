@@ -81,14 +81,16 @@ authority for the same instance.
 2. Run package and installation-receipt validation.
 3. Resolve the General Guide, selected methodology, and binding from the staged
    package.
-4. Run trust-isolation, read, proposal, conflict, and cross-client handoff
+4. In a fresh client session, run trust-isolation, read, proposal, and conflict
    probes using synthetic or explicitly authorized content.
 5. Record the results in an installation receipt conforming to
    `schemas/client-installation.schema.json`.
 6. Activate the staged pointer atomically when the client supports it; otherwise
    use a reversible adapter-specific operation.
 7. Repeat resolution and read probes through the active client surface.
-8. Mark migration readiness only when every required gate passes.
+8. Run the separate cross-client handoff check with two independently
+   initialized clients.
+9. Mark migration readiness only when every required gate passes.
 
 On failure, restore the prior pointer/configuration and keep failure evidence.
 Never leave a partially validated installation with update authority.
@@ -107,6 +109,18 @@ conversation state. Client A emits only:
 Client B independently resolves the installed release and authorized instance,
 rechecks current source identities, and continues or safely refuses. The handoff
 does not embed credentials or grant additional access.
+
+Use these validation names in user-facing instructions:
+
+- **Fresh-Client Setup Check:** prove one newly initialized client resolves its
+  persistent adapter and safely runs read/proposal/conflict probes.
+- **Cross-Client Handoff Check:** prove independently initialized clients can
+  exchange and consume a schema-valid handoff without hidden chat state.
+- **Approved Write Canary:** migrate one explicitly approved synthetic artifact,
+  prove idempotency, and roll it back.
+
+Do not use "live canary" alone because it does not identify which check the
+client should execute.
 
 ## Required Validation
 

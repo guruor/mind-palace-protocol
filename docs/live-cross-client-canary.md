@@ -1,83 +1,117 @@
-# Live OpenCode-To-Hosted-Chat Canary
+# Client Setup And Cross-Client Validation
 
-The local E2E simulation is required but cannot prove host persistence,
-connector authorization, tool behavior, or live Notion semantics. Run this
-synthetic live canary before production migration.
+This guide separates client activation from portability and migration testing.
+Earlier evidence may call the complete workflow a "live canary"; do not use that
+phrase as a test instruction because it does not identify which stage to run.
+
+The deterministic local E2E remains required, but it cannot prove host
+persistence, connector authorization, hosted tool behavior, or live Notion
+semantics.
 
 ## Preconditions
 
-- The protocol release is committed/tagged and identified by an immutable Git
-  commit or verified package digest.
-- OpenCode and the selected hosted-client adapter declare their install,
-  discover, activate, validate, and rollback mechanisms under
-  `bindings/client-adapter.md`.
-- Both clients validate installation receipts for the same protocol and
-  methodology release.
-- Select ChatGPT or Claude as Client B and use that host's documented adapter.
-  Repeat this canary separately before marking another hosted client
-  migration-ready.
-- A synthetic Notion project contains representative properties, relations,
-  headings, lists, links, table, code, mention, callout, discussion, image/PDF,
-  and an unsupported-content marker.
+- The protocol release is tagged and identified by an exact Git commit or
+  verified package digest.
+- Each client uses its declared adapter and an independently authorized
+  common-memory connector.
+- A synthetic Notion project contains representative metadata, relations, body
+  structures, links, discussions, assets, and an unsupported-content marker.
 - Neither client receives credentials through the protocol package or handoff.
+- Production knowledge remains out of scope until every required stage passes
+  and the user grants separate migration approval.
 
-## Phase 1: Independent Resolution
+## Stage 1: Fresh-Client Setup Check
 
-1. Start a new OpenCode session and a new Client B conversation with no shared
-   conversation history.
-2. Install/resolve the same immutable release using each host's adapter.
-3. Validate each installation receipt.
-4. Ask each client independently to report protocol/methodology versions,
-   instance/trust references, access mode, package source identity, and known
-   limitations.
-5. Fail if either answer depends on pasted protocol prose, resolves another
-   version, or claims knowledge access not provided by its connector.
+Run this separately for every client after its persistent adapter is installed:
 
-## Phase 2: Read-Only Handoff
+```text
+Run the Mind Palace Fresh-Client Setup Check. Resolve the installation using
+only your persistent adapter and authorized connector, without relying on prior
+conversation history or pasted protocol text. Report the active release,
+methodology, binding, trust domain, access mode, and limitations. Using only
+synthetic content, run the read, bounded-proposal, and stale-source refusal
+checks. Do not migrate production knowledge. Update the existing client receipt
+rather than creating another one.
+```
 
-1. OpenCode inventories the synthetic project and emits a handoff conforming to
-   `schemas/client-handoff.schema.json`.
-2. Give Client B only the handoff plus access to its independently installed
-   protocol and authorized Notion connection.
-3. Client B validates the handoff, resolves artifacts by stable ID, rechecks
-   source identities, and produces a read-only migration map.
-4. Compare source counts, classifications, relations, authority, trust domain,
-   omissions, and approval scope with OpenCode's map.
+Pass when the fresh client independently:
 
-## Phase 3: Stale-Source Refusal
+- resolves the expected immutable release and configured instance;
+- reads the current synthetic artifact by stable ID;
+- produces a proposal without mutating the canonical artifact;
+- refuses an automatic stale-source write and preserves conflict evidence; and
+- records truthful receipt results without claiming the handoff check passed.
 
-1. Change one synthetic source after the handoff.
-2. Ask Client B to execute the stale plan.
-3. Pass only if it skips the changed artifact, leaves the canonical target
+A client can pass Stage 1 with `handoff_probe: not-run` and
+`migration_ready: false`. That means client setup works; it does not yet prove
+cross-client portability.
+
+## Stage 2: Cross-Client Handoff Check
+
+Start a new Client A session and request:
+
+```text
+Run the Mind Palace Cross-Client Handoff Check as Client A. Inventory the
+synthetic project and emit only a handoff conforming to
+schemas/client-handoff.schema.json. Freeze source identities and include scope,
+trust domain, omissions, conflicts, and approval state. Do not include
+credentials, private document bodies, or hidden conversation context.
+```
+
+Give only that handoff to a separately initialized Client B conversation and
+request:
+
+```text
+Run the Mind Palace Cross-Client Handoff Check as Client B. Use your persistent
+adapter and authorized connector to validate this handoff, independently resolve
+the active release and every referenced stable artifact ID, recheck source
+identities, and produce a read-only migration map. Do not execute writes.
+```
+
+Pass when Client B validates the handoff without copied protocol prose or shared
+chat history and both clients agree on source counts, classifications,
+relations, authority, trust domain, omissions, and approval scope.
+
+## Stage 3: Cross-Client Stale-Source Check
+
+1. Change one synthetic source after Client A emits the handoff.
+2. Ask Client B to continue from the now-stale handoff.
+3. Pass only if Client B skips the changed artifact, leaves the canonical target
    unchanged, and preserves a non-canonical conflict with base/current evidence.
 
-## Phase 4: Approved Canary And Idempotency
+This check proves stale-source handling across the client boundary. It is
+separate from the single-client stale-source check in Stage 1.
 
-1. OpenCode emits a refreshed handoff for one synthetic artifact.
-2. Grant bounded approval for that stable ID and target only.
-3. Client B migrates the canary, validates it, and records omissions.
+## Stage 4: Approved Write Canary And Idempotency
+
+1. Have Client A emit a refreshed handoff for one synthetic artifact.
+2. Grant explicit bounded approval for that stable ID and target only.
+3. Have Client B migrate the synthetic artifact, validate it, and record
+   omissions.
 4. Repeat the same request. Pass only if no duplicate page, relation, asset, or
    history entry is created.
 5. Verify title, body, properties, relations, source identity/digest,
    permissions, assets, and effective write authority.
 
-## Phase 5: Rollback And Reverse Handoff
+"Canary" in this guide means only this one approved synthetic write, not the
+entire client-validation workflow.
+
+## Stage 5: Rollback And Reverse Handoff
 
 1. Execute the reviewed rollback, including database metadata and client
    activation/configuration where applicable.
-2. Confirm the pre-canary source/target state and permissions are restored.
-3. Have Client B emit a handoff back to a newly initialized OpenCode session.
-4. Pass only if OpenCode independently reconstructs the final state, omissions,
+2. Confirm the pre-write source/target state and permissions are restored.
+3. Have Client B emit a handoff back to a newly initialized Client A session.
+4. Pass only if Client A independently reconstructs the final state, omissions,
    conflict history, and approval boundary.
 
-## Evidence
+## Evidence And Verdicts
 
-Record client/version, adapter/version, protocol commit/digest, installation
-receipt digests, handoff digests, synthetic artifact IDs, timestamps, checks,
-failures/skips, rollback result, and final verdict. Keep private locators and
-identity details inside the authorized Mind Palace evidence artifact, never in
-this repository.
+Record client/version, adapter/version, protocol commit/digest, receipt and
+handoff digests, synthetic artifact IDs, timestamps, checks, failures/skips,
+rollback result, and stage verdicts. Keep private locators and identity details
+inside the authorized Mind Palace evidence artifact, never in this repository.
 
-The verdict is `PASS`, `PARTIAL`, or `FAIL`. A partial or failed canary keeps
-production migration disabled but may still authorize a narrower read-only or
-proposal-only workflow.
+Record each stage as `PASS`, `PARTIAL`, `FAIL`, or `NOT RUN`. Do not collapse
+them into one ambiguous verdict. Production migration remains disabled until
+all required stages pass and separate migration approval exists.

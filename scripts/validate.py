@@ -191,6 +191,22 @@ def validate_agent_skill() -> None:
         raise ValueError("Agent Skill metadata must be a string-to-string map")
 
 
+def validate_hosted_chat_adapter() -> None:
+    start = "[Mind Palace adapter: start]"
+    end = "[Mind Palace adapter: end]"
+    canonical = (ROOT / "bindings/clients/hosted-chat.md").read_text(encoding="utf-8")
+    if canonical.count(start) != 1 or canonical.count(end) != 1:
+        raise ValueError("hosted-chat adapter must contain one managed block")
+    if "mind-palace-protocol-installation" not in canonical:
+        raise ValueError("hosted-chat adapter lacks the default installation ID")
+    for name in ("chatgpt.md", "claude.md"):
+        text = (ROOT / "bindings/clients" / name).read_text(encoding="utf-8")
+        if start in text or end in text:
+            raise ValueError(f"{name} duplicates the canonical hosted-chat block")
+        if "hosted-chat.md" not in text:
+            raise ValueError(f"{name} does not reference the hosted-chat adapter")
+
+
 def validate_privacy() -> None:
     for path in sorted(ROOT.rglob("*")):
         if not path.is_file() or not maintained(path) or path.name == "uv.lock":
@@ -266,6 +282,7 @@ def main() -> int:
         validate_markdown_links()
         validate_manifest()
         validate_agent_skill()
+        validate_hosted_chat_adapter()
         validate_privacy()
         validate_digest_invariants()
         validate_installation_cases()

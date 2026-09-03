@@ -11,9 +11,10 @@ Run this read-only process before any product migration.
   mechanism against `bindings/client-adapter.md`.
 - Confirm no previous protocol version retains competing write authority.
 - Pass the two-client handoff test when another client may continue the work.
-- Pass the controlled live canary in
+- Pass the Fresh-Client Setup Check, Cross-Client Handoff Check, approved write
+  canary, and rollback stages in
   [`live-cross-client-canary.md`](live-cross-client-canary.md) before claiming
-  OpenCode/ChatGPT migration portability.
+  cross-client migration portability.
 - Confirm the selected methodology and storage binding resolve from the active
   package rather than copied conversation instructions.
 

@@ -36,6 +36,7 @@ If the client cannot persist an installation pointer, verify source identity,
 or isolate old write authority, the adapter may operate per-session in `read` or
 `propose` mode but must not claim durable installation or migration readiness.
 
-OpenCode, ChatGPT, and future adapters belong in separate runtime-specific
-bindings once their current installation capabilities are verified. Their
-mechanics must not be added to the portable core.
+Shared hosted-chat behavior belongs in `bindings/clients/hosted-chat.md`.
+Specific clients such as OpenCode, ChatGPT, and Claude keep only their distinct
+host mechanics in runtime-specific bindings. Those mechanics must not be added
+to the portable core.

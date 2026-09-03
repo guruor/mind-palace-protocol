@@ -1,5 +1,5 @@
 id: mind-palace
-version: 0.1.0
+version: 0.1.1
 status: experimental
 general_guide: protocol/general-guide.md
 installation_guide: protocol/client-installation.md
@@ -25,12 +25,15 @@ client_adapters:
     version: 0.1.0
     guide: bindings/client-adapter.md
     entrypoint: bindings/clients/agent-skill/mind-palace/SKILL.md
+  - id: hosted-chat
+    version: 0.1.0
+    guide: bindings/clients/hosted-chat.md
   - id: opencode
     version: 0.1.0
     guide: bindings/clients/opencode.md
   - id: chatgpt
-    version: 0.1.0
+    version: 0.1.1
     guide: bindings/clients/chatgpt.md
   - id: claude
-    version: 0.1.0
+    version: 0.1.1
     guide: bindings/clients/claude.md
