@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:mind-palace:schema:common-memory-installation:0.1.0",
+  "title": "Mind Palace common-memory installation",
+  "type": "object",
+  "required": [
+    "installation_id",
+    "trust_domain",
+    "storage_binding",
+    "active_release",
+    "releases",
+    "legacy_installations",
+    "client_receipts"
+  ],
+  "properties": {
+    "installation_id": {"type": "string", "minLength": 1},
+    "trust_domain": {"type": "string", "minLength": 1},
+    "storage_binding": {"type": "string", "minLength": 1},
+    "active_release": {"type": ["string", "null"]},
+    "releases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "protocol",
+          "package_locator",
+          "source_version",
+          "status",
+          "components"
+        ],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "protocol": {
+            "type": "object",
+            "required": ["id", "version"],
+            "properties": {
+              "id": {"const": "mind-palace"},
+              "version": {"$ref": "#/$defs/semver"}
+            },
+            "additionalProperties": true
+          },
+          "package_locator": {"type": "string", "minLength": 1},
+          "source_version": {"type": "string", "minLength": 1},
+          "status": {"enum": ["staged", "active", "retired", "blocked"]},
+          "components": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["path", "digest", "locator"],
+              "properties": {
+                "path": {"type": "string", "minLength": 1},
+                "digest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+                "locator": {"type": "string", "minLength": 1}
+              },
+              "additionalProperties": true
+            }
+          },
+          "omissions": {"type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": true
+      }
+    },
+    "legacy_installations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "locator", "disposition"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "locator": {"type": "string", "minLength": 1},
+          "disposition": {"enum": ["unreviewed", "retained-read-only", "mapped", "superseded", "blocked"]}
+        },
+        "additionalProperties": true
+      }
+    },
+    "client_receipts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["client_id", "receipt_locator"],
+        "properties": {
+          "client_id": {"type": "string", "minLength": 1},
+          "receipt_locator": {"type": "string", "minLength": 1}
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "semver": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-((?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*)(?:\\.(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*))*))?(?:\\+([0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*))?$"
+    }
+  }
+}

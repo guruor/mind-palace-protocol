@@ -16,6 +16,10 @@ A client needs these inputs before operating:
 - access mode: `read`, `propose`, or `update`;
 - trust domain when it cannot be resolved safely from configuration.
 
+Resolve the active protocol release from the shared common-memory installation
+before resolving client-local setup. Client-local adapters contain only the
+bootstrap needed to locate that record; they do not duplicate this guide.
+
 An installed client records these inputs, release identity, capabilities, prior
 version resolution, and conformance results in the receipt defined by
 [`client-installation.md`](client-installation.md). A conversation-only claim

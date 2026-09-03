@@ -6,6 +6,12 @@ Install one immutable protocol release into a client without copying or forking
 its rules. A client installation grants protocol capability, not access to a
 Mind Palace instance.
 
+The default user flow first runs the shared install/check in
+[`common-memory-installation.md`](common-memory-installation.md), then activates
+the current client through its declared adapter. If common memory already has
+the exact release, the first phase is a no-op or repair and client setup
+continues.
+
 The canonical package is the release identified by the installation receipt.
 Client-specific adapters store only an activation pointer, authorized instance
 references, capabilities, and validation evidence.
@@ -18,6 +24,11 @@ references, capabilities, and validation evidence.
 - authorized instance reference and trust domain;
 - selected storage binding and methodology versions;
 - requested access mode: `read`, `propose`, or `update`.
+
+From the user's perspective, the normal command is simply **Install Mind Palace
+protocol**. The agent discovers the destination/release when safely configured,
+reports any previous or legacy installation, and asks only for missing access or
+a decision that changes active behavior.
 
 Never put credentials, tokens, private document bodies, or unrestricted
 production exports in an installation receipt.

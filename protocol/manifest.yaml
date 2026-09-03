@@ -3,8 +3,11 @@ version: 0.1.0
 status: experimental
 general_guide: protocol/general-guide.md
 installation_guide: protocol/client-installation.md
+common_memory_installation_guide: protocol/common-memory-installation.md
+common_memory_installation_id: mind-palace-protocol-installation
 core_schema: schemas/artifact.schema.json
 installation_schema: schemas/client-installation.schema.json
+common_memory_installation_schema: schemas/common-memory-installation.schema.json
 handoff_schema: schemas/client-handoff.schema.json
 client_adapter_contract: bindings/client-adapter.md
 conflict_template: protocol/conflict-template.md
@@ -17,3 +20,17 @@ bindings:
     guide: bindings/notion.md
   - id: markdown-git
     guide: bindings/markdown-git.md
+client_adapters:
+  - id: agent-skill
+    version: 0.1.0
+    guide: bindings/client-adapter.md
+    entrypoint: bindings/clients/agent-skill/mind-palace/SKILL.md
+  - id: opencode
+    version: 0.1.0
+    guide: bindings/clients/opencode.md
+  - id: chatgpt
+    version: 0.1.0
+    guide: bindings/clients/chatgpt.md
+  - id: claude
+    version: 0.1.0
+    guide: bindings/clients/claude.md
