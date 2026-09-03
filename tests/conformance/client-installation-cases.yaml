@@ -1,0 +1,65 @@
+cases:
+  - name: fresh-install-ready
+    previous: {state: absent, resolution: not-needed}
+    access_mode: update
+    checks: all-pass
+    migration_ready: true
+    expected: pass
+  - name: same-version-no-op
+    previous: {state: same, version: 0.1.0, source_version: synthetic-release-001, resolution: not-needed}
+    access_mode: update
+    checks: all-pass
+    migration_ready: true
+    expected: pass
+  - name: compatible-upgrade
+    previous: {state: older-compatible, version: 0.0.9, source_version: synthetic-release-000, resolution: not-needed}
+    access_mode: update
+    checks: all-pass
+    migration_ready: true
+    expected: pass
+  - name: breaking-upgrade-needs-approval
+    previous: {state: older-migration-required, version: 0.0.9, source_version: synthetic-release-000, resolution: approved-upgrade}
+    access_mode: update
+    checks: all-pass
+    migration_ready: true
+    expected_error: approval_reference
+  - name: newer-version-cannot-be-overwritten
+    previous: {state: newer, version: 0.2.0, source_version: synthetic-release-002, resolution: not-needed}
+    access_mode: update
+    checks: all-pass
+    migration_ready: true
+    expected_error: invalid for prior state
+  - name: same-version-repacked
+    previous: {state: same, version: 0.1.0, source_version: different-release, resolution: not-needed}
+    access_mode: update
+    checks: all-pass
+    migration_ready: true
+    expected_error: same immutable package identity
+  - name: unversioned-install-remains-read-only
+    previous: {state: unversioned, resolution: retained-read-only}
+    access_mode: read
+    checks: safe-read-only
+    migration_ready: false
+    expected: pass
+  - name: handoff-must-pass
+    previous: {state: absent, resolution: not-needed}
+    access_mode: update
+    checks: handoff-not-run
+    migration_ready: true
+    expected_error: handoff_probe
+  - name: update-authority-required
+    previous: {state: absent, resolution: not-needed}
+    access_mode: propose
+    checks: all-pass
+    migration_ready: true
+    expected_error: update access
+  - name: parallel-install-isolates-writes
+    previous:
+      state: unversioned
+      resolution: parallel-install
+      approval_reference: synthetic-approval
+      prior_write_authority: unknown
+    access_mode: update
+    checks: all-pass
+    migration_ready: true
+    expected_error: isolate prior write authority

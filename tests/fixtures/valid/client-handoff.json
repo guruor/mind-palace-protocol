@@ -1,0 +1,13 @@
+{
+  "protocol": {"id": "mind-palace", "version": "0.1.0"},
+  "methodology": {"id": "product-engineering", "version": "0.1.0"},
+  "instance": {"id": "synthetic-instance", "trust_domain": "synthetic"},
+  "task": "Produce a read-only migration preflight for the synthetic project",
+  "access_mode": "read",
+  "artifacts": [
+    {"id": "synthetic-product-spec", "revision": 2, "source_identity": "synthetic-change-token-2"}
+  ],
+  "omissions": ["No binary asset included in the synthetic handoff"],
+  "conflicts": [],
+  "approval": {"status": "required", "scope": "Any migration write"}
+}

@@ -1,0 +1,14 @@
+{
+  "protocol": {"id": "mind-palace", "version": "0.1.0"},
+  "id": "example-source-note",
+  "kind": "research/source-note",
+  "title": "Example Source Note",
+  "authority": "evidence",
+  "trust_domain": "example",
+  "revision": 1,
+  "relations": [],
+  "provenance": [
+    {"type": "markdown-git", "locator": "tests/fixtures/valid/artifact.json"}
+  ],
+  "future_extension": {"preserve": true}
+}

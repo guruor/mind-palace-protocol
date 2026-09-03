@@ -1,0 +1,14 @@
+{
+  "protocol": {"id": "mind-palace", "version": "0.1.0"},
+  "id": "invalid-product-artifact",
+  "kind": "product-engineering/product-specification",
+  "methodology": {"id": "research", "version": "0.1.0"},
+  "title": "Invalid Product Specification",
+  "authority": "intent",
+  "trust_domain": "example",
+  "revision": 1,
+  "relations": [],
+  "provenance": [
+    {"type": "synthetic", "locator": "tests/fixtures/invalid/product-engineering-wrong-methodology.json"}
+  ]
+}

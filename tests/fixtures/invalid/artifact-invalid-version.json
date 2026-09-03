@@ -1,0 +1,13 @@
+{
+  "protocol": {"id": "mind-palace", "version": "01.0.0"},
+  "id": "invalid-version-artifact",
+  "kind": "research/source-note",
+  "title": "Invalid Version Artifact",
+  "authority": "evidence",
+  "trust_domain": "example",
+  "revision": 1,
+  "relations": [],
+  "provenance": [
+    {"type": "synthetic", "locator": "tests/fixtures/invalid/artifact-invalid-version.json"}
+  ]
+}

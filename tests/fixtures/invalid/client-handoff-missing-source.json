@@ -1,0 +1,11 @@
+{
+  "protocol": {"id": "mind-palace", "version": "0.1.0"},
+  "methodology": {"id": "product-engineering", "version": "0.1.0"},
+  "instance": {"id": "synthetic-instance", "trust_domain": "synthetic"},
+  "task": "Continue a migration",
+  "access_mode": "update",
+  "artifacts": [{"id": "synthetic-product-spec", "revision": 2}],
+  "omissions": [],
+  "conflicts": [],
+  "approval": {"status": "granted", "reference": "synthetic-approval"}
+}

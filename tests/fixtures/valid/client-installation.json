@@ -1,0 +1,25 @@
+{
+  "protocol": {"id": "mind-palace", "version": "0.1.0"},
+  "package": {
+    "locator": "synthetic://mind-palace-protocol/0.1.0",
+    "source_version": "synthetic-release-001"
+  },
+  "client": {"id": "synthetic-client-a", "adapter_version": "0.1.0"},
+  "instance": {"id": "synthetic-instance", "trust_domain": "synthetic"},
+  "binding": "notion",
+  "methodologies": [{"id": "product-engineering", "version": "0.1.0"}],
+  "access_mode": "update",
+  "previous_installation": {"state": "absent", "resolution": "not-needed"},
+  "checks": {
+    "package_integrity": "pass",
+    "protocol_resolution": "pass",
+    "methodology_resolution": "pass",
+    "binding_resolution": "pass",
+    "trust_isolation": "pass",
+    "read_probe": "pass",
+    "proposal_probe": "pass",
+    "conflict_probe": "pass",
+    "handoff_probe": "pass"
+  },
+  "migration_ready": true
+}

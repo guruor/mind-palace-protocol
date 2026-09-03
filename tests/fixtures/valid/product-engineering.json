@@ -1,0 +1,17 @@
+{
+  "protocol": {"id": "mind-palace", "version": "0.1.0"},
+  "id": "example-project-validation",
+  "kind": "product-engineering/validation-report",
+  "methodology": {"id": "product-engineering", "version": "0.1.0"},
+  "title": "Validation Report — Example Project",
+  "authority": "evidence",
+  "trust_domain": "example",
+  "revision": 1,
+  "state": "SUBMITTED",
+  "relations": [
+    {"type": "product-engineering/validates", "target": "example-project-baseline"}
+  ],
+  "provenance": [
+    {"type": "synthetic", "locator": "tests/fixtures/valid/product-engineering.json"}
+  ]
+}
