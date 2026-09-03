@@ -18,10 +18,22 @@ Every client adapter must demonstrate:
 The executable receipt cases are in
 `tests/conformance/client-installation-cases.yaml`.
 
+Before those client-local cases, run the shared-installation scenario. It proves
+first install, exact no-op, missing-component repair, same-version package
+conflict, staged/approved upgrade, downgrade refusal, approved rollback, legacy
+preservation, and client-receipt deduplication. The adapter-configuration
+scenario proves existing OpenCode configuration and ChatGPT/Claude instruction
+text survive install, reinstall, upgrade, and malformed-marker refusal.
+
+```sh
+uv run --frozen scripts/common_memory_install.py
+uv run --frozen scripts/client_adapter_config.py
+```
+
 ## Two-Client Handoff Test
 
-Use two independently initialized clients, such as OpenCode and ChatGPT. Do not
-give Client B the originating conversation.
+Use two independently initialized clients, such as OpenCode and ChatGPT or
+Claude. Do not give Client B the originating conversation.
 
 1. Install the same immutable protocol/methodology release in both clients and
    validate both installation receipts.
@@ -29,7 +41,8 @@ give Client B the originating conversation.
 3. Client A resolves a synthetic project, prepares a migration preflight, and
    emits `schemas/client-handoff.schema.json` containing references rather than
    copied private bodies or credentials.
-4. Client B validates the handoff, independently resolves the protocol and
+4. Client B runs `uv run --frozen scripts/validate_handoff.py <handoff.json>`,
+   independently resolves the protocol and
    instance, fetches artifacts by stable ID, and verifies source identities.
 5. Client B reproduces artifact classification, mapping, omissions, conflicts,
    and required approval without hidden context.
@@ -43,6 +56,12 @@ give Client B the originating conversation.
 The handoff passes only if Client B can continue safely and deterministically.
 Equivalent prose is not enough when artifact identity, source freshness,
 authorization, or omissions differ.
+
+Run `uv run --frozen scripts/e2e_cross_client.py` for the local simulation. It
+uses independent synthetic OpenCode and ChatGPT installation identities and
+proves fresh handoff, idempotent migration, stale-source refusal, conflict
+preservation, trust isolation, refreshed migration, and rollback. This test does
+not substitute for the live client canary below.
 
 ## Product Migration Readiness
 
