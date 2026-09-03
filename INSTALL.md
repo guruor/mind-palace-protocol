@@ -82,20 +82,26 @@ the installation contract.
 <summary>ChatGPT</summary>
 
 1. Connect the Notion app to ChatGPT with the minimum required permissions.
-2. Prefer a dedicated ChatGPT Project. Submit the universal prompt in a new
-   Project chat.
-3. If a Mind Palace plugin/skill is available, enable it and keep Notion
-   authorization separate. Otherwise ChatGPT should return the bounded adapter
-   block from `bindings/clients/chatgpt.md` in the pinned release for the user to
-   append to existing Project instructions.
-4. Start another new Project chat after the instruction change. Resolve the
-   installation without relying on prior conversation context.
-5. Keep the receipt read-only until the synthetic proposal, conflict, stale
+2. Prefer a dedicated ChatGPT Project. Open its settings and append the
+   [pinned ChatGPT managed block](https://github.com/guruor/mind-palace-protocol/blob/034ede15aff85f11d516a4760644ce81c2da0088/bindings/clients/chatgpt.md#managed-bootstrap-block)
+   to its existing Project instructions. Do not replace existing instructions.
+3. In that block, configure the installation ID as
+   `mind-palace-protocol-installation`; this lets a fresh chat resolve the shared
+   installation without relying on the installer conversation.
+4. If a Mind Palace plugin/skill becomes available, it may supply the same thin
+   bootstrap instead; keep Notion authorization separate.
+5. Submit the universal prompt in a new Project chat after the instruction
+   change. Resolve the installation without relying on prior conversation
+   context.
+6. Keep the receipt read-only until the synthetic proposal, conflict, stale
    source, rollback, and cross-client handoff probes pass.
 
 ChatGPT cannot use the local checkout or silently edit hosted Project settings.
 Plugin installation, app authorization, and Project-instruction changes remain
-explicit host/user actions.
+explicit host/user actions. The managed block activates Mind Palace for durable
+knowledge handled through Notion; it intentionally does not reinterpret
+unrelated Notion work. Append the same block to global Custom Instructions only
+when Mind Palace should be available outside the dedicated Project too.
 
 </details>
 
