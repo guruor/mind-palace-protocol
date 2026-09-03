@@ -1,0 +1,250 @@
+#!/usr/bin/env python3
+"""Exercise the idempotent common-memory installation state machine."""
+
+from __future__ import annotations
+
+import copy
+import json
+from pathlib import Path
+from typing import Any
+
+from jsonschema import Draft202012Validator
+
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def installation_errors(state: dict[str, Any]) -> list[str]:
+    schema_path = ROOT / "schemas/common-memory-installation.schema.json"
+    schema = json.loads(schema_path.read_text(encoding="utf-8"))
+    errors = [error.message for error in Draft202012Validator(schema).iter_errors(state)]
+    if errors:
+        return errors
+    release_ids = [item["id"] for item in state["releases"]]
+    source_versions = [item["source_version"] for item in state["releases"]]
+    if len(release_ids) != len(set(release_ids)):
+        errors.append("release IDs must be unique")
+    if len(source_versions) != len(set(source_versions)):
+        errors.append("release source identities must be unique")
+    active = [item for item in state["releases"] if item["status"] == "active"]
+    if state["active_release"] is None and active:
+        errors.append("inactive installation cannot contain an active release")
+    if state["active_release"] is not None:
+        if len(active) != 1 or active[0]["id"] != state["active_release"]:
+            errors.append("active release pointer must identify the only active release")
+    for release in state["releases"]:
+        paths = [item["path"] for item in release["components"]]
+        if len(paths) != len(set(paths)):
+            errors.append(f"release contains duplicate component paths: {release['id']}")
+    clients = [item["client_id"] for item in state["client_receipts"]]
+    if len(clients) != len(set(clients)):
+        errors.append("client receipt IDs must be unique")
+    return errors
+
+
+def version_tuple(version: str) -> tuple[int, int, int]:
+    major, minor, patch = version.split("-", 1)[0].split("+", 1)[0].split(".")
+    return int(major), int(minor), int(patch)
+
+
+def install_release(
+    state: dict[str, Any],
+    candidate: dict[str, Any],
+    approval_reference: str | None = None,
+) -> tuple[str, dict[str, Any]]:
+    result = copy.deepcopy(state)
+    same_identity = next(
+        (item for item in result["releases"] if item["source_version"] == candidate["source_version"]),
+        None,
+    )
+    if same_identity:
+        if same_identity["protocol"]["version"] != candidate["protocol"]["version"]:
+            return "conflict", result
+        existing = {item["path"]: item for item in same_identity["components"]}
+        for component in candidate["components"]:
+            current = existing.get(component["path"])
+            if current and current["digest"] != component["digest"]:
+                return "conflict", result
+        active = next(
+            (item for item in result["releases"] if item["id"] == result["active_release"]),
+            None,
+        )
+        if active and active["id"] != same_identity["id"]:
+            candidate_version = version_tuple(candidate["protocol"]["version"])
+            active_version = version_tuple(active["protocol"]["version"])
+            if candidate_version < active_version:
+                if not approval_reference:
+                    return "blocked", result
+                _activate(result, same_identity["id"])
+                return "rolled-back", result
+        missing = [item for item in candidate["components"] if item["path"] not in existing]
+        if missing:
+            same_identity["components"].extend(copy.deepcopy(missing))
+            return "repaired", result
+        if same_identity["status"] == "staged" and approval_reference:
+            _activate(result, same_identity["id"])
+            return "upgraded", result
+        return "no-op", result
+
+    same_version = next(
+        (
+            item
+            for item in result["releases"]
+            if item["protocol"]["version"] == candidate["protocol"]["version"]
+        ),
+        None,
+    )
+    if same_version:
+        return "conflict", result
+
+    active = next(
+        (item for item in result["releases"] if item["id"] == result["active_release"]),
+        None,
+    )
+    new_release = copy.deepcopy(candidate)
+    if active is None:
+        new_release["status"] = "active"
+        result["releases"].append(new_release)
+        result["active_release"] = new_release["id"]
+        return "installed", result
+    if version_tuple(candidate["protocol"]["version"]) < version_tuple(active["protocol"]["version"]):
+        return "blocked", result
+
+    new_release["status"] = "staged"
+    result["releases"].append(new_release)
+    if approval_reference:
+        _activate(result, new_release["id"])
+        return "upgraded", result
+    return "staged", result
+
+
+def _activate(state: dict[str, Any], release_id: str) -> None:
+    for release in state["releases"]:
+        if release["id"] == release_id:
+            release["status"] = "active"
+        elif release["status"] == "active":
+            release["status"] = "retired"
+    state["active_release"] = release_id
+
+
+def upsert_client_receipt(state: dict[str, Any], receipt: dict[str, str]) -> dict[str, Any]:
+    result = copy.deepcopy(state)
+    result["client_receipts"] = [
+        item for item in result["client_receipts"] if item["client_id"] != receipt["client_id"]
+    ]
+    result["client_receipts"].append(copy.deepcopy(receipt))
+    return result
+
+
+def synthetic_release(version: str, source_version: str) -> dict[str, Any]:
+    return {
+        "id": f"mind-palace-{source_version}",
+        "protocol": {"id": "mind-palace", "version": version},
+        "package_locator": f"synthetic://mind-palace/{source_version}",
+        "source_version": source_version,
+        "status": "staged",
+        "components": [
+            {
+                "path": "protocol/manifest.yaml",
+                "digest": "sha256:" + "1" * 64,
+                "locator": f"synthetic://mind-palace/{source_version}/manifest",
+            },
+            {
+                "path": "protocol/general-guide.md",
+                "digest": "sha256:" + "2" * 64,
+                "locator": f"synthetic://mind-palace/{source_version}/guide",
+            },
+        ],
+        "omissions": [],
+    }
+
+
+def empty_state() -> dict[str, Any]:
+    return {
+        "installation_id": "synthetic-mind-palace-installation",
+        "trust_domain": "synthetic",
+        "storage_binding": "notion",
+        "active_release": None,
+        "releases": [],
+        "legacy_installations": [
+            {
+                "id": "legacy-guide",
+                "locator": "synthetic://legacy-guide",
+                "disposition": "retained-read-only",
+            }
+        ],
+        "client_receipts": [],
+    }
+
+
+def run_scenario() -> None:
+    original = empty_state()
+    release = synthetic_release("0.1.0", "release-001")
+    action, installed = install_release(original, release)
+    if action != "installed" or original["releases"]:
+        raise ValueError("first install was not isolated and successful")
+    if installation_errors(installed):
+        raise ValueError("first install produced invalid common-memory state")
+    action, repeated = install_release(installed, release)
+    if action != "no-op" or repeated != installed:
+        raise ValueError("exact reinstall was not idempotent")
+
+    damaged = copy.deepcopy(installed)
+    damaged["releases"][0]["components"].pop()
+    action, repaired = install_release(damaged, release)
+    if action != "repaired" or repaired != installed:
+        raise ValueError("missing generated component was not repaired")
+
+    repacked = synthetic_release("0.1.0", "different-release-001")
+    action, unchanged = install_release(installed, repacked)
+    if action != "conflict" or unchanged != installed:
+        raise ValueError("same-version package conflict changed active state")
+
+    upgrade = synthetic_release("0.2.0", "release-002")
+    action, staged = install_release(installed, upgrade)
+    if action != "staged" or staged["active_release"] != installed["active_release"]:
+        raise ValueError("upgrade did not stage beside active release")
+    action, upgraded = install_release(staged, upgrade, "synthetic-approval")
+    if action != "upgraded" or upgraded["active_release"] != upgrade["id"]:
+        raise ValueError("approved upgrade did not activate")
+    if installed["legacy_installations"] != upgraded["legacy_installations"]:
+        raise ValueError("upgrade changed retained legacy installation")
+
+    action, unchanged = install_release(upgraded, release)
+    if action != "blocked" or unchanged != upgraded:
+        raise ValueError("automatic downgrade was not blocked")
+    action, rolled_back = install_release(upgraded, release, "synthetic-rollback-approval")
+    if action != "rolled-back" or rolled_back["active_release"] != release["id"]:
+        raise ValueError("approved rollback did not restore retained release")
+
+    receipt = {"client_id": "synthetic-opencode", "receipt_locator": "synthetic://receipt/open"}
+    with_receipt = upsert_client_receipt(upgraded, receipt)
+    with_receipt = upsert_client_receipt(with_receipt, receipt)
+    if len(with_receipt["client_receipts"]) != 1:
+        raise ValueError("client receipt upsert created a duplicate")
+    if installation_errors(with_receipt):
+        raise ValueError("client receipt upsert produced invalid state")
+
+    invalid_pointer = copy.deepcopy(upgraded)
+    invalid_pointer["active_release"] = "missing-release"
+    if not any("active release pointer" in error for error in installation_errors(invalid_pointer)):
+        raise ValueError("invalid active release pointer was accepted")
+
+    rollback = copy.deepcopy(upgraded)
+    _activate(rollback, release["id"])
+    if rollback["active_release"] != release["id"]:
+        raise ValueError("rollback did not restore previous release")
+
+
+def main() -> int:
+    try:
+        run_scenario()
+    except ValueError as exc:
+        print(f"common-memory installation failed: {exc}")
+        return 1
+    print("Common-memory installation scenario passed.")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
