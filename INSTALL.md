@@ -1,8 +1,9 @@
 # Install Mind Palace Protocol
 
-This is the only installation entry point a user needs. The first capable
-client installs the shared protocol in authorized common memory. Later clients
-validate that installation and add only their own adapter and receipt.
+This is the only installation entry point a user needs. Shared protocol
+installation and updates happen only after an explicit user request. Each client
+adds a version-neutral discovery adapter once, then follows whatever release the
+common-memory installation marks active.
 
 ## One-Link Prompt
 
@@ -18,6 +19,19 @@ wait for confirmation. Do not claim persistent setup from this conversation
 alone and do not migrate production knowledge during installation.
 ```
 
+## Explicit Common-Memory Operations
+
+Use an explicit request for every shared protocol lifecycle change:
+
+- `Install Mind Palace protocol from <release>.`
+- `Update Mind Palace protocol to <release>.`
+- `Repair the active Mind Palace protocol installation.`
+- `Roll back Mind Palace protocol to <retained-release>.`
+
+`Validate the active Mind Palace protocol installation` is read-only. Ordinary
+Mind Palace and Notion work resolves the active release and must not imply any of
+these lifecycle operations.
+
 ## Instructions For The Installing Client
 
 Complete these steps in order:
@@ -27,12 +41,13 @@ Complete these steps in order:
 2. Check whether the host can read the public repository, access authorized
    common memory, and persist an additive adapter without replacing existing
    instructions.
-3. Resolve or install the shared immutable release using the rules below.
+3. Resolve the shared active release. Install or update it only when the user's
+   request explicitly asks for that common-memory operation.
 4. Follow exactly one client section from this guide.
 5. If the host cannot edit its own persistent settings, print the exact custom
    instruction block and the host setting where the user must append it. Stop
    until the user confirms completion.
-6. After activation, require a new conversation or session and run the
+6. After first-time client setup, require a new conversation or session and run the
    Fresh-Client Setup Check. The installer conversation is not persistence
    evidence.
 7. Update one client receipt. Do not create duplicate receipts and do not mark
@@ -84,7 +99,8 @@ The normal setup is:
 2. The client prints the exact managed block from the hosted-chat binding.
 3. The user appends it to existing account custom instructions, or to Project
    instructions when project scope is preferred or overrides account settings.
-4. The user starts a new conversation and runs the Fresh-Client Setup Check.
+4. The user starts a new conversation and runs the one-time Fresh-Client Setup
+   Check.
 
 Skills and plugins are not required. If the host lacks persistent instructions
 or an authorized connector, report session-only or documentation-only status
@@ -127,7 +143,8 @@ at the canonical `bindings/clients/agent-skill` directory, or link the
 once; do not copy the protocol or edit `AGENTS.md` by default.
 
 Run `opencode debug config`, `opencode debug skill`, and `opencode mcp list`,
-then restart OpenCode and run the Fresh-Client Setup Check in a new session.
+then restart OpenCode and run the one-time Fresh-Client Setup Check in a new
+session.
 Keep personal/work profiles and knowledge authorization isolated.
 
 </details>
@@ -157,7 +174,8 @@ one-link prompt at the start of each relevant conversation.
 
 Use these names instead of the ambiguous phrase "run the live canary":
 
-1. **Fresh-Client Setup Check:** a new conversation/session independently
+1. **Fresh-Client Setup Check:** after one-time client setup, a new
+   conversation/session independently
    resolves the active release and runs synthetic read, proposal, and stale-
    source refusal checks. This proves the client adapter is active.
 2. **Cross-Client Handoff Check:** Client A emits a schema-valid synthetic
@@ -169,8 +187,8 @@ Use these names instead of the ambiguous phrase "run the live canary":
 
 Run the stages through
 [`docs/live-cross-client-canary.md`](docs/live-cross-client-canary.md). A client
-may pass setup while handoff and write checks remain `not-run`; in that state its
-receipt remains `migration_ready: false`.
+may pass setup while handoff and write checks remain `not-run`. A passing
+single-client receipt does not claim cross-client or production-write readiness.
 
 ## Repository Validation
 
@@ -196,8 +214,9 @@ uv run --frozen scripts/e2e_cross_client.py
 
 ## Upgrade, Repair, Or Add A Client
 
-Run the one-link prompt with the candidate release or new client. Exact same
+Explicitly ask to install, update, repair, roll back, or add a client. Exact same
 release is a no-op; missing generated projections are repaired;
 same-version/different-package is a conflict; newer releases stage before
-activation; older releases require explicit rollback/downgrade approval. A new
-client adds only its adapter and receipt to the existing shared installation.
+activation; older releases require explicit rollback/downgrade approval. A
+protocol update never edits existing client adapters. A new client adds its
+version-neutral adapter and one receipt to the existing shared installation.

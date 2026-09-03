@@ -4,17 +4,17 @@ Run this read-only process before any product migration.
 
 ## Client Gate
 
-- Resolve or install the active release through the stable common-memory root;
-  exact reruns must be a no-op or repair, never a duplicate.
+- Resolve the active release through the stable common-memory root. Do not
+  install or update the shared protocol as a side effect of document migration.
 - Validate the active installation receipt and immutable package identity.
 - Validate the host-specific adapter declaration and its activation/rollback
   mechanism against `bindings/client-adapter.md`.
 - Confirm no previous protocol version retains competing write authority.
-- Pass the two-client handoff test when another client may continue the work.
-- Pass the Fresh-Client Setup Check, Cross-Client Handoff Check, approved write
-  canary, and rollback stages in
-  [`live-cross-client-canary.md`](live-cross-client-canary.md) before claiming
-  cross-client migration portability.
+- Pass the Fresh-Client Setup Check for the executing client's one-time adapter
+  setup and the approved write canary before its first real migration.
+- Pass the Cross-Client Handoff Check only when another client may continue or
+  independently execute part of the work. Do not make cross-client validation a
+  universal gate for a single-client migration.
 - Confirm the selected methodology and storage binding resolve from the active
   package rather than copied conversation instructions.
 

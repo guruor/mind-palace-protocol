@@ -1,5 +1,5 @@
 id: mind-palace
-version: 0.1.1
+version: 0.1.2
 status: experimental
 general_guide: protocol/general-guide.md
 installation_guide: protocol/client-installation.md

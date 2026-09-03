@@ -1,6 +1,7 @@
 # Client Setup And Cross-Client Validation
 
-This guide separates client activation from portability and migration testing.
+This guide separates one-time client discovery setup from optional cross-client
+portability and migration testing.
 Earlier evidence may call the complete workflow a "live canary"; do not use that
 phrase as a test instruction because it does not identify which stage to run.
 
@@ -22,7 +23,8 @@ semantics.
 
 ## Stage 1: Fresh-Client Setup Check
 
-Run this separately for every client after its persistent adapter is installed:
+Run this separately for every client once after its persistent adapter is
+installed. Do not repeat it for every compatible common-memory protocol update:
 
 ```text
 Run the Mind Palace Fresh-Client Setup Check. Resolve the installation using
@@ -113,5 +115,8 @@ rollback result, and stage verdicts. Keep private locators and identity details
 inside the authorized Mind Palace evidence artifact, never in this repository.
 
 Record each stage as `PASS`, `PARTIAL`, `FAIL`, or `NOT RUN`. Do not collapse
-them into one ambiguous verdict. Production migration remains disabled until
-all required stages pass and separate migration approval exists.
+them into one ambiguous verdict. Single-client production migration remains
+disabled until that client's applicable setup, write-canary, rollback, and
+migration-preflight gates pass and separate migration approval exists.
+Cross-client stages are additionally required only when work is handed between
+clients or cross-client portability is claimed.

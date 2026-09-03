@@ -23,7 +23,6 @@ REQUIRED_MIGRATION_CHECKS = (
     "read_probe",
     "proposal_probe",
     "conflict_probe",
-    "handoff_probe",
 )
 ALLOWED_RESOLUTIONS = {
     "absent": {"not-needed"},

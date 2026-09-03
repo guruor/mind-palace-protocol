@@ -6,16 +6,19 @@ of the General Guide, schemas, or methodology rules.
 
 ## Required Operations
 
-- `discover`: enumerate active/staged protocol pointers, receipts, copied legacy
-  guidance, adapter configuration, and effective write authority;
-- `stage`: make a candidate immutable release resolvable without activating it;
+- `discover`: resolve the stable common-memory installation, current active
+  release, receipt, copied legacy guidance, adapter configuration, and effective
+  write authority;
+- `stage`: on an explicit protocol update, make a candidate immutable release
+  resolvable without activating it;
 - `resolve`: load the manifest, General Guide, selected methodology, binding,
   and schemas from the staged or active release;
 - `probe`: run installation and cross-client conformance cases with synthetic or
   explicitly authorized content;
-- `activate`: switch the active release using the narrowest reversible native
-  mechanism;
-- `rollback`: restore the prior validated pointer and adapter configuration;
+- `activate`: on an explicit protocol install/update, switch the common-memory
+  active release using the narrowest reversible native mechanism;
+- `rollback`: restore the prior validated common-memory pointer or the one-time
+  adapter configuration, according to which operation failed;
 - `emit_handoff` and `consume_handoff`: exchange the portable handoff envelope
   without credentials or hidden conversation state.
 
@@ -23,10 +26,10 @@ of the General Guide, schemas, or methodology rules.
 
 Each adapter documents:
 
-- supported client/version and protocol release range;
-- installation location and immutable package resolution mechanism;
+- supported client/version and protocol compatibility range;
+- one-time installation location and active-package resolution mechanism;
 - previous-installation and legacy-guidance discovery mechanism;
-- activation atomicity and rollback behavior;
+- common-memory activation atomicity and separate adapter rollback behavior;
 - available access modes and how actual knowledge authorization is enforced;
 - capability limitations and checks that must remain `not-run` or
   `not-applicable`;

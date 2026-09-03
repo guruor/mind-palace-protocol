@@ -6,7 +6,7 @@ cases:
     migration_ready: true
     expected: pass
   - name: same-version-no-op
-    previous: {state: same, version: 0.1.1, source_version: synthetic-release-001, resolution: not-needed}
+    previous: {state: same, version: 0.1.2, source_version: synthetic-release-001, resolution: not-needed}
     access_mode: update
     checks: all-pass
     migration_ready: true
@@ -30,7 +30,7 @@ cases:
     migration_ready: true
     expected_error: invalid for prior state
   - name: same-version-repacked
-    previous: {state: same, version: 0.1.1, source_version: different-release, resolution: not-needed}
+    previous: {state: same, version: 0.1.2, source_version: different-release, resolution: not-needed}
     access_mode: update
     checks: all-pass
     migration_ready: true
@@ -41,12 +41,12 @@ cases:
     checks: safe-read-only
     migration_ready: false
     expected: pass
-  - name: handoff-must-pass
+  - name: single-client-handoff-not-required
     previous: {state: absent, resolution: not-needed}
     access_mode: update
     checks: handoff-not-run
     migration_ready: true
-    expected_error: handoff_probe
+    expected: pass
   - name: update-authority-required
     previous: {state: absent, resolution: not-needed}
     access_mode: propose

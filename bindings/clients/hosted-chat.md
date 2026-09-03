@@ -33,9 +33,11 @@ work outside the configured scope.
 [Mind Palace adapter: end]
 ```
 
-The adapter changes only this delimited block. Exact reinstall is a no-op;
-upgrade replaces only the block after release validation; removal deletes only
-the block. Missing or duplicate markers require user review.
+The adapter installs this delimited block once. Protocol release updates do not
+change it: the block always resolves the active common-memory release. Replace
+the block only when the discovery contract itself changes and the user
+explicitly approves an adapter update. Removal deletes only the block. Missing
+or duplicate markers require user review.
 
 ## Host Setup
 
@@ -56,7 +58,9 @@ conversation.
 
 ## Fresh-Client Setup Check
 
-Run this in a new conversation with no copied protocol text or prior chat state:
+Run this once after initial adapter setup in a new conversation with no copied
+protocol text or prior chat state. A normal protocol release update does not
+require reinstalling the block or repeating this setup check:
 
 ```text
 Run the Mind Palace fresh-client setup check. Resolve the installation using

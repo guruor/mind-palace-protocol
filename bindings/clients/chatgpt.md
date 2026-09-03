@@ -22,19 +22,20 @@ Knowledge file is not required for installation.
    that Project's existing instructions instead.
 5. Start a new conversation and run the fresh-client setup check from
    [`hosted-chat.md`](hosted-chat.md#fresh-client-setup-check).
-6. Update one ChatGPT receipt with the observed checks. Leave
-   `handoff_probe: not-run` and `migration_ready: false` until the separate
-   cross-client handoff and remaining migration checks pass.
+6. Update one ChatGPT receipt with the observed checks. `handoff_probe` may
+   remain `not-run`; do not claim cross-client readiness until the separate
+   handoff check passes.
 
 ChatGPT cannot silently modify account or Project instructions. When asked to
 install, it must provide the exact block and settings location, then wait for the
 user to confirm the change before requesting a fresh conversation.
 
-## Upgrade And Removal
+## Protocol Updates And Removal
 
-An exact reinstall is a no-op. An approved adapter upgrade replaces only the
-delimited block. Removal deletes only that block; Notion authorization is
-revoked separately through ChatGPT settings.
+Protocol updates require no Custom Instructions change: each Mind Palace task
+resolves the active common-memory release. Replace the delimited block only for
+an explicitly approved change to the discovery contract. Removal deletes only
+that block; Notion authorization is revoked separately through ChatGPT settings.
 
 ## Official References
 

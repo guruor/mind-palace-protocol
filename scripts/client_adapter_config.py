@@ -64,14 +64,19 @@ def run_scenario() -> None:
         raise ValueError("OpenCode adapter reinstall was not idempotent")
 
     existing = "Keep this user instruction.\n\nKeep this second instruction."
-    installed = upsert_managed_block(existing, "Resolve release 0.1.0 from common memory.")
+    bootstrap = "Resolve the active Mind Palace release from common memory."
+    installed = upsert_managed_block(existing, bootstrap)
     if not installed.startswith(existing) or installed.count(START) != 1:
         raise ValueError("managed block replaced existing instructions")
-    if upsert_managed_block(installed, "Resolve release 0.1.0 from common memory.") != installed:
+    if upsert_managed_block(installed, bootstrap) != installed:
         raise ValueError("managed block reinstall was not idempotent")
-    upgraded = upsert_managed_block(installed, "Resolve release 0.2.0 from common memory.")
-    if not upgraded.startswith(existing) or "release 0.1.0" in upgraded:
-        raise ValueError("managed block upgrade changed unrelated instructions")
+    if "0.1.0" in installed or "0.2.0" in installed:
+        raise ValueError("managed block pinned a protocol release")
+    adapter_changed = upsert_managed_block(
+        installed, "Resolve the active Mind Palace release and verify its identity."
+    )
+    if not adapter_changed.startswith(existing) or bootstrap in adapter_changed:
+        raise ValueError("managed adapter change affected unrelated instructions")
     try:
         upsert_managed_block(f"{existing}\n{START}", "candidate")
     except ValueError:
@@ -86,7 +91,7 @@ def run_scenario() -> None:
         "enabled_connectors": ["existing-connector"],
     }
     claude_installed = configure_claude_project(
-        claude_settings, "Resolve release 0.1.0 from common memory."
+        claude_settings, bootstrap
     )
     if claude_settings["project_instructions"] != "Keep this Claude Project instruction.":
         raise ValueError("adapter mutated the input Claude settings")
@@ -98,14 +103,15 @@ def run_scenario() -> None:
     ):
         raise ValueError("adapter replaced existing Claude Project instructions")
     if configure_claude_project(
-        claude_installed, "Resolve release 0.1.0 from common memory."
+        claude_installed, bootstrap
     ) != claude_installed:
         raise ValueError("Claude adapter reinstall was not idempotent")
-    claude_upgraded = configure_claude_project(
-        claude_installed, "Resolve release 0.2.0 from common memory."
+    claude_adapter_changed = configure_claude_project(
+        claude_installed,
+        "Resolve the active Mind Palace release and verify its identity.",
     )
-    if "release 0.1.0" in claude_upgraded["project_instructions"]:
-        raise ValueError("Claude adapter upgrade retained the old managed block")
+    if bootstrap in claude_adapter_changed["project_instructions"]:
+        raise ValueError("Claude adapter change retained the old managed block")
 
 
 def main() -> int:

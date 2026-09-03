@@ -9,7 +9,7 @@ knowledge and user configuration do not belong in this repository.
 
 ## Status
 
-Version `0.1.1` is an experimental implementation of the approved architecture.
+Version `0.1.2` is an experimental implementation of the approved architecture.
 It defines the general guide, portable artifact envelope, the first
 `product-engineering` methodology, binding contracts, examples, and
 deterministic validation. Existing Mind Palace content is not yet migrated.
@@ -22,7 +22,7 @@ deterministic validation. Existing Mind Palace content is not yet migrated.
    [`protocol/common-memory-installation.md`](protocol/common-memory-installation.md).
 4. Read [`protocol/general-guide.md`](protocol/general-guide.md) to operate as a
    compatible client.
-5. Install or validate the current client using
+5. Install the current client's version-neutral discovery adapter once using
    [`protocol/client-installation.md`](protocol/client-installation.md).
 6. Read the selected methodology, initially
    [`methodologies/product-engineering/README.md`](methodologies/product-engineering/README.md).

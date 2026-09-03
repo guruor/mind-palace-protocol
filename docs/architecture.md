@@ -31,17 +31,20 @@ write routing, compatibility, validation, and migration.
 Bindings do not fork protocol behavior. A missing native storage feature is
 emulated safely, reported as a limitation, or causes refusal.
 
-Client installation is a protocol-level staged activation contract. The
+Client installation is a one-time, version-neutral discovery contract. The
 canonical release remains immutable and runtime-neutral; a client adapter owns
-placement, activation pointers, capability probes, and rollback mechanics. An
-installation receipt records what was resolved and tested without becoming a
-second copy of protocol instructions.
+only persistent discovery placement, capability probes, and adapter rollback.
+The common-memory installation owns protocol release activation. An installation
+receipt records the latest release and capabilities the client resolved without
+becoming a second copy of protocol instructions or a release pin.
 
 Common memory contains one stable installation root, generated immutable
 release projections, the active-release pointer, retained legacy references,
 and links to client receipts. Client adapters are thin discovery hooks. This
-allows one shared release installation and independent non-destructive client
-activation without making any client's instruction file canonical.
+allows one explicitly managed shared release installation and independent,
+non-destructive client discovery without making any client's instruction file
+canonical. Every Mind Palace operation resolves the current active release;
+clients do not discover or activate newer releases automatically.
 
 ## Versioning
 

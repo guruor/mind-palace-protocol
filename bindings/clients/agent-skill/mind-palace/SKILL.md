@@ -17,6 +17,8 @@ metadata:
 3. Verify active protocol version and package identity before using projected
    instructions. Detect same-version identity conflicts and prior/legacy
    installations; never replace them silently.
+   Do not discover or activate a newer release unless the user explicitly asks
+   to install, update, repair, or roll back the shared protocol.
 4. Read the active release's General Guide, selected methodology, and storage
    binding. Load only task-relevant artifacts.
 5. Treat common-memory access as separate from write authorization. Preserve

@@ -2,19 +2,21 @@
 
 ## Purpose
 
-Install one immutable protocol release into a client without copying or forking
-its rules. A client installation grants protocol capability, not access to a
-Mind Palace instance.
+Install one version-neutral Mind Palace discovery adapter into a client without
+copying, forking, or pinning protocol rules. A client installation grants
+protocol discovery capability, not access to a Mind Palace instance.
 
-The default user flow first runs the shared install/check in
-[`common-memory-installation.md`](common-memory-installation.md), then activates
-the current client through its declared adapter. If common memory already has
-the exact release, the first phase is a no-op or repair and client setup
-continues.
+The default first-time user flow resolves an existing shared installation or
+runs the explicit shared install in
+[`common-memory-installation.md`](common-memory-installation.md), then configures
+the current client through its declared adapter. Later common-memory protocol
+updates do not reinstall or rewrite that adapter.
 
-The canonical package is the release identified by the installation receipt.
-Client-specific adapters store only an activation pointer, authorized instance
-references, capabilities, and validation evidence.
+The canonical package is the release currently selected by the common-memory
+installation. Client-specific adapters store only the stable installation
+reference and discovery trigger. A client's single receipt records authorized
+instance references, capabilities, validation evidence, and the latest active
+release it successfully resolved; it is evidence, not a release pointer.
 
 ## Installation Inputs
 
@@ -75,25 +77,40 @@ Legacy bootstrap material remains available until the new installation passes
 resolution and handoff tests. Do not allow both versions to claim write
 authority for the same instance.
 
-## Staged Activation
+## One-Time Setup
 
-1. Stage the immutable package without modifying the active pointer.
-2. Run package and installation-receipt validation.
-3. Resolve the General Guide, selected methodology, and binding from the staged
-   package.
-4. In a fresh client session, run trust-isolation, read, proposal, and conflict
-   probes using synthetic or explicitly authorized content.
-5. Record the results in an installation receipt conforming to
+1. Install the version-neutral adapter without replacing existing instructions.
+2. In a fresh client session, resolve the common-memory installation and its
+   active release without pasted protocol text.
+3. Resolve the General Guide, selected methodology, and binding from that active
+   release.
+4. Run trust-isolation, read, proposal, and conflict probes using synthetic or
+   explicitly authorized content.
+5. Record the results in the client's single installation receipt conforming to
    `schemas/client-installation.schema.json`.
-6. Activate the staged pointer atomically when the client supports it; otherwise
-   use a reversible adapter-specific operation.
-7. Repeat resolution and read probes through the active client surface.
-8. Run the separate cross-client handoff check with two independently
-   initialized clients.
-9. Mark migration readiness only when every required gate passes.
+6. Mark cross-client migration readiness only after a separate handoff check is
+   required and passes.
 
-On failure, restore the prior pointer/configuration and keep failure evidence.
-Never leave a partially validated installation with update authority.
+On setup failure, restore only the managed adapter configuration and keep
+failure evidence. Never change the shared active release as client-setup
+rollback.
+
+## Active-Release Refresh
+
+Every Mind Palace operation resolves the shared installation's active release
+before loading protocol behavior. When the active release differs from the
+receipt, validate its identity, compatibility, required guides, methodology,
+and binding, then follow it. Refresh the same receipt before a
+protocol-governed write or when explicitly requested; do not write receipt
+evidence as a side effect of an ordinary read. Do not edit persistent client
+instructions or require a fresh setup conversation merely because the protocol
+version changed. Re-run only capability probes invalidated by an incompatible
+change or an explicit validation request.
+
+Only an explicit **install Mind Palace protocol**, **update Mind Palace
+protocol**, rollback, or repair request may change the common-memory release
+records or active pointer. Routine use follows the active release and never
+searches for a newer one.
 
 ## Cross-Client Handoff
 
@@ -124,10 +141,12 @@ client should execute.
 
 ## Required Validation
 
-`migration_ready: true` requires update access and passing results for package
-integrity, protocol/methodology/binding resolution, trust isolation, read,
-proposal, conflict, and handoff probes. A failed or unrun required check keeps
-the client read-only for migration.
+For a single-client artifact migration, readiness requires update access and
+passing results for package integrity, protocol/methodology/binding resolution,
+trust isolation, read, proposal, conflict, and the approved write canary. The
+handoff probe is required only when another client will continue or independently
+execute part of the migration. A failed or unrun applicable check keeps the
+client read-only for that migration.
 
 Run:
 

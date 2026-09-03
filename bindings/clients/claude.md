@@ -23,20 +23,22 @@ require a Skill or plugin for Mind Palace setup.
    personalization or Project instruction surface.
 4. Start a new conversation and run the fresh-client setup check from
    [`hosted-chat.md`](hosted-chat.md#fresh-client-setup-check).
-5. Update one Claude receipt with the observed checks. Leave
-   `handoff_probe: not-run` and `migration_ready: false` until the separate
-   cross-client handoff and remaining migration checks pass.
+5. Update one Claude receipt with the observed checks. `handoff_probe` may
+   remain `not-run`; do not claim cross-client readiness until the separate
+   handoff check passes.
 
 Hosted Claude cannot silently modify personalization, Project instructions, or
 connector authorization. When asked to install, it must provide the exact block
 and settings location, then wait for the user to confirm the change before
 requesting a fresh conversation.
 
-## Upgrade And Removal
+## Protocol Updates And Removal
 
-An exact reinstall is a no-op. An approved adapter upgrade replaces only the
-delimited block. Removal deletes only that block; connector authorization is
-revoked separately through Claude settings.
+Protocol updates require no personalization or Project-instruction change: each
+Mind Palace task resolves the active common-memory release. Replace the
+delimited block only for an explicitly approved change to the discovery
+contract. Removal deletes only that block; connector authorization is revoked
+separately through Claude settings.
 
 ## Official References
 

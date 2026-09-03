@@ -33,12 +33,14 @@ hook is available.
 7. In a new session, verify the skill is discoverable or the instruction source
    is resolved, then run the installation receipt and common-memory probes.
 
-## Upgrade And Removal
+## Protocol Updates And Removal
 
-Upgrades switch only the managed skill link/path or standalone bootstrap entry
-after the candidate release passes. Exact reinstall is a no-op. Removal deletes
-only that managed entry/link and restores its snapshot; it never rewrites
-unrelated config or instruction files.
+Protocol updates require no OpenCode configuration change: the installed Skill
+or standalone bootstrap resolves the active common-memory release on each Mind
+Palace task. Change the managed path/link only for an explicitly approved
+adapter-discovery change. Exact reinstall is a no-op. Removal deletes only that
+managed entry/link and restores its snapshot; it never rewrites unrelated config
+or instruction files.
 
 ## Official References
 
