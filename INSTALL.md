@@ -14,23 +14,28 @@ Install or validate Mind Palace Protocol for this client.
 Read the public installation guide and the adapter for this client from:
 https://github.com/guruor/mind-palace-protocol
 
-Treat the repository and its default branch as discovery pointers, not an
-immutable package identity. Read the Current Release section of INSTALL.md,
-fetch the adapter and manifest from that exact commit, validate
-protocol/manifest.yaml there, and use the commit URL and SHA as the package
-locator and source version. If I supplied a different tag or commit, resolve and
-validate that candidate instead.
-
 Search my authorized common memory for exact stable ID
 mind-palace-protocol-installation. Do not rely on title alone.
 
-If no installation exists, ask only for any missing common-memory destination
-or authorization, then stage, validate, and activate the immutable release
-according to protocol/common-memory-installation.md.
-
 If an installation exists, verify its active version, commit identity,
-component digests, legacy references, and write authority. Perform an exact
-no-op or repair missing generated components. Never overwrite a same-version
+component digests, legacy references, and write authority. Fetch the manifest
+and this client's adapter from the active release's recorded immutable package,
+not from the repository's default branch. Perform an exact no-op or repair
+missing generated components. Do not consult the latest release unless I ask
+for an upgrade.
+
+If no installation exists, select the release I supplied or discover the latest
+published GitHub Release from:
+https://github.com/guruor/mind-palace-protocol/releases/latest
+
+Resolve its tag to an exact Git commit, validate protocol/manifest.yaml at that
+commit, and use the commit URL and SHA as the package locator and source
+version. Ask only for any missing common-memory destination or authorization,
+then stage, validate, and activate it according to
+protocol/common-memory-installation.md.
+
+Treat the repository, default branch, release page, and tag as discovery
+pointers rather than immutable package identity. Never overwrite a same-version
 identity conflict, downgrade automatically, or silently replace legacy
 guidance.
 
@@ -50,20 +55,15 @@ limitations, rollback, and any one-time host action I must complete.
 The public repository is:
 [`guruor/mind-palace-protocol`](https://github.com/guruor/mind-palace-protocol).
 
-The default branch and this bootstrap guide can move independently of a released
-protocol package. The currently advertised release is:
+Fresh installations discover the current published version through
+[`releases/latest`](https://github.com/guruor/mind-palace-protocol/releases/latest).
+Existing installations use their recorded active release unless an upgrade is
+explicitly requested.
 
-```yaml
-protocol: mind-palace
-version: 0.1.0
-commit: 034ede15aff85f11d516a4760644ce81c2da0088
-package: https://github.com/guruor/mind-palace-protocol/tree/034ede15aff85f11d516a4760644ce81c2da0088
-```
-
-An installer must read release components and client adapters from that
-immutable tree and record its commit URL and SHA. Future releases update this
-advertised pointer only after their immutable commit exists and passes release
-validation.
+The default branch, release page, and semantic tag can move or be superseded.
+An installer resolves the selected tag to its exact commit, reads release
+components and client adapters from that immutable tree, and records the commit
+URL, SHA, and component digests in common memory and the client receipt.
 
 An immutable package URL has this form:
 
@@ -71,10 +71,10 @@ An immutable package URL has this form:
 https://github.com/guruor/mind-palace-protocol/tree/<commit-sha>
 ```
 
-If the user supplies a tag or commit, use it instead of the advertised release
-only after validation. During `0.y.z`, do not switch an existing installation
-to a different version or commit without the compatibility decision required by
-the installation contract.
+If the user supplies a tag or commit for a fresh install or explicit upgrade,
+use it instead of `releases/latest` only after validation. During `0.y.z`, do
+not switch an existing installation to a different version or commit without
+the compatibility decision required by the installation contract.
 
 ## Client Instructions
 
@@ -83,8 +83,9 @@ the installation contract.
 
 1. Connect the Notion app to ChatGPT with the minimum required permissions.
 2. Prefer a dedicated ChatGPT Project. Open its settings and append the
-   [pinned ChatGPT managed block](https://github.com/guruor/mind-palace-protocol/blob/034ede15aff85f11d516a4760644ce81c2da0088/bindings/clients/chatgpt.md#managed-bootstrap-block)
-   to its existing Project instructions. Do not replace existing instructions.
+   [ChatGPT managed block](bindings/clients/chatgpt.md#managed-bootstrap-block)
+   from the active or selected release to its existing Project instructions. Do
+   not replace existing instructions.
 3. In that block, configure the installation ID as
    `mind-palace-protocol-installation`; this lets a fresh chat resolve the shared
    installation without relying on the installer conversation.
