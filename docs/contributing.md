@@ -16,3 +16,18 @@
 
 Structural changes, new methodologies/bindings, and migrations require an
 approved decision. Routine corrections and compatible clarifications do not.
+
+## Release
+
+1. Update `protocol/manifest.yaml` and document compatibility, changes, and
+   rollback in `docs/releases/v<version>.md`.
+2. Run `uv run --frozen scripts/validate.py` and
+   `uv run --frozen scripts/validate_release.py v<version>`.
+3. Merge the validated release commit to `main`.
+4. Create an annotated `v<version>` tag at that commit and push the tag.
+5. Let `.github/workflows/release.yml` verify tag/version equality, annotated
+   tag type, `main` ancestry, and the full protocol suite before publishing the
+   GitHub Release.
+
+Do not create the GitHub Release manually or move an existing release tag. The
+tag selects the candidate; the workflow validates and publishes it.
