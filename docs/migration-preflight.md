@@ -4,11 +4,16 @@ Run this read-only process before any product migration.
 
 ## Client Gate
 
+- Resolve or install the active release through the stable common-memory root;
+  exact reruns must be a no-op or repair, never a duplicate.
 - Validate the active installation receipt and immutable package identity.
 - Validate the host-specific adapter declaration and its activation/rollback
   mechanism against `bindings/client-adapter.md`.
 - Confirm no previous protocol version retains competing write authority.
 - Pass the two-client handoff test when another client may continue the work.
+- Pass the controlled live canary in
+  [`live-cross-client-canary.md`](live-cross-client-canary.md) before claiming
+  OpenCode/ChatGPT migration portability.
 - Confirm the selected methodology and storage binding resolve from the active
   package rather than copied conversation instructions.
 

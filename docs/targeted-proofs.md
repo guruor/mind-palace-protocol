@@ -27,7 +27,9 @@ evidence.
 Partial pass on 2026-09-03: standard text structures round-tripped through the
 Notion MCP representation. Callout, page mention, discussion, and attachment
 evidence confirmed that explicit conversion, redaction, and asset export are
-required. Full Markdown export/import and binary asset coverage remain pending.
+required. A 451-byte synthetic SVG survived upload, page attachment, recovery,
+re-upload, and target attachment without payload change. Full Markdown
+export/import and binary PNG/PDF coverage remain pending.
 
 ## P3: Conflict Handling
 

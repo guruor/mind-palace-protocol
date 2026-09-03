@@ -75,23 +75,34 @@ def validate_fixtures(schemas: dict[str, dict], registry: Registry) -> None:
     product = validator("product-engineering.schema.json", schemas, registry)
     installation = validator("client-installation.schema.json", schemas, registry)
     handoff = validator("client-handoff.schema.json", schemas, registry)
+    common_memory = validator("common-memory-installation.schema.json", schemas, registry)
 
     for path in sorted((ROOT / "tests/fixtures/valid").glob("*.json")):
-        selected = handoff if "client-handoff" in path.name else (
-            installation if "client-installation" in path.name else (
-                product if "product-engineering" in path.name else artifact
-            )
-        )
+        if "common-memory-installation" in path.name:
+            selected = common_memory
+        elif "client-handoff" in path.name:
+            selected = handoff
+        elif "client-installation" in path.name:
+            selected = installation
+        elif "product-engineering" in path.name:
+            selected = product
+        else:
+            selected = artifact
         errors = list(selected.iter_errors(load_json(path)))
         if errors:
             raise ValueError(f"valid fixture rejected: {path.relative_to(ROOT)}: {errors[0].message}")
 
     for path in sorted((ROOT / "tests/fixtures/invalid").glob("*.json")):
-        selected = handoff if "client-handoff" in path.name else (
-            installation if "client-installation" in path.name else (
-                product if "product-engineering" in path.name else artifact
-            )
-        )
+        if "common-memory-installation" in path.name:
+            selected = common_memory
+        elif "client-handoff" in path.name:
+            selected = handoff
+        elif "client-installation" in path.name:
+            selected = installation
+        elif "product-engineering" in path.name:
+            selected = product
+        else:
+            selected = artifact
         if not list(selected.iter_errors(load_json(path))):
             raise ValueError(f"invalid fixture accepted: {path.relative_to(ROOT)}")
 
@@ -135,8 +146,10 @@ def validate_manifest() -> None:
     path_fields = (
         "general_guide",
         "installation_guide",
+        "common_memory_installation_guide",
         "core_schema",
         "installation_schema",
+        "common_memory_installation_schema",
         "handoff_schema",
         "client_adapter_contract",
         "conflict_template",
@@ -145,6 +158,8 @@ def validate_manifest() -> None:
         path = ROOT / manifest[field]
         if not path.is_file():
             raise ValueError(f"manifest path does not exist: {field}={manifest[field]}")
+    if not manifest.get("common_memory_installation_id"):
+        raise ValueError("manifest lacks common_memory_installation_id")
     for collection in ("methodologies", "bindings"):
         ids = [item["id"] for item in manifest[collection]]
         if len(ids) != len(set(ids)):
@@ -152,6 +167,28 @@ def validate_manifest() -> None:
         for item in manifest[collection]:
             if not (ROOT / item["guide"]).is_file():
                 raise ValueError(f"manifest guide does not exist: {item['guide']}")
+    for adapter in manifest["client_adapters"]:
+        if not (ROOT / adapter["guide"]).is_file():
+            raise ValueError(f"client adapter guide does not exist: {adapter['guide']}")
+        entrypoint = adapter.get("entrypoint")
+        if entrypoint and not (ROOT / entrypoint).is_file():
+            raise ValueError(f"client adapter entrypoint does not exist: {entrypoint}")
+
+
+def validate_agent_skill() -> None:
+    path = ROOT / "bindings/clients/agent-skill/mind-palace/SKILL.md"
+    metadata = markdown_metadata(path)
+    name = metadata.get("name")
+    description = metadata.get("description")
+    if name != path.parent.name or not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", name or ""):
+        raise ValueError("Agent Skill name is invalid or does not match its directory")
+    if not isinstance(description, str) or not 1 <= len(description) <= 1024:
+        raise ValueError("Agent Skill description must contain 1-1024 characters")
+    extension = metadata.get("metadata", {})
+    if not isinstance(extension, dict) or not all(
+        isinstance(key, str) and isinstance(value, str) for key, value in extension.items()
+    ):
+        raise ValueError("Agent Skill metadata must be a string-to-string map")
 
 
 def validate_privacy() -> None:
@@ -228,9 +265,13 @@ def main() -> int:
         validate_fixtures(schemas, registry)
         validate_markdown_links()
         validate_manifest()
+        validate_agent_skill()
         validate_privacy()
         validate_digest_invariants()
         validate_installation_cases()
+        run_common_memory_install_scenario()
+        run_client_adapter_scenario()
+        run_scenario()
     except (OSError, ValueError, json.JSONDecodeError, yaml.YAMLError) as exc:
         print(f"validation failed: {exc}", file=sys.stderr)
         return 1
