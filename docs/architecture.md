@@ -37,6 +37,12 @@ placement, activation pointers, capability probes, and rollback mechanics. An
 installation receipt records what was resolved and tested without becoming a
 second copy of protocol instructions.
 
+Common memory contains one stable installation root, generated immutable
+release projections, the active-release pointer, retained legacy references,
+and links to client receipts. Client adapters are thin discovery hooks. This
+allows one shared release installation and independent non-destructive client
+activation without making any client's instruction file canonical.
+
 ## Versioning
 
 Protocol and methodology releases use Semantic Versioning after declaring
