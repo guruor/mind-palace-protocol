@@ -1,0 +1,19 @@
+id: mind-palace
+version: 0.1.0
+status: experimental
+general_guide: protocol/general-guide.md
+installation_guide: protocol/client-installation.md
+core_schema: schemas/artifact.schema.json
+installation_schema: schemas/client-installation.schema.json
+handoff_schema: schemas/client-handoff.schema.json
+client_adapter_contract: bindings/client-adapter.md
+conflict_template: protocol/conflict-template.md
+methodologies:
+  - id: product-engineering
+    version: 0.1.0
+    guide: methodologies/product-engineering/README.md
+bindings:
+  - id: notion
+    guide: bindings/notion.md
+  - id: markdown-git
+    guide: bindings/markdown-git.md

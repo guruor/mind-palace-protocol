@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:mind-palace:schema:product-engineering:0.1.0",
+  "title": "Product Engineering V1 artifact metadata",
+  "allOf": [
+    {"$ref": "urn:mind-palace:schema:artifact:0.1.0"},
+    {
+      "type": "object",
+      "required": ["methodology"],
+      "properties": {
+        "methodology": {
+          "type": "object",
+          "required": ["id", "version"],
+          "properties": {
+            "id": {"const": "product-engineering"},
+            "version": {"$ref": "urn:mind-palace:schema:artifact:0.1.0#/$defs/semver"}
+          },
+          "additionalProperties": true
+        },
+        "kind": {
+          "enum": [
+            "product-engineering/project-hub",
+            "product-engineering/product-specification",
+            "product-engineering/technical-specification",
+            "product-engineering/discovery-record",
+            "product-engineering/decision-record",
+            "product-engineering/change-log",
+            "product-engineering/delivery-baseline",
+            "product-engineering/implementation-report",
+            "product-engineering/validation-report",
+            "product-engineering/reconciliation-report"
+          ]
+        },
+        "state": {"type": "string", "minLength": 1}
+      }
+    }
+  ]
+}

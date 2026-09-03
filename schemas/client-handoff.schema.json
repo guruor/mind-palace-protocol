@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:mind-palace:schema:client-handoff:0.1.0",
+  "title": "Mind Palace cross-client handoff",
+  "type": "object",
+  "required": [
+    "protocol",
+    "methodology",
+    "instance",
+    "task",
+    "access_mode",
+    "artifacts",
+    "omissions",
+    "conflicts",
+    "approval"
+  ],
+  "properties": {
+    "protocol": {
+      "type": "object",
+      "required": ["id", "version"],
+      "properties": {
+        "id": {"const": "mind-palace"},
+        "version": {"$ref": "#/$defs/semver"}
+      },
+      "additionalProperties": true
+    },
+    "methodology": {
+      "type": "object",
+      "required": ["id", "version"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "version": {"$ref": "#/$defs/semver"}
+      },
+      "additionalProperties": true
+    },
+    "instance": {
+      "type": "object",
+      "required": ["id", "trust_domain"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "trust_domain": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": true
+    },
+    "task": {"type": "string", "minLength": 1},
+    "access_mode": {"enum": ["read", "propose", "update"]},
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "revision", "source_identity"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "revision": {"type": "integer", "minimum": 1},
+          "source_identity": {"type": "string", "minLength": 1}
+        },
+        "additionalProperties": true
+      }
+    },
+    "omissions": {"type": "array", "items": {"type": "string"}},
+    "conflicts": {"type": "array", "items": {"type": "string"}},
+    "approval": {
+      "type": "object",
+      "required": ["status"],
+      "properties": {
+        "status": {"enum": ["not-required", "required", "granted", "denied"]},
+        "reference": {"type": "string", "minLength": 1},
+        "scope": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "semver": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-((?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*)(?:\\.(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*))*))?(?:\\+([0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*))?$"
+    }
+  }
+}
