@@ -1,0 +1,12 @@
+[project]
+name = "mind-palace-protocol-validation"
+version = "0.1.0"
+description = "Validation tooling for the Mind Palace portable knowledge protocol"
+requires-python = ">=3.9"
+dependencies = [
+  "jsonschema==4.25.1",
+  "PyYAML==6.0.2",
+]
+
+[tool.uv]
+package = false
