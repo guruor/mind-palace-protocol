@@ -8,11 +8,12 @@
     "provider": {"type": "string", "minLength": 1},
     "operation": {
       "type": "object",
-      "required": ["max_records", "max_text_bytes", "max_attachments", "max_requests", "batch_size", "delay_seconds"],
+      "required": ["max_records", "max_text_bytes", "max_attachments", "max_attachment_bytes", "max_requests", "batch_size", "delay_seconds"],
       "properties": {
         "max_records": {"type": "integer", "minimum": 1},
         "max_text_bytes": {"type": "integer", "minimum": 1},
         "max_attachments": {"type": "integer", "minimum": 0},
+        "max_attachment_bytes": {"type": "integer", "minimum": 0},
         "max_requests": {"type": "integer", "minimum": 1},
         "batch_size": {"type": "integer", "minimum": 1},
         "delay_seconds": {"type": "number", "minimum": 0}

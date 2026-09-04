@@ -67,6 +67,8 @@ def install_release(
             return "conflict", result
         if same_identity.get("release_index") != candidate.get("release_index"):
             return "conflict", result
+        if same_identity.get("payload") != candidate.get("payload"):
+            return "conflict", result
         existing = {item["path"]: item for item in release_resources(same_identity)}
         for resource in release_resources(candidate):
             current = existing.get(resource["path"])
@@ -172,6 +174,24 @@ def synthetic_release(version: str, source_version: str) -> dict[str, Any]:
     }
 
 
+def synthetic_payload_release(version: str, source_version: str) -> dict[str, Any]:
+    return {
+        "id": f"mind-palace-{source_version}",
+        "protocol": {"id": "mind-palace", "version": version},
+        "package_locator": f"synthetic://mind-palace/{source_version}",
+        "source_version": source_version,
+        "status": "staged",
+        "payload": {
+            "filename": f"mind-palace-{version}-payload.md",
+            "media_type": "text/markdown",
+            "bytes": 100,
+            "digest": "sha256:" + "3" * 64,
+            "release_index_digest": "sha256:" + "4" * 64,
+        },
+        "omissions": [],
+    }
+
+
 def empty_state() -> dict[str, Any]:
     return {
         "installation_id": "synthetic-mind-palace-installation",
@@ -218,6 +238,16 @@ def run_scenario() -> None:
     action, unchanged = install_release(installed, repacked)
     if action != "conflict" or unchanged != installed:
         raise ValueError("same-version package conflict changed active state")
+
+    payload_release = synthetic_payload_release("0.1.1", "payload-release-001")
+    action, payload_staged = install_release(installed, payload_release)
+    if action != "staged" or installation_errors(payload_staged):
+        raise ValueError("attachment-backed release did not stage")
+    changed_payload = copy.deepcopy(payload_release)
+    changed_payload["payload"]["digest"] = "sha256:" + "5" * 64
+    action, unchanged = install_release(payload_staged, changed_payload)
+    if action != "conflict" or unchanged != payload_staged:
+        raise ValueError("changed attachment payload did not cause a conflict")
 
     upgrade = synthetic_release("0.2.0", "release-002")
     action, staged = install_release(installed, upgrade)

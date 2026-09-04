@@ -24,7 +24,8 @@ alone. The root contains:
 
 - active immutable release pointer;
 - staged, active, retired, and blocked releases;
-- one compact Release Index and Core Bundle for each new release;
+- one digest-verified Markdown payload containing the compact Release Index and
+  Core Bundle for each new release;
 - retained legacy installation references and dispositions;
 - links to client installation receipts;
 - actual storage binding and trust domain.
@@ -34,10 +35,10 @@ Unless instance configuration overrides it, use stable installation ID
 `Mind Palace Protocol Installation`.
 
 Each release comes from one immutable protocol package. It is not edited
-independently. Store one compact Release Index and the small Core Bundle needed
-for normal work. The index gives every remote resource's path, digest, class,
-cache policy, and purpose. It does not create one common-memory record per
-source file.
+independently. Upload one generated Markdown payload containing the compact
+Release Index and small Core Bundle needed for normal work. The index gives
+every remote resource's path, digest, class, cache policy, and purpose. It does
+not create one common-memory record per source file.
 
 Fetch `on-demand` resources only when a task needs them. Verify the immutable
 release revision and digest before use. A verified text resource may enter a
@@ -56,11 +57,16 @@ retry limits, cache impact, and rollback writes. Reuse existing records and
 reject the plan before its first write when any configured provider budget is
 exceeded.
 
-Build a deterministic staging payload directly from the immutable Release Index
+Build a deterministic Markdown staging payload directly from the immutable Release Index
 and Core Bundle sources. Bind approval to its source revision, payload digest,
 Release Index digest, ordered resource list, and per-resource bytes and digests.
 Never manually rewrite, reformat, or summarize embedded resources. Generate the
 payload twice and require identical output before presenting the plan.
+
+Transfer that exact local file through the provider's binary file-upload path;
+do not copy it through a model-generated string. Count the attachment and its
+bytes separately from page text. Store only immutable identity and proof
+metadata plus the uploaded file on the release record.
 
 Writes use bounded batches and persist completed stable IDs. On a rate limit,
 stop new writes, honor the provider retry delay or the configured fallback,
@@ -92,9 +98,10 @@ failure does not block read or proposal work.
    uniqueness, stable IDs, index and core digests, trust boundary, and
    permissions.
 
-Read the staged record back before activation. Extract the Release Index and
-each ordered Core Bundle code block, compare their exact UTF-8 bytes and digests
-with the immutable package, and verify the payload wrapper and proof. If any
+Read the staged record back before activation. Download the uploaded payload,
+verify its exact SHA-256 digest, then extract the Release Index and each ordered
+Core Bundle code block and compare their exact UTF-8 bytes and digests with the
+immutable package. If any
 section is missing, duplicated, reordered, normalized, or changed, mark only the
 candidate blocked and leave the active pointer unchanged.
 

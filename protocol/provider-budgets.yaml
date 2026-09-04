@@ -2,7 +2,8 @@ provider: notion
 operation:
   max_records: 4
   max_text_bytes: 100000
-  max_attachments: 0
+  max_attachments: 1
+  max_attachment_bytes: 100000
   max_requests: 8
   batch_size: 2
   delay_seconds: 1

@@ -1,5 +1,5 @@
 ---
-protocol: {id: mind-palace, version: 0.9.1}
+protocol: {id: mind-palace, version: 0.9.2}
 id: "{{stable-change-log-id}}"
 kind: product-engineering/change-log
 methodology: {id: product-engineering, version: 0.2.0}

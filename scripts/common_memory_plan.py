@@ -38,6 +38,7 @@ def _finish_plan(plan: dict[str, Any], budget: dict[str, Any]) -> dict[str, Any]
         ("records", "max_records"),
         ("text_bytes", "max_text_bytes"),
         ("attachments", "max_attachments"),
+        ("attachment_bytes", "max_attachment_bytes"),
         ("requests", "max_requests"),
     )
     for actual, maximum in checks:
@@ -53,7 +54,7 @@ def _finish_plan(plan: dict[str, Any], budget: dict[str, Any]) -> dict[str, Any]
 def stage_plan(index: dict[str, Any], budget: dict[str, Any], source_revision: str) -> dict[str, Any]:
     core = [item for item in index["resources"] if item["class"] == "core"]
     _, proof = build_payload(source_revision)
-    text_bytes = proof["payload_bytes"]
+    attachment_bytes = proof["payload_bytes"]
     version = index["protocol"]["version"]
     plan = {
         "operation": "stage",
@@ -62,16 +63,19 @@ def stage_plan(index: dict[str, Any], budget: dict[str, Any], source_revision: s
         "reasons": [],
         "summary": {
             "records": 1,
-            "text_bytes": text_bytes,
-            "attachments": 0,
-            "requests": 2,
+            "text_bytes": 0,
+            "attachments": 1,
+            "attachment_bytes": attachment_bytes,
+            "requests": 4,
             "rollback_writes": 1,
         },
         "writes": [
             {
                 "id": f"mind-palace-release-{version}",
                 "action": "create",
-                "bytes": text_bytes,
+                "bytes": attachment_bytes,
+                "filename": f"mind-palace-{version}-payload.md",
+                "transport": "notion-file-upload",
                 "core_resources": [item["path"] for item in core],
                 "payload_digest": proof["payload_digest"],
                 "release_index_digest": proof["release_index_digest"],
@@ -112,6 +116,7 @@ def cache_plan(
             "records": records,
             "text_bytes": 0 if action == "retain" else resource["bytes"],
             "attachments": 0,
+            "attachment_bytes": 0,
             "requests": records,
             "rollback_writes": records,
         },
@@ -155,7 +160,7 @@ def run_scenario() -> None:
         raise ValueError("compact staging plan lacks payload proof")
 
     denied_budget = json.loads(json.dumps(budget))
-    denied_budget["operation"]["max_text_bytes"] = 1
+    denied_budget["operation"]["max_attachment_bytes"] = 1
     denied = stage_plan(index, denied_budget, "synthetic-revision")
     calls: list[str] = []
     try:
@@ -187,7 +192,7 @@ def run_scenario() -> None:
         "provider": "synthetic",
         "allowed": True,
         "reasons": [],
-        "summary": {"records": 3, "text_bytes": 3, "attachments": 0, "requests": 3, "rollback_writes": 3},
+        "summary": {"records": 3, "text_bytes": 3, "attachments": 0, "attachment_bytes": 0, "requests": 3, "rollback_writes": 3},
         "writes": writes,
         "batches": [["write-0", "write-1"], ["write-2"]],
         "rollback": ["Remove synthetic writes."],

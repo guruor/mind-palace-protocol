@@ -11,11 +11,12 @@
     "reasons": {"type": "array", "items": {"type": "string", "minLength": 1}},
     "summary": {
       "type": "object",
-      "required": ["records", "text_bytes", "attachments", "requests", "rollback_writes"],
+      "required": ["records", "text_bytes", "attachments", "attachment_bytes", "requests", "rollback_writes"],
       "properties": {
         "records": {"type": "integer", "minimum": 0},
         "text_bytes": {"type": "integer", "minimum": 0},
         "attachments": {"type": "integer", "minimum": 0},
+        "attachment_bytes": {"type": "integer", "minimum": 0},
         "requests": {"type": "integer", "minimum": 0},
         "rollback_writes": {"type": "integer", "minimum": 0}
       },

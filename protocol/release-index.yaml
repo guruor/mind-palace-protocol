@@ -1,12 +1,12 @@
 protocol:
   id: mind-palace
-  version: 0.9.1
+  version: 0.9.2
 source:
   locator_template: https://github.com/guruor/mind-palace-protocol/blob/{revision}/{path}
   revision_from: release-record
 resources:
 - path: protocol/manifest.yaml
-  digest: sha256:bffec5d109ec35fbacd8d696a111ffaeece24e895e863915ed2cd298ecf2c2c5
+  digest: sha256:6466ef3457175f2aaf71d4143e9ec7adab9310fb1a31e9aa514f69ea84e82dcd
   bytes: 2086
   class: core
   cache: always
@@ -168,61 +168,61 @@ resources:
   cache: automatic
   purpose: Define the Reconciliation Report document type.
 - path: methodologies/product-engineering/templates/project-hub.md
-  digest: sha256:ce7ebebf4bf18e2652c0d2d5412b210d3fe53f51d51031d07226c2246c6fb8b7
+  digest: sha256:d58401da9be333193c0ac4e9f9fa44ac014d0be6ce4f5e477631e499e9efa432
   bytes: 861
   class: on-demand
   cache: automatic
   purpose: Create a Project Hub.
 - path: methodologies/product-engineering/templates/product-specification.md
-  digest: sha256:8a206f2ace4fa92770158171923616dcb2915317cc52babe8669ff649c2e0f9f
+  digest: sha256:40d8dfd0dd9a2c8c056b971944115e7ea1085bfc957493323dccaeb6fc28acc2
   bytes: 1111
   class: on-demand
   cache: automatic
   purpose: Create a Product Specification.
 - path: methodologies/product-engineering/templates/technical-specification.md
-  digest: sha256:53cc0b88bf2cd2be38631870ce8ea1839a0412a8ef13c4b1f30dce5d7011ec08
+  digest: sha256:6b60c1840d9fc6ae7b01a27701054fd4cb624a41b1a4cf86bc3f104cd5800e91
   bytes: 1315
   class: on-demand
   cache: automatic
   purpose: Create a Technical Specification.
 - path: methodologies/product-engineering/templates/discovery-record.md
-  digest: sha256:b5cbee6c595abf4b77f2fb139f5fbee19ed551b88457f4747dc3a874c60f1609
+  digest: sha256:8aaa2aa4a2ef2354ec0674aa91ebc124a0a39813d2ced3b144880013365b0aa4
   bytes: 1026
   class: on-demand
   cache: automatic
   purpose: Create a Discovery Record.
 - path: methodologies/product-engineering/templates/decision-record.md
-  digest: sha256:6e84a51adbe54c4ad99f5babd22d8ca06ea28d8b865c26788aea6182cd75d989
+  digest: sha256:900edbd2aaff0d60b12b3d7343ddbf54acaca31028b6871c43f26499ed61a7b1
   bytes: 974
   class: on-demand
   cache: automatic
   purpose: Create a Decision Record.
 - path: methodologies/product-engineering/templates/change-log.md
-  digest: sha256:258cb93054f6dfddfe2636a2ec412ea9a2562137857aa27cd80880be86fce513
+  digest: sha256:9915272a17b9547bc3c02db5915413d500c09a3cc28781c1503aff25fe1de602
   bytes: 896
   class: on-demand
   cache: automatic
   purpose: Create a Change Log.
 - path: methodologies/product-engineering/templates/delivery-baseline.md
-  digest: sha256:0bdd0828b6eb405bf1486749cab1c2358ff487679dd6898b81580cbfe0c3e394
+  digest: sha256:0097ebba58a1b517aa5805969432edaff42c37e13d2d74ce7c5cb34d948ff4c8
   bytes: 1225
   class: on-demand
   cache: automatic
   purpose: Create a Delivery Baseline.
 - path: methodologies/product-engineering/templates/implementation-report.md
-  digest: sha256:341a36af0a33b96dc096a729238d94c39a9961ab5fa6bd23cc56772467acfc15
+  digest: sha256:9ea0cc54c9cde22a6e39193bde00bbb71054b96396894c2eeaed0906abf4bdc3
   bytes: 1082
   class: on-demand
   cache: automatic
   purpose: Create an Implementation Report.
 - path: methodologies/product-engineering/templates/validation-report.md
-  digest: sha256:e4166854f1419057e3daaad259f11850186eaeba685136700530529520aad8fd
+  digest: sha256:b3ded5379c45118ec554daa6ebc0bd92bd3d663276b5ae62cf97604101b49ed9
   bytes: 981
   class: on-demand
   cache: automatic
   purpose: Create a Validation Report.
 - path: methodologies/product-engineering/templates/reconciliation-report.md
-  digest: sha256:76604856d5fc6f4d2cb54fe9698582f761d2b6a6ee414ce28c0a0332103f550b
+  digest: sha256:f6870ebb6af2cd68f24716f15492e1dd6cfda6ffbf70a60b26341a11c95f9353
   bytes: 1071
   class: on-demand
   cache: automatic
@@ -240,8 +240,8 @@ resources:
   cache: never
   purpose: Install or repair a client adapter.
 - path: protocol/common-memory-installation.md
-  digest: sha256:0946778f9a53c9c835194c7a354fae0798aa1b3848af617cc60bfd0497e1252e
-  bytes: 7242
+  digest: sha256:db907097bfee70ffdaaa882d60b11bbd938bce76281cecdb04bc1e7312fd8387
+  bytes: 7656
   class: maintenance
   cache: never
   purpose: Install
@@ -288,8 +288,8 @@ resources:
   cache: never
   purpose: Validate a client receipt.
 - path: schemas/common-memory-installation.schema.json
-  digest: sha256:c9507350740a56f0183988f2496ae3d4c0a911eaf615896cc0e7b8e4f97c9e6e
-  bytes: 3782
+  digest: sha256:cbbba3c2e9086d283df3b161b79b3cbd5a31977604444cc44e334802715cd704
+  bytes: 4418
   class: maintenance
   cache: never
   purpose: Validate common-memory installation state.
@@ -300,20 +300,20 @@ resources:
   cache: never
   purpose: Validate a cross-client handoff.
 - path: schemas/provider-budget.schema.json
-  digest: sha256:fd160cbb0eeb15c70423f41fc689cf15f94a6947ef048c686345128835cd3a0e
-  bytes: 1604
+  digest: sha256:b8a8a190c4f71d4b4754d1919ec6d98738df597d7aea1889273c938c4d8fc5f1
+  bytes: 1695
   class: maintenance
   cache: never
   purpose: Validate provider write limits.
 - path: schemas/write-plan.schema.json
-  digest: sha256:1e010af8e9fdf136ae3f149c226bae0a99666a272cf687aa5ae13df770cf171e
-  bytes: 1684
+  digest: sha256:72f9fd106f46cfa03e5656fe388ee860228bbd39e686d519c0d598387bf98531
+  bytes: 1767
   class: maintenance
   cache: never
   purpose: Validate a common-memory write plan.
 - path: protocol/provider-budgets.yaml
-  digest: sha256:f8daa975e862368ac8bdf3636b1ab458e43d7240a787a312abe132cbd4d473b0
-  bytes: 268
+  digest: sha256:4fa9200abe4b0643bd7b019845affcb8b9569444caa8ae892b841c3ba8b387d7
+  bytes: 299
   class: maintenance
   cache: never
   purpose: Set conservative provider and cache limits.

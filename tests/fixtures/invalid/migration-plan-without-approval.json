@@ -1,6 +1,6 @@
 {
   "id": "example-migration-plan-invalid",
-  "protocol": {"id": "mind-palace", "version": "0.9.1"},
+  "protocol": {"id": "mind-palace", "version": "0.9.2"},
   "state": "reviewed",
   "request": {"scope_mode": "selected", "boundary": "synthetic://example", "requested_sources": ["synthetic://source"]},
   "target": {"method": "product-engineering", "method_version": "0.2.0", "storage_binding": "notion"},

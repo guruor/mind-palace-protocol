@@ -1,7 +1,7 @@
 {
-  "protocol": {"id": "mind-palace", "version": "0.9.1"},
+  "protocol": {"id": "mind-palace", "version": "0.9.2"},
   "package": {
-    "locator": "synthetic://mind-palace-protocol/0.9.1",
+    "locator": "synthetic://mind-palace-protocol/0.9.2",
     "source_version": "synthetic-release-001"
   },
   "client": {"id": "synthetic-client-a", "adapter_version": "0.1.0"},

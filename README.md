@@ -9,11 +9,10 @@ knowledge and user configuration do not belong in this repository.
 
 ## Status
 
-Version `0.9.1` adds deterministic, proof-carrying common-memory payloads. The
-builder embeds the Release Index and Core Bundle byte-for-byte, records their
-digests, and rejects mutation, omission, reordering, or manual normalization
-before activation. Existing Mind Palace content is not migrated, and common
-memory remains on active `v0.7.0`.
+Version `0.9.2` transfers the deterministic common-memory payload through a
+binary file upload, eliminating model-mediated byte copying. Staging verifies
+the uploaded payload digest before activation. Existing Mind Palace content is
+not migrated, and common memory remains on active `v0.7.0`.
 
 ## Start Here
 
@@ -63,7 +62,7 @@ and cannot perform writes.
 
 Resolve one explicitly approved external package with
 `uv run --frozen scripts/extension_resolver.py <reference.json>
---protocol-version 0.9.1`. The reference must use an immutable HTTPS source and
+--protocol-version 0.9.2`. The reference must use an immutable HTTPS source and
 an expected manifest digest.
 
 Use [`docs/live-cross-client-canary.md`](docs/live-cross-client-canary.md) for
