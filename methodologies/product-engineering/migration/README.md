@@ -16,5 +16,11 @@ Knowledge Method.
 6. Run one bounded canary, verify it, and obtain approval for the remaining
    reviewed scope.
 
+AI-assisted conversion may normalize metadata, headings, equivalent formatting,
+and section placement when the reviewed plan classifies semantic impact as none
+or low. Preserve product behavior, technical constraints, uncertainty, accepted
+history, rationale, and baseline scope. Material or uncertain changes require
+explicit acknowledgement in the plan approval.
+
 Preserve stable IDs, provenance, authority, history, relations, and unknown
 extensions. Do not create empty documents merely to match the catalog.

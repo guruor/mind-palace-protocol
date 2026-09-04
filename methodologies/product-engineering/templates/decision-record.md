@@ -1,5 +1,5 @@
 ---
-protocol: {id: mind-palace, version: 0.8.0}
+protocol: {id: mind-palace, version: 0.9.0}
 id: "{{stable-decision-id}}"
 kind: product-engineering/decision-record
 methodology: {id: product-engineering, version: 0.2.0}

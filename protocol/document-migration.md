@@ -33,6 +33,26 @@ For each source, record:
 - unsupported content, information-loss risk, unresolved permissions, and
   relation dependencies.
 
+## AI-Assisted Conversion
+
+AI may transform a source into the target document type when the plan records
+the exact transformation and semantic impact:
+
+- `preserve`: copy content without rewriting meaning;
+- `structural`: add portable metadata, normalize headings, move intact sections,
+  or convert equivalent formatting;
+- `meaning-preserving`: clarify wording or merge clear redundancy while retaining
+  facts, uncertainty, rationale, history, decisions, and scope;
+- `material`: change, remove, infer, or promote meaning;
+- `unknown`: impact cannot be established confidently.
+
+Structural and low-impact meaning-preserving transformations may execute after
+the user approves the exact plan and representative before/after preview.
+Material or unknown impact must be highlighted separately and acknowledged in
+the approval. Never rewrite append-only history, invent missing decisions,
+convert hypotheses into facts, or let technical intent impersonate verified
+implementation truth.
+
 Do not create missing documents for symmetry. Preserve unknown extensions and
 distinguish current intent, implementation truth, evidence, history, and
 configuration.
@@ -47,7 +67,7 @@ Produce a plan conforming to `schemas/migration-plan.schema.json`. It must show:
 4. stable-ID allocation and collision checks;
 5. information-loss, permission, asset, relation, and active-baseline risks;
 6. provider-aware records, bytes, attachments, requests, batches, delays,
-   retries, and rollback cost;
+   retries, reserved request headroom, checkpoint frequency, and rollback cost;
 7. snapshots, rollback order, validation, omissions, and unresolved blockers.
 
 The first plan state is `draft` with approval `pending`. A request such as
@@ -75,6 +95,25 @@ After approval:
 4. persist completed stable IDs so interrupted work resumes without duplication;
 5. keep one write authority and preserve active delivery baselines;
 6. stop on an unapproved ambiguity, permission change, loss, or budget breach.
+
+## Incremental And Rate-Limited Execution
+
+Prefer a slow successful migration to a large fragile run. Default to one
+document per execution batch unless the reviewed provider evidence safely
+supports more.
+
+- reserve request capacity for verification and rollback instead of planning to
+  the provider maximum;
+- checkpoint completed stable IDs after every document by default;
+- on rate limiting, stop new writes, honor `Retry-After` or the configured
+  fallback, persist `paused-rate-limit`, and resume only pending work;
+- cap retry attempts and require a new plan when the provider repeatedly rejects
+  the same operation;
+- do not roll back already validated documents merely because a later batch is
+  paused; roll back only the affected approved scope when required;
+- re-read source and target state after a pause before resuming;
+- allow the user to stop safely between batches without converting that pause
+  into migration failure.
 
 Approval does not authorize access outside the trust boundary, deletion of
 unlisted sources, cleanup of legacy records, or a methodology/configuration

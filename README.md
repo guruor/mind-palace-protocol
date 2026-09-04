@@ -9,11 +9,12 @@ knowledge and user configuration do not belong in this repository.
 
 ## Status
 
-Version `0.8.0` makes user-requested document migration a portable protocol
-workflow. Requests for selected or all authorized documents produce a read-only
-inventory and scope-bound plan before confirmation, writes, validation, or
-rollback. Existing Mind Palace content is not migrated, and common memory
-remains on active `v0.7.0`.
+Version `0.9.0` adds slow, incremental, rate-limit-aware migration and bounded
+AI-assisted conversion to the approval-gated document workflow. Plans reserve
+provider headroom, checkpoint every document, pause and resume safely, and
+distinguish structural or meaning-preserving conversion from material semantic
+change. Existing Mind Palace content is not migrated, and common memory remains
+on active `v0.7.0`.
 
 ## Start Here
 
@@ -63,7 +64,7 @@ and cannot perform writes.
 
 Resolve one explicitly approved external package with
 `uv run --frozen scripts/extension_resolver.py <reference.json>
---protocol-version 0.8.0`. The reference must use an immutable HTTPS source and
+--protocol-version 0.9.0`. The reference must use an immutable HTTPS source and
 an expected manifest digest.
 
 Use [`docs/live-cross-client-canary.md`](docs/live-cross-client-canary.md) for

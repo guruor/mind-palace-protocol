@@ -1,12 +1,12 @@
 protocol:
   id: mind-palace
-  version: 0.8.0
+  version: 0.9.0
 source:
   locator_template: https://github.com/guruor/mind-palace-protocol/blob/{revision}/{path}
   revision_from: release-record
 resources:
 - path: protocol/manifest.yaml
-  digest: sha256:67b5652544548f483d1e688f270aff61878c9d859302b6d9372d2b61ed1363da
+  digest: sha256:6b13d36ba9bef6f1c5d6f38abc214218b379c2d8383e66bbcb68f85924e5bdac
   bytes: 2086
   class: core
   cache: always
@@ -78,14 +78,14 @@ resources:
   cache: automatic
   purpose: Validate an approved external package source.
 - path: protocol/document-migration.md
-  digest: sha256:59cd9d9b01159039d8f20227c1d876403ad5d17ffedea17a2e40d47bdf9f2cfd
-  bytes: 4078
+  digest: sha256:3fe2b12427c24d1462c3ead0b0f6baac937dcbdc9f38bda63caa49d10b673f4f
+  bytes: 6058
   class: on-demand
   cache: automatic
   purpose: Plan and execute an explicitly approved document migration.
 - path: schemas/migration-plan.schema.json
-  digest: sha256:19167cc18f695032f400b03e26e14b8f0a90d32c0f9ca70d4ddd2a484d9839b9
-  bytes: 6177
+  digest: sha256:e98a0d9c93fc0f1e5002a09e412567ee43956f17c2bfdf99af2ee6a68381ebfa
+  bytes: 9001
   class: on-demand
   cache: automatic
   purpose: Validate a document migration plan and approval boundary.
@@ -168,61 +168,61 @@ resources:
   cache: automatic
   purpose: Define the Reconciliation Report document type.
 - path: methodologies/product-engineering/templates/project-hub.md
-  digest: sha256:b2063075beafc8a53f3c8ef0b14ab326908f4b109a9c3a17bac14b561e3708d5
+  digest: sha256:c737c03c08148a73a7d22c3948ffe42315309abdf0623922ac449c658002b7f3
   bytes: 861
   class: on-demand
   cache: automatic
   purpose: Create a Project Hub.
 - path: methodologies/product-engineering/templates/product-specification.md
-  digest: sha256:0764802adfb434bf1d9101038af9ddada68eaf31788cfe6a4ab21834f1d975e0
+  digest: sha256:a726673329a7d464adae28599b1e050100ab2dbbe05f636dfb5956cf058c38b1
   bytes: 1111
   class: on-demand
   cache: automatic
   purpose: Create a Product Specification.
 - path: methodologies/product-engineering/templates/technical-specification.md
-  digest: sha256:b8f37adb6e3da3b57e2990fd689d7678ef92a938c8ad5c8491b7888983c5e688
+  digest: sha256:79962a7103c5a67dac564a599f7e5f5ead4cf91eb88f4fa2d95f42c6914b7b99
   bytes: 1315
   class: on-demand
   cache: automatic
   purpose: Create a Technical Specification.
 - path: methodologies/product-engineering/templates/discovery-record.md
-  digest: sha256:2560fb5f1648cd29ad03488d098974f7c70fd72ca361e29116584e2994eb04bc
+  digest: sha256:0d059b7804c1e94e1d4464f39cf4695f5484c5e4e446b5d4d448730206c33274
   bytes: 1026
   class: on-demand
   cache: automatic
   purpose: Create a Discovery Record.
 - path: methodologies/product-engineering/templates/decision-record.md
-  digest: sha256:abca8466b5ce27d954cfd1f0dcc218d75712c889a7095b025a4ba78595c76c49
+  digest: sha256:221889ae640302a23fd565f333bf2f726bfcd387f79ec5966628147e36df3b54
   bytes: 974
   class: on-demand
   cache: automatic
   purpose: Create a Decision Record.
 - path: methodologies/product-engineering/templates/change-log.md
-  digest: sha256:eee93f6b40dba844099849a94b837c45b30c87f4bbd0466083d61059d05c225e
+  digest: sha256:f6d1cd4221fe827691e9de12ba19f6920967a7eda832b558f4c14b82722c094c
   bytes: 896
   class: on-demand
   cache: automatic
   purpose: Create a Change Log.
 - path: methodologies/product-engineering/templates/delivery-baseline.md
-  digest: sha256:3c2c38ac5b045d7e94b508b892afc54f6a94bc5d7450f38d7d694d059fb1fe04
+  digest: sha256:b9cb209043c4b247036ae5fb94585ea30f55e2d40e438be7710e2b06846db90f
   bytes: 1225
   class: on-demand
   cache: automatic
   purpose: Create a Delivery Baseline.
 - path: methodologies/product-engineering/templates/implementation-report.md
-  digest: sha256:6bc74c2bb75927a509c3d224ca5df6535ac4ce6d3fb90e95fb49db13e9667eb9
+  digest: sha256:49075fdc8d7f521c05ce896d6110f962fddfee377bfe73a2ad436653063ec5d4
   bytes: 1082
   class: on-demand
   cache: automatic
   purpose: Create an Implementation Report.
 - path: methodologies/product-engineering/templates/validation-report.md
-  digest: sha256:1a5788222cb2e3120434c3fc77673939009a8839a48c9c43904dedc4f58c2585
+  digest: sha256:261fd2ee0afaa39e8d6eca43256efaf586ec5ef231e4f9664251bfd830780097
   bytes: 981
   class: on-demand
   cache: automatic
   purpose: Create a Validation Report.
 - path: methodologies/product-engineering/templates/reconciliation-report.md
-  digest: sha256:193770f6206f0fff8111d3eb7311fab4582b5392fe111f0cc47c2bce71ea983f
+  digest: sha256:46e230f90bde90f2df5269c5a816e0904bc1fe37c955ca0d187372b915e9785d
   bytes: 1071
   class: on-demand
   cache: automatic
@@ -324,8 +324,8 @@ resources:
   cache: never
   purpose: Plan a safe user-document migration.
 - path: methodologies/product-engineering/migration/README.md
-  digest: sha256:632767c42d4811f4a993420a84febfba4f7592a576a78c0df8341cbdaeed3a36
-  bytes: 886
+  digest: sha256:a541a09eadc0290e91bc99e86bd53702dad93cbc2caf8a163b58f7b2764c1bcc
+  bytes: 1252
   class: maintenance
   cache: never
   purpose: Plan a Product Engineering method migration.

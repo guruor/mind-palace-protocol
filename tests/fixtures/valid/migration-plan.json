@@ -1,6 +1,6 @@
 {
   "id": "example-migration-plan-001",
-  "protocol": {"id": "mind-palace", "version": "0.8.0"},
+  "protocol": {"id": "mind-palace", "version": "0.9.0"},
   "state": "reviewed",
   "request": {
     "scope_mode": "selected",
@@ -23,7 +23,12 @@
       "target_kind": "product-engineering/product-specification",
       "action": "update",
       "risks": ["Required portable metadata is absent."],
-      "relation_targets": ["example-project-hub"]
+      "relation_targets": ["example-project-hub"],
+      "transformation": {
+        "mode": "structural",
+        "semantic_impact": "none",
+        "summary": "Add portable metadata and normalize equivalent headings."
+      }
     }
   ],
   "checks": {
@@ -43,10 +48,25 @@
     "retry_attempts": 3,
     "rollback_writes": 1
   },
+  "execution_policy": {
+    "mode": "incremental",
+    "max_documents_per_run": 1,
+    "checkpoint_every_documents": 1,
+    "request_headroom": 2,
+    "pause_on_rate_limit": true,
+    "honor_retry_after": true
+  },
+  "progress": {
+    "status": "not-started",
+    "completed_sources": [],
+    "pending_sources": ["source-product-spec"],
+    "failed_sources": []
+  },
   "approval": {
     "required": true,
     "status": "pending",
-    "scope_digest": "sha256:9e4bdcc749b3776b8dae9aa7bb9cf53e2d0ec6364310f66f759b7eb70fcc4fb7"
+    "scope_digest": "sha256:cf014f67d240b4f5fd4491572f277453371b21afa72f90204911d324f111daf0",
+    "material_changes_acknowledged": false
   },
   "rollback": {
     "snapshot_locators": ["synthetic://snapshot/product-spec"],

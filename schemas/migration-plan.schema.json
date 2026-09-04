@@ -12,6 +12,8 @@
     "documents",
     "checks",
     "budget",
+    "execution_policy",
+    "progress",
     "approval",
     "rollback",
     "validation"
@@ -55,7 +57,7 @@
       "minItems": 1,
       "items": {
         "type": "object",
-        "required": ["source_id", "source_locator", "base_revision", "classification", "action", "risks"],
+        "required": ["source_id", "source_locator", "base_revision", "classification", "action", "risks", "transformation"],
         "properties": {
           "source_id": {"type": "string", "minLength": 1},
           "source_locator": {"type": "string", "minLength": 1},
@@ -64,7 +66,25 @@
           "target_kind": {"type": ["string", "null"]},
           "action": {"enum": ["retain", "create", "update", "split", "merge", "skip"]},
           "risks": {"type": "array", "items": {"type": "string", "minLength": 1}},
-          "relation_targets": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true}
+          "relation_targets": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+          "transformation": {
+            "type": "object",
+            "required": ["mode", "semantic_impact", "summary"],
+            "properties": {
+              "mode": {"enum": ["preserve", "structural", "meaning-preserving", "material", "unknown"]},
+              "semantic_impact": {"enum": ["none", "low", "material", "unknown"]},
+              "summary": {"type": "string", "minLength": 1},
+              "preview_locator": {"type": "string", "minLength": 1}
+            },
+            "allOf": [
+              {"if": {"properties": {"mode": {"const": "preserve"}}}, "then": {"properties": {"semantic_impact": {"const": "none"}}}},
+              {"if": {"properties": {"mode": {"const": "structural"}}}, "then": {"properties": {"semantic_impact": {"enum": ["none", "low"]}}}},
+              {"if": {"properties": {"mode": {"const": "meaning-preserving"}}}, "then": {"properties": {"semantic_impact": {"const": "low"}}}},
+              {"if": {"properties": {"mode": {"const": "material"}}}, "then": {"properties": {"semantic_impact": {"const": "material"}}}},
+              {"if": {"properties": {"mode": {"const": "unknown"}}}, "then": {"properties": {"semantic_impact": {"const": "unknown"}}}}
+            ],
+            "additionalProperties": true
+          }
         },
         "additionalProperties": true
       }
@@ -96,13 +116,40 @@
       },
       "additionalProperties": true
     },
+    "execution_policy": {
+      "type": "object",
+      "required": ["mode", "max_documents_per_run", "checkpoint_every_documents", "request_headroom", "pause_on_rate_limit", "honor_retry_after"],
+      "properties": {
+        "mode": {"const": "incremental"},
+        "max_documents_per_run": {"type": "integer", "minimum": 1},
+        "checkpoint_every_documents": {"type": "integer", "minimum": 1},
+        "request_headroom": {"type": "integer", "minimum": 1},
+        "pause_on_rate_limit": {"const": true},
+        "honor_retry_after": {"const": true}
+      },
+      "additionalProperties": true
+    },
+    "progress": {
+      "type": "object",
+      "required": ["status", "completed_sources", "pending_sources", "failed_sources"],
+      "properties": {
+        "status": {"enum": ["not-started", "running", "paused", "paused-rate-limit", "completed", "blocked"]},
+        "completed_sources": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+        "pending_sources": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+        "failed_sources": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+        "last_checkpoint": {"type": "string", "format": "date-time"},
+        "resume_after": {"type": "string", "format": "date-time"}
+      },
+      "additionalProperties": true
+    },
     "approval": {
       "type": "object",
-      "required": ["required", "status", "scope_digest"],
+      "required": ["required", "status", "scope_digest", "material_changes_acknowledged"],
       "properties": {
         "required": {"const": true},
         "status": {"enum": ["pending", "approved", "rejected", "expired"]},
         "scope_digest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+        "material_changes_acknowledged": {"type": "boolean"},
         "approved_by": {"type": "string", "minLength": 1},
         "approved_at": {"type": "string", "format": "date-time"}
       },

@@ -1,5 +1,5 @@
 {
-  "protocol": {"id": "mind-palace", "version": "0.8.0"},
+  "protocol": {"id": "mind-palace", "version": "0.9.0"},
   "methodology": {"id": "product-engineering", "version": "0.2.0"},
   "instance": {"id": "synthetic-instance", "trust_domain": "synthetic"},
   "task": "Continue a migration",
