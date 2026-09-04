@@ -1,12 +1,12 @@
 protocol:
   id: mind-palace
-  version: 0.9.0
+  version: 0.9.1
 source:
   locator_template: https://github.com/guruor/mind-palace-protocol/blob/{revision}/{path}
   revision_from: release-record
 resources:
 - path: protocol/manifest.yaml
-  digest: sha256:6b13d36ba9bef6f1c5d6f38abc214218b379c2d8383e66bbcb68f85924e5bdac
+  digest: sha256:bffec5d109ec35fbacd8d696a111ffaeece24e895e863915ed2cd298ecf2c2c5
   bytes: 2086
   class: core
   cache: always
@@ -168,61 +168,61 @@ resources:
   cache: automatic
   purpose: Define the Reconciliation Report document type.
 - path: methodologies/product-engineering/templates/project-hub.md
-  digest: sha256:c737c03c08148a73a7d22c3948ffe42315309abdf0623922ac449c658002b7f3
+  digest: sha256:ce7ebebf4bf18e2652c0d2d5412b210d3fe53f51d51031d07226c2246c6fb8b7
   bytes: 861
   class: on-demand
   cache: automatic
   purpose: Create a Project Hub.
 - path: methodologies/product-engineering/templates/product-specification.md
-  digest: sha256:a726673329a7d464adae28599b1e050100ab2dbbe05f636dfb5956cf058c38b1
+  digest: sha256:8a206f2ace4fa92770158171923616dcb2915317cc52babe8669ff649c2e0f9f
   bytes: 1111
   class: on-demand
   cache: automatic
   purpose: Create a Product Specification.
 - path: methodologies/product-engineering/templates/technical-specification.md
-  digest: sha256:79962a7103c5a67dac564a599f7e5f5ead4cf91eb88f4fa2d95f42c6914b7b99
+  digest: sha256:53cc0b88bf2cd2be38631870ce8ea1839a0412a8ef13c4b1f30dce5d7011ec08
   bytes: 1315
   class: on-demand
   cache: automatic
   purpose: Create a Technical Specification.
 - path: methodologies/product-engineering/templates/discovery-record.md
-  digest: sha256:0d059b7804c1e94e1d4464f39cf4695f5484c5e4e446b5d4d448730206c33274
+  digest: sha256:b5cbee6c595abf4b77f2fb139f5fbee19ed551b88457f4747dc3a874c60f1609
   bytes: 1026
   class: on-demand
   cache: automatic
   purpose: Create a Discovery Record.
 - path: methodologies/product-engineering/templates/decision-record.md
-  digest: sha256:221889ae640302a23fd565f333bf2f726bfcd387f79ec5966628147e36df3b54
+  digest: sha256:6e84a51adbe54c4ad99f5babd22d8ca06ea28d8b865c26788aea6182cd75d989
   bytes: 974
   class: on-demand
   cache: automatic
   purpose: Create a Decision Record.
 - path: methodologies/product-engineering/templates/change-log.md
-  digest: sha256:f6d1cd4221fe827691e9de12ba19f6920967a7eda832b558f4c14b82722c094c
+  digest: sha256:258cb93054f6dfddfe2636a2ec412ea9a2562137857aa27cd80880be86fce513
   bytes: 896
   class: on-demand
   cache: automatic
   purpose: Create a Change Log.
 - path: methodologies/product-engineering/templates/delivery-baseline.md
-  digest: sha256:b9cb209043c4b247036ae5fb94585ea30f55e2d40e438be7710e2b06846db90f
+  digest: sha256:0bdd0828b6eb405bf1486749cab1c2358ff487679dd6898b81580cbfe0c3e394
   bytes: 1225
   class: on-demand
   cache: automatic
   purpose: Create a Delivery Baseline.
 - path: methodologies/product-engineering/templates/implementation-report.md
-  digest: sha256:49075fdc8d7f521c05ce896d6110f962fddfee377bfe73a2ad436653063ec5d4
+  digest: sha256:341a36af0a33b96dc096a729238d94c39a9961ab5fa6bd23cc56772467acfc15
   bytes: 1082
   class: on-demand
   cache: automatic
   purpose: Create an Implementation Report.
 - path: methodologies/product-engineering/templates/validation-report.md
-  digest: sha256:261fd2ee0afaa39e8d6eca43256efaf586ec5ef231e4f9664251bfd830780097
+  digest: sha256:e4166854f1419057e3daaad259f11850186eaeba685136700530529520aad8fd
   bytes: 981
   class: on-demand
   cache: automatic
   purpose: Create a Validation Report.
 - path: methodologies/product-engineering/templates/reconciliation-report.md
-  digest: sha256:46e230f90bde90f2df5269c5a816e0904bc1fe37c955ca0d187372b915e9785d
+  digest: sha256:76604856d5fc6f4d2cb54fe9698582f761d2b6a6ee414ce28c0a0332103f550b
   bytes: 1071
   class: on-demand
   cache: automatic
@@ -240,8 +240,8 @@ resources:
   cache: never
   purpose: Install or repair a client adapter.
 - path: protocol/common-memory-installation.md
-  digest: sha256:5a598a89f680cdc79e541d05dd63373c099ca6a66fe5b3ba955dfa1f34a99012
-  bytes: 6216
+  digest: sha256:0946778f9a53c9c835194c7a354fae0798aa1b3848af617cc60bfd0497e1252e
+  bytes: 7242
   class: maintenance
   cache: never
   purpose: Install

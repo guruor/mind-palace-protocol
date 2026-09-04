@@ -10,6 +10,8 @@ from typing import Any, Callable
 
 import yaml
 
+from common_memory_payload import build_payload, run_scenario as run_payload_scenario
+
 
 ROOT = Path(__file__).resolve().parents[1]
 INDEX = ROOT / "protocol/release-index.yaml"
@@ -48,9 +50,10 @@ def _finish_plan(plan: dict[str, Any], budget: dict[str, Any]) -> dict[str, Any]
     return plan
 
 
-def stage_plan(index: dict[str, Any], budget: dict[str, Any]) -> dict[str, Any]:
+def stage_plan(index: dict[str, Any], budget: dict[str, Any], source_revision: str) -> dict[str, Any]:
     core = [item for item in index["resources"] if item["class"] == "core"]
-    text_bytes = len(INDEX.read_bytes()) + sum(item["bytes"] for item in core)
+    _, proof = build_payload(source_revision)
+    text_bytes = proof["payload_bytes"]
     version = index["protocol"]["version"]
     plan = {
         "operation": "stage",
@@ -70,6 +73,8 @@ def stage_plan(index: dict[str, Any], budget: dict[str, Any]) -> dict[str, Any]:
                 "action": "create",
                 "bytes": text_bytes,
                 "core_resources": [item["path"] for item in core],
+                "payload_digest": proof["payload_digest"],
+                "release_index_digest": proof["release_index_digest"],
             }
         ],
         "batches": [],
@@ -139,15 +144,19 @@ def execute_plan(
 
 
 def run_scenario() -> None:
+    run_payload_scenario()
     index = load_yaml(INDEX)
     budget = load_yaml(BUDGET)
-    stage = stage_plan(index, budget)
+    stage = stage_plan(index, budget, "synthetic-revision")
     if not stage["allowed"] or stage["summary"]["records"] != 1:
         raise ValueError("compact staging plan is not within budget")
+    write = stage["writes"][0]
+    if not write["payload_digest"].startswith("sha256:") or not write["release_index_digest"].startswith("sha256:"):
+        raise ValueError("compact staging plan lacks payload proof")
 
     denied_budget = json.loads(json.dumps(budget))
     denied_budget["operation"]["max_text_bytes"] = 1
-    denied = stage_plan(index, denied_budget)
+    denied = stage_plan(index, denied_budget, "synthetic-revision")
     calls: list[str] = []
     try:
         execute_plan(denied, lambda item: calls.append(item["id"]))
@@ -203,12 +212,15 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--operation", choices=("stage", "cache"), default="stage")
     parser.add_argument("--resource", help="release-index path for a cache plan")
+    parser.add_argument("--source-revision", help="immutable source revision for a stage plan")
     args = parser.parse_args()
     try:
         index = load_yaml(INDEX)
         budget = load_yaml(BUDGET)
         if args.operation == "stage":
-            plan = stage_plan(index, budget)
+            if not args.source_revision:
+                raise ValueError("--source-revision is required for a stage plan")
+            plan = stage_plan(index, budget, args.source_revision)
         else:
             if not args.resource:
                 raise ValueError("--resource is required for a cache plan")

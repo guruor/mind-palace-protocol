@@ -56,6 +56,12 @@ retry limits, cache impact, and rollback writes. Reuse existing records and
 reject the plan before its first write when any configured provider budget is
 exceeded.
 
+Build a deterministic staging payload directly from the immutable Release Index
+and Core Bundle sources. Bind approval to its source revision, payload digest,
+Release Index digest, ordered resource list, and per-resource bytes and digests.
+Never manually rewrite, reformat, or summarize embedded resources. Generate the
+payload twice and require identical output before presenting the plan.
+
 Writes use bounded batches and persist completed stable IDs. On a rate limit,
 stop new writes, honor the provider retry delay or the configured fallback,
 re-read current state, and resume only missing work. Never move the active
@@ -85,6 +91,12 @@ failure does not block read or proposal work.
 8. Validate `schemas/common-memory-installation.schema.json`, active-pointer
    uniqueness, stable IDs, index and core digests, trust boundary, and
    permissions.
+
+Read the staged record back before activation. Extract the Release Index and
+each ordered Core Bundle code block, compare their exact UTF-8 bytes and digests
+with the immutable package, and verify the payload wrapper and proof. If any
+section is missing, duplicated, reordered, normalized, or changed, mark only the
+candidate blocked and leave the active pointer unchanged.
 
 ## Idempotency
 
@@ -126,4 +138,7 @@ deduplication, and rollback:
 
 ```sh
 uv run --frozen scripts/common_memory_install.py
+uv run --frozen scripts/common_memory_payload.py --source-revision COMMIT --output payload.md
+uv run --frozen scripts/common_memory_payload.py --source-revision COMMIT --verify payload.md
+uv run --frozen scripts/common_memory_plan.py --source-revision COMMIT
 ```

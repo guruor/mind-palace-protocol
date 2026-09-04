@@ -1,5 +1,5 @@
 ---
-protocol: {id: mind-palace, version: 0.9.0}
+protocol: {id: mind-palace, version: 0.9.1}
 id: "{{stable-project-hub-id}}"
 kind: product-engineering/project-hub
 methodology: {id: product-engineering, version: 0.2.0}

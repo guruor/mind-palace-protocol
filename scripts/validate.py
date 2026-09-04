@@ -298,7 +298,7 @@ def validate_write_planning(schemas: dict[str, dict], registry: Registry) -> Non
     if budget_errors:
         raise ValueError(f"provider budget is invalid: {budget_errors[0].message}")
     index = load_plan_yaml(RELEASE_INDEX)
-    plan = stage_plan(index, budget)
+    plan = stage_plan(index, budget, "synthetic-revision")
     plan_errors = list(validator("write-plan.schema.json", schemas, registry).iter_errors(plan))
     if plan_errors:
         raise ValueError(f"write plan is invalid: {plan_errors[0].message}")
