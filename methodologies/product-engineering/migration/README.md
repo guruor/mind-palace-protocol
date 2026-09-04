@@ -1,7 +1,9 @@
 # Product Engineering Migration
 
-Migration is explicit and approval-gated. It never runs as a side effect of
-selecting this Knowledge Method.
+Migration follows the protocol-wide
+[`Document Migration`](../../../protocol/document-migration.md) workflow. It is
+explicit and approval-gated and never runs as a side effect of selecting this
+Knowledge Method.
 
 ## Required Plan
 

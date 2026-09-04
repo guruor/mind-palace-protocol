@@ -101,7 +101,14 @@ The user may answer, request targeted evidence, or request independent review.
 
 ## Migration
 
-Migration is explicit and approval-gated. It requires an inventory, source and
-target methodology versions, field/artifact mapping, information-loss analysis,
-active-baseline impact, recoverable source snapshot, rollback, and validation.
-Never use a migration to silently promote discovery into approved intent.
+When a user asks to migrate selected or all documents, follow
+[`document-migration.md`](document-migration.md). The request authorizes a
+read-only inventory and reviewed plan, not immediate writes. Resolve `all` only
+inside the explicitly authorized trust boundary, report dependency reads and
+exclusions, and ask for confirmation tied to the exact scope digest and source
+revisions.
+
+Migration is explicit and approval-gated. It requires source-to-target mapping,
+information-loss analysis, active-baseline impact, provider budget, recoverable
+snapshots, rollback, and validation. Re-plan on material drift. Never use a
+migration to silently promote discovery into approved intent.

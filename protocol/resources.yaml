@@ -15,6 +15,8 @@ resources:
   - {path: schemas/storage-binding.schema.json, class: on-demand, cache: automatic, purpose: Validate a Storage Binding package.}
   - {path: schemas/instance-config.schema.json, class: on-demand, cache: automatic, purpose: Validate instance method and binding selection.}
   - {path: schemas/extension-source.schema.json, class: on-demand, cache: automatic, purpose: Validate an approved external package source.}
+  - {path: protocol/document-migration.md, class: on-demand, cache: automatic, purpose: Plan and execute an explicitly approved document migration.}
+  - {path: schemas/migration-plan.schema.json, class: on-demand, cache: automatic, purpose: Validate a document migration plan and approval boundary.}
   - {path: protocol/conflict-template.md, class: on-demand, cache: automatic, purpose: Preserve a proposal when source state changed.}
   - {path: bindings/markdown-git.md, class: on-demand, cache: automatic, purpose: Map portable documents to Markdown and Git.}
   - {path: bindings/notion.md, class: on-demand, cache: automatic, purpose: Explain detailed Notion representation and limits.}

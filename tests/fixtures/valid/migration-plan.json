@@ -1,0 +1,59 @@
+{
+  "id": "example-migration-plan-001",
+  "protocol": {"id": "mind-palace", "version": "0.8.0"},
+  "state": "reviewed",
+  "request": {
+    "scope_mode": "selected",
+    "boundary": "synthetic://mind-palace/example",
+    "requested_sources": ["synthetic://source/product-spec"],
+    "dependency_reads": ["synthetic://source/project-hub"],
+    "exclusions": ["synthetic://source/private-notes"]
+  },
+  "target": {
+    "method": "product-engineering",
+    "method_version": "0.2.0",
+    "storage_binding": "notion"
+  },
+  "documents": [
+    {
+      "source_id": "source-product-spec",
+      "source_locator": "synthetic://source/product-spec",
+      "base_revision": "revision-001",
+      "classification": "partial",
+      "target_kind": "product-engineering/product-specification",
+      "action": "update",
+      "risks": ["Required portable metadata is absent."],
+      "relation_targets": ["example-project-hub"]
+    }
+  ],
+  "checks": {
+    "client": [{"id": "active-release", "status": "passed", "evidence": "Synthetic active release."}],
+    "corpus": [{"id": "stable-id-collision", "status": "passed", "evidence": "No collision."}],
+    "execution": [{"id": "pre-write-reread", "status": "passed", "evidence": "Required by plan."}],
+    "validation": [{"id": "source-target-count", "status": "passed", "evidence": "One mapped source."}]
+  },
+  "budget": {
+    "allowed": true,
+    "records": 1,
+    "text_bytes": 1024,
+    "attachments": 0,
+    "requests": 3,
+    "batch_size": 1,
+    "delay_seconds": 1,
+    "retry_attempts": 3,
+    "rollback_writes": 1
+  },
+  "approval": {
+    "required": true,
+    "status": "pending",
+    "scope_digest": "sha256:9e4bdcc749b3776b8dae9aa7bb9cf53e2d0ec6364310f66f759b7eb70fcc4fb7"
+  },
+  "rollback": {
+    "snapshot_locators": ["synthetic://snapshot/product-spec"],
+    "steps": ["Restore the source body and metadata from the reviewed snapshot."]
+  },
+  "validation": {
+    "checks": ["Compare stable ID, body, relations, authority, and trust domain."],
+    "omissions": ["Comments are retained in the source provider."]
+  }
+}

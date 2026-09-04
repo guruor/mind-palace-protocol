@@ -1,5 +1,5 @@
 ---
-protocol: {id: mind-palace, version: 0.7.0}
+protocol: {id: mind-palace, version: 0.8.0}
 id: "{{stable-research-id}}"
 kind: example-research/research-note
 methodology: {id: example-research, version: 0.1.0}

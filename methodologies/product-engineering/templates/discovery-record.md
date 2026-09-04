@@ -1,5 +1,5 @@
 ---
-protocol: {id: mind-palace, version: 0.7.0}
+protocol: {id: mind-palace, version: 0.8.0}
 id: "{{stable-discovery-id}}"
 kind: product-engineering/discovery-record
 methodology: {id: product-engineering, version: 0.2.0}

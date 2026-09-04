@@ -1,7 +1,7 @@
 ---
 protocol:
   id: mind-palace
-  version: 0.7.0
+  version: 0.8.0
 id: example-project-product-spec
 kind: product-engineering/product-specification
 methodology:

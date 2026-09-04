@@ -22,6 +22,7 @@ from common_memory_plan import stage_plan
 from digest import canonical_digest
 from e2e_cross_client import run_scenario
 from extension_resolver import run_scenario as run_extension_scenario
+from migration_plan import run_scenario as run_migration_plan_scenario
 from validate_installation import installation_errors, load_manifest
 
 
@@ -87,6 +88,7 @@ def validate_fixtures(schemas: dict[str, dict], registry: Registry) -> None:
     storage_binding = validator("storage-binding.schema.json", schemas, registry)
     instance_config = validator("instance-config.schema.json", schemas, registry)
     extension_source = validator("extension-source.schema.json", schemas, registry)
+    migration_plan = validator("migration-plan.schema.json", schemas, registry)
 
     for path in sorted((ROOT / "tests/fixtures/valid").glob("*.json")):
         if "document-type" in path.name:
@@ -99,6 +101,8 @@ def validate_fixtures(schemas: dict[str, dict], registry: Registry) -> None:
             selected = instance_config
         elif "extension-source" in path.name:
             selected = extension_source
+        elif "migration-plan" in path.name:
+            selected = migration_plan
         elif "common-memory-installation" in path.name:
             selected = common_memory
         elif "client-handoff" in path.name:
@@ -124,6 +128,8 @@ def validate_fixtures(schemas: dict[str, dict], registry: Registry) -> None:
             selected = instance_config
         elif "extension-source" in path.name:
             selected = extension_source
+        elif "migration-plan" in path.name:
+            selected = migration_plan
         elif "common-memory-installation" in path.name:
             selected = common_memory
         elif "client-handoff" in path.name:
@@ -197,6 +203,8 @@ def validate_manifest() -> None:
         "provider_budget_schema",
         "write_plan_schema",
         "extension_source_schema",
+        "document_migration_guide",
+        "migration_plan_schema",
     )
     for field in path_fields:
         path = ROOT / manifest[field]
@@ -439,6 +447,7 @@ def main() -> int:
         validate_builtin_method(schemas, registry)
         validate_release_index(schemas, registry)
         validate_write_planning(schemas, registry)
+        run_migration_plan_scenario()
         validate_example_extensions(schemas, registry)
         validate_agent_skill()
         validate_hosted_chat_adapter()

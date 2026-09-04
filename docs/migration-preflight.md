@@ -1,6 +1,9 @@
-# Migration Preflight
+# Migration Preflight Validation Profile
 
-Run this read-only process before any product migration.
+The canonical user-facing workflow is
+[`protocol/document-migration.md`](../protocol/document-migration.md). This
+document defines the additional evidence required before maintainers claim that
+a storage/client combination is ready for real migration.
 
 ## Client Gate
 
@@ -20,13 +23,11 @@ Run this read-only process before any product migration.
 
 ## Corpus Gate
 
-- inventory artifacts, properties, hierarchy, relations, links, discussions,
-  permissions, icons/covers, embeds, and assets;
-- allocate stable IDs and check collisions across the instance;
-- classify authority, trust domain, lifecycle, target kind, and canonical source;
-- identify unsupported or lossy content before mutation;
-- snapshot recoverable content plus storage-only metadata;
-- produce source-to-target mapping, rollback, omission report, and canary scope.
+- validate that the generated migration plan contains the complete inventory,
+  mapping, risks, snapshots, omissions, provider budget, and approval boundary;
+- verify `selected` and `all-authorized` scopes do not cross trust domains;
+- verify dependency reads are not silently promoted into write scope;
+- verify stable-ID collisions and unsupported content block execution.
 
 ## Execution Gate
 
@@ -35,7 +36,8 @@ Run this read-only process before any product migration.
 - re-read source identity immediately before every write;
 - skip stale artifacts and emit non-canonical conflicts;
 - preserve one write authority and serialize writes per artifact;
-- require one bounded approval for the reviewed write plan, then continue
+- require one bounded approval tied to the plan scope digest and base revisions,
+  then continue
   automatically unless a new ambiguity, permission change, loss, or conflict
   exceeds that scope.
 

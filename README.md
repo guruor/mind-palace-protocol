@@ -9,11 +9,11 @@ knowledge and user configuration do not belong in this repository.
 
 ## Status
 
-Version `0.7.0` adds safe resolution of approved declarative Knowledge Methods
-and Storage Bindings from immutable external sources. Identity, version,
-revision, digest, compatibility, dependencies, capabilities, and document-type
-ownership are checked before use. Existing Mind Palace content is not migrated,
-and common memory remains on active `v0.1.0`.
+Version `0.8.0` makes user-requested document migration a portable protocol
+workflow. Requests for selected or all authorized documents produce a read-only
+inventory and scope-bound plan before confirmation, writes, validation, or
+rollback. Existing Mind Palace content is not migrated, and common memory
+remains on active `v0.7.0`.
 
 ## Start Here
 
@@ -30,6 +30,8 @@ and common memory remains on active `v0.1.0`.
 7. Read the applicable storage and client adapters under [`bindings/`](bindings/).
 8. Run `uv run --frozen scripts/validate.py` before proposing a release or
    migration.
+9. Use [`protocol/document-migration.md`](protocol/document-migration.md) for a
+   selected or all-authorized document migration.
 
 Use [`docs/extension-authoring.md`](docs/extension-authoring.md) to understand
 the declarative method and binding contracts.
@@ -61,7 +63,7 @@ and cannot perform writes.
 
 Resolve one explicitly approved external package with
 `uv run --frozen scripts/extension_resolver.py <reference.json>
---protocol-version 0.7.0`. The reference must use an immutable HTTPS source and
+--protocol-version 0.8.0`. The reference must use an immutable HTTPS source and
 an expected manifest digest.
 
 Use [`docs/live-cross-client-canary.md`](docs/live-cross-client-canary.md) for
