@@ -9,10 +9,11 @@ knowledge and user configuration do not belong in this repository.
 
 ## Status
 
-Version `0.1.2` is an experimental implementation of the approved architecture.
-It defines the general guide, portable artifact envelope, the first
-`product-engineering` methodology, binding contracts, examples, and
-deterministic validation. Existing Mind Palace content is not yet migrated.
+Version `0.2.0` records the architecture baseline for an AI-first shared
+knowledge system. The protocol defines document types rather than tracking
+individual user documents. Knowledge Methods and Storage Bindings are the
+declarative extension points. Existing Mind Palace content is not yet migrated,
+and common memory remains on the active `v0.1.0` installation.
 
 ## Start Here
 
@@ -54,8 +55,8 @@ and rollback stages.
 
 - `protocol/`: generic client behavior and protocol release metadata.
 - `schemas/`: portable JSON Schema contracts.
-- `methodologies/`: domain-specific lifecycle, artifact, and template rules.
-- `bindings/`: storage representation and capability contracts.
+- `methodologies/`: built-in Knowledge Methods and document-type rules.
+- `bindings/`: built-in Storage Bindings and client capability contracts.
 - `examples/`: non-sensitive representative portable artifacts.
 - `tests/fixtures/`: deterministic valid and invalid schema cases.
 - `tests/conformance/`: executable client and compatibility case definitions.
