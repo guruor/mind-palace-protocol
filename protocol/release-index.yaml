@@ -1,0 +1,295 @@
+protocol:
+  id: mind-palace
+  version: 0.5.0
+source:
+  locator_template: https://github.com/guruor/mind-palace-protocol/blob/{revision}/{path}
+  revision_from: release-record
+resources:
+- path: protocol/manifest.yaml
+  digest: sha256:102b7a4a9f51c82e109cae780828ed0889785daea1605f0408c295a24d1ae4f8
+  bytes: 1751
+  class: core
+  cache: always
+  purpose: Identify the active protocol and built-in packages.
+- path: protocol/general-guide.md
+  digest: sha256:d590ca2b67fef7be2d4daf01e36b6756dd15323772fedb9832cd571a6f5a4cbf
+  bytes: 4741
+  class: core
+  cache: always
+  purpose: Define shared collaboration and safety behavior.
+- path: schemas/artifact.schema.json
+  digest: sha256:a52da642003aba42f274ff4f3f80db323bd2c43ef7e327718f6d8382b1688d4a
+  bytes: 2465
+  class: core
+  cache: always
+  purpose: Define the portable document metadata envelope.
+- path: methodologies/product-engineering/method.yaml
+  digest: sha256:0558a06ef1cc69fbf5b54e8ad3f3cdb5ba9b025c56df372d2b508a66e902f33f
+  bytes: 1257
+  class: core
+  cache: always
+  purpose: Identify the active built-in Knowledge Method.
+- path: methodologies/product-engineering/README.md
+  digest: sha256:e368cf471827fbf5beb17b6d579d36c37362d409463cf4f033becb062a25b3e6
+  bytes: 4922
+  class: core
+  cache: always
+  purpose: Define behavior across Product Engineering document types.
+- path: bindings/notion-runtime.md
+  digest: sha256:027f67af01fe3f61fbbf14ea092ac90a7815ab93d35645f854642d989d2d7fea
+  bytes: 1334
+  class: core
+  cache: always
+  purpose: Map normal runtime operations to Notion safely.
+- path: schemas/document-type.schema.json
+  digest: sha256:29f630a39ddbb8fd4c7834f61a3b76383c47ca7670fef0aa4bb2fed73fedab50
+  bytes: 5056
+  class: on-demand
+  cache: automatic
+  purpose: Validate a document-type contract.
+- path: schemas/product-engineering.schema.json
+  digest: sha256:cbded014a948a4c1ce975ee44b96c145f32416d4d7e1e48ae53feb74c20a0ae6
+  bytes: 1272
+  class: on-demand
+  cache: automatic
+  purpose: Validate Product Engineering document metadata.
+- path: schemas/knowledge-method.schema.json
+  digest: sha256:b42c2132941b1da1ac96ac00ec599e7cba171bd491e7a54540c94fab3ad7097d
+  bytes: 841
+  class: on-demand
+  cache: automatic
+  purpose: Validate a Knowledge Method package.
+- path: schemas/storage-binding.schema.json
+  digest: sha256:a8f274a8f9c8e6e338708d5119f56e47013d0028630a99f5727c2996e524719e
+  bytes: 1007
+  class: on-demand
+  cache: automatic
+  purpose: Validate a Storage Binding package.
+- path: schemas/instance-config.schema.json
+  digest: sha256:8df660dc80b5e5c70f808aa9bf9ff583833567fc56f12f51712a2f77e156db40
+  bytes: 1337
+  class: on-demand
+  cache: automatic
+  purpose: Validate instance method and binding selection.
+- path: protocol/conflict-template.md
+  digest: sha256:08ad398e81745927baa0709df34aa96076feeb5ea584491f3ab0164b16b2e33f
+  bytes: 844
+  class: on-demand
+  cache: automatic
+  purpose: Preserve a proposal when source state changed.
+- path: bindings/markdown-git.md
+  digest: sha256:db74133eb209af9993b6fc3943f5e0c0beef503c82e4f04a3edada774155c7f7
+  bytes: 1435
+  class: on-demand
+  cache: automatic
+  purpose: Map portable documents to Markdown and Git.
+- path: bindings/notion.md
+  digest: sha256:ff284ad3af94b93b58783811ae4738e5b3e20d9d2ea7b20a7d2f0957d4834d16
+  bytes: 5229
+  class: on-demand
+  cache: automatic
+  purpose: Explain detailed Notion representation and limits.
+- path: methodologies/product-engineering/document-types/project-hub.yaml
+  digest: sha256:68f38fdbb92efaa3b7c144e4d2c0892618a9b439d123a38b7cd625a88dbab8dd
+  bytes: 1788
+  class: on-demand
+  cache: automatic
+  purpose: Define the Project Hub document type.
+- path: methodologies/product-engineering/document-types/product-specification.yaml
+  digest: sha256:b0ceb7b30f329010a7efac638ccaf82a7cd1a1deffa882946c017b6a427bbe5e
+  bytes: 1954
+  class: on-demand
+  cache: automatic
+  purpose: Define the Product Specification document type.
+- path: methodologies/product-engineering/document-types/technical-specification.yaml
+  digest: sha256:54c295994112daee25bd518da07d2524de5fdb5dd97a237254b530af12089a2b
+  bytes: 2062
+  class: on-demand
+  cache: automatic
+  purpose: Define the Technical Specification document type.
+- path: methodologies/product-engineering/document-types/discovery-record.yaml
+  digest: sha256:7735cb338f18a50552fff18043f33c6293806159fcbd77113c0c06b56451c53f
+  bytes: 1888
+  class: on-demand
+  cache: automatic
+  purpose: Define the Discovery Record document type.
+- path: methodologies/product-engineering/document-types/decision-record.yaml
+  digest: sha256:c21c86e4905251099f80b4fc80a959bac2362644027038152fe483c463081fef
+  bytes: 2051
+  class: on-demand
+  cache: automatic
+  purpose: Define the Decision Record document type.
+- path: methodologies/product-engineering/document-types/change-log.yaml
+  digest: sha256:682d3e621d67686173b73ac814140f543ecc18ea41f6e1d747ad1c5829252f36
+  bytes: 1669
+  class: on-demand
+  cache: automatic
+  purpose: Define the Change Log document type.
+- path: methodologies/product-engineering/document-types/delivery-baseline.yaml
+  digest: sha256:d9466284a15a930e2cb234c307fcd33accfc8343933337a3856cf2598ecded37
+  bytes: 1905
+  class: on-demand
+  cache: automatic
+  purpose: Define the Delivery Baseline document type.
+- path: methodologies/product-engineering/document-types/implementation-report.yaml
+  digest: sha256:460d1b9ec148c8b89bddbda0b1e4da3bebea59cc2f3a3df20faa576e6b58bd0e
+  bytes: 1673
+  class: on-demand
+  cache: automatic
+  purpose: Define the Implementation Report document type.
+- path: methodologies/product-engineering/document-types/validation-report.yaml
+  digest: sha256:ff1454086d96f17bc88ea7834707ca1f77ad0a5b6a43ba1e89db575e1fe160f2
+  bytes: 1740
+  class: on-demand
+  cache: automatic
+  purpose: Define the Validation Report document type.
+- path: methodologies/product-engineering/document-types/reconciliation-report.yaml
+  digest: sha256:fc670b3f45d85ee381501eb8854dd8bea2cd27be29ad35f6918743195c3f1931
+  bytes: 1860
+  class: on-demand
+  cache: automatic
+  purpose: Define the Reconciliation Report document type.
+- path: methodologies/product-engineering/templates/project-hub.md
+  digest: sha256:f69aea58303eb209f7fccee5f8f601320e22c1bd0978080d8deda75fe24359f4
+  bytes: 861
+  class: on-demand
+  cache: automatic
+  purpose: Create a Project Hub.
+- path: methodologies/product-engineering/templates/product-specification.md
+  digest: sha256:8b88837ee1733708b26f3623b229927731ded9bc26aa685ffeed03f856adae54
+  bytes: 1111
+  class: on-demand
+  cache: automatic
+  purpose: Create a Product Specification.
+- path: methodologies/product-engineering/templates/technical-specification.md
+  digest: sha256:39ee594559cfb9ec257bc20509799b41ffcf84deef33877fbfd37cf8b9d7e3b1
+  bytes: 1315
+  class: on-demand
+  cache: automatic
+  purpose: Create a Technical Specification.
+- path: methodologies/product-engineering/templates/discovery-record.md
+  digest: sha256:cb7fd9e124499af8c491b43bcc472f2ecdaed728c2cb6066c987600e9fb1d5b5
+  bytes: 1026
+  class: on-demand
+  cache: automatic
+  purpose: Create a Discovery Record.
+- path: methodologies/product-engineering/templates/decision-record.md
+  digest: sha256:692ec1c62a1d4d12bf972192518e4e62d1370fdcc2235f6add986138aca1fb3f
+  bytes: 974
+  class: on-demand
+  cache: automatic
+  purpose: Create a Decision Record.
+- path: methodologies/product-engineering/templates/change-log.md
+  digest: sha256:546fedddf84a74d273de438e44e7a34499690596c0378133e93673bd9db28ad4
+  bytes: 896
+  class: on-demand
+  cache: automatic
+  purpose: Create a Change Log.
+- path: methodologies/product-engineering/templates/delivery-baseline.md
+  digest: sha256:4c9372de40be31ed7bfa4495c08bbcc505bd6f444c63794d80a7f719d940385a
+  bytes: 1225
+  class: on-demand
+  cache: automatic
+  purpose: Create a Delivery Baseline.
+- path: methodologies/product-engineering/templates/implementation-report.md
+  digest: sha256:45c041d5badb73bfee8909a0058979bebf5dfb75bff2a052993a438920a940bb
+  bytes: 1082
+  class: on-demand
+  cache: automatic
+  purpose: Create an Implementation Report.
+- path: methodologies/product-engineering/templates/validation-report.md
+  digest: sha256:194caebbf424aa61657e6c0f53d258bff4f47a4fc96e0b38e368a58145fec8d6
+  bytes: 981
+  class: on-demand
+  cache: automatic
+  purpose: Create a Validation Report.
+- path: methodologies/product-engineering/templates/reconciliation-report.md
+  digest: sha256:5fe1fe95a76922479b3733028f740204e2cfd966015dc8e06221b0f73ab66049
+  bytes: 1071
+  class: on-demand
+  cache: automatic
+  purpose: Create a Reconciliation Report.
+- path: INSTALL.md
+  digest: sha256:44a1bd0b1d4f8cdc6dac006e832b7b2d5ec26c1debfcf0069efbf83553bb2d0e
+  bytes: 9290
+  class: maintenance
+  cache: never
+  purpose: Install or validate the protocol and client setup.
+- path: protocol/client-installation.md
+  digest: sha256:f8d58768ce82fb11d5777ab8422a298c2306eaca01af3013b373659b3d06485f
+  bytes: 7352
+  class: maintenance
+  cache: never
+  purpose: Install or repair a client adapter.
+- path: protocol/common-memory-installation.md
+  digest: sha256:fe8e225a419c57daa9dc6d329a4125c8621cb91c8f0031c3add19fd3a3ab977f
+  bytes: 5527
+  class: maintenance
+  cache: never
+  purpose: Install
+- path: bindings/client-adapter.md
+  digest: sha256:7c6a7bc08a9377d42c815d369dd2d07f85f21c1bb9c15164f2e075d7f44abbd9
+  bytes: 2261
+  class: maintenance
+  cache: never
+  purpose: Implement or validate a client adapter.
+- path: bindings/clients/hosted-chat.md
+  digest: sha256:6ac21889b9de4a82febf93b75f6d956d716193e808ce86ab33938a104a6da421
+  bytes: 3814
+  class: maintenance
+  cache: never
+  purpose: Configure a hosted chat client.
+- path: bindings/clients/opencode.md
+  digest: sha256:1f6a5a877112c625da26a8d04c2d727503e647474738eb54f1812f1a17393bb9
+  bytes: 2382
+  class: maintenance
+  cache: never
+  purpose: Configure OpenCode.
+- path: bindings/clients/chatgpt.md
+  digest: sha256:c4fd3dec7a6937e76178c17215084d3371dabefc3bb0ab83c3b973d9ffcbf64b
+  bytes: 2321
+  class: maintenance
+  cache: never
+  purpose: Configure ChatGPT.
+- path: bindings/clients/claude.md
+  digest: sha256:bd09e750e546e26816ecda8f6e751f204c7ea5c64b91e8c6f566ae2d6a5e4312
+  bytes: 2302
+  class: maintenance
+  cache: never
+  purpose: Configure Claude.
+- path: bindings/clients/agent-skill/mind-palace/SKILL.md
+  digest: sha256:ebae56d22e069f024c2fb27a48772e206bff43c1f24f6c178d51b294e05da47f
+  bytes: 1918
+  class: maintenance
+  cache: never
+  purpose: Configure an Agent Skills client.
+- path: schemas/client-installation.schema.json
+  digest: sha256:c3bfacdd2c62a22c600e0dc99821c2d392c1d930fdb7844de73df4ae8e7931c9
+  bytes: 4313
+  class: maintenance
+  cache: never
+  purpose: Validate a client receipt.
+- path: schemas/common-memory-installation.schema.json
+  digest: sha256:c9507350740a56f0183988f2496ae3d4c0a911eaf615896cc0e7b8e4f97c9e6e
+  bytes: 3782
+  class: maintenance
+  cache: never
+  purpose: Validate common-memory installation state.
+- path: schemas/client-handoff.schema.json
+  digest: sha256:0ee6665feb080ec63cb9490ef78ac73d0d4b6ae27a89e9e0a5e4c0b1752b8d41
+  bytes: 2429
+  class: maintenance
+  cache: never
+  purpose: Validate a cross-client handoff.
+- path: docs/migration-preflight.md
+  digest: sha256:c8cf2ce34266d5bbfed123603023dd7afd979404cb11a6a5ce22a8406e3c58bd
+  bytes: 3020
+  class: maintenance
+  cache: never
+  purpose: Plan a safe user-document migration.
+- path: methodologies/product-engineering/migration/README.md
+  digest: sha256:7c92f5eda32c8c9de8d0efc59d70e05ed221594b1e53eece371a5854d57e7aee
+  bytes: 783
+  class: maintenance
+  cache: never
+  purpose: Plan a Product Engineering method migration.

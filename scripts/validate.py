@@ -13,6 +13,8 @@ from jsonschema import Draft202012Validator
 from referencing import Registry, Resource
 
 from client_adapter_config import run_scenario as run_client_adapter_scenario
+from build_release_index import OUTPUT as RELEASE_INDEX
+from build_release_index import render as render_release_index
 from common_memory_install import run_scenario as run_common_memory_install_scenario
 from digest import canonical_digest
 from e2e_cross_client import run_scenario
@@ -177,6 +179,9 @@ def validate_manifest() -> None:
         "knowledge_method_schema",
         "storage_binding_schema",
         "instance_config_schema",
+        "release_index",
+        "release_index_schema",
+        "resource_catalog",
     )
     for field in path_fields:
         path = ROOT / manifest[field]
@@ -236,6 +241,32 @@ def validate_builtin_method(schemas: dict[str, dict], registry: Registry) -> Non
         found.add(contract["id"])
     if found != expected:
         raise ValueError(f"product-engineering document catalog mismatch: expected {sorted(expected)}, found {sorted(found)}")
+
+
+def validate_release_index(schemas: dict[str, dict], registry: Registry) -> None:
+    if RELEASE_INDEX.read_text(encoding="utf-8") != render_release_index():
+        raise ValueError("protocol/release-index.yaml is stale")
+    index = yaml.safe_load(RELEASE_INDEX.read_text(encoding="utf-8"))
+    errors = list(validator("release-index.schema.json", schemas, registry).iter_errors(index))
+    if errors:
+        raise ValueError(f"release index is invalid: {errors[0].message}")
+    paths = [item["path"] for item in index["resources"]]
+    if len(paths) != len(set(paths)):
+        raise ValueError("release index contains duplicate paths")
+    required_core = {
+        "protocol/manifest.yaml",
+        "protocol/general-guide.md",
+        "schemas/artifact.schema.json",
+        "methodologies/product-engineering/method.yaml",
+        "methodologies/product-engineering/README.md",
+        "bindings/notion-runtime.md",
+    }
+    actual_core = {item["path"] for item in index["resources"] if item["class"] == "core"}
+    if actual_core != required_core:
+        raise ValueError(f"release index core bundle mismatch: {sorted(actual_core)}")
+    forbidden = ("scripts/", "tests/", ".github/")
+    if any(path.startswith(forbidden) for path in paths):
+        raise ValueError("release index includes a development resource")
 
 
 def validate_agent_skill() -> None:
@@ -345,6 +376,7 @@ def main() -> int:
         validate_markdown_links()
         validate_manifest()
         validate_builtin_method(schemas, registry)
+        validate_release_index(schemas, registry)
         validate_agent_skill()
         validate_hosted_chat_adapter()
         validate_privacy()

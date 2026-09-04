@@ -6,7 +6,7 @@ cases:
     migration_ready: true
     expected: pass
   - name: same-version-no-op
-    previous: {state: same, version: 0.4.0, source_version: synthetic-release-001, resolution: not-needed}
+    previous: {state: same, version: 0.5.0, source_version: synthetic-release-001, resolution: not-needed}
     access_mode: update
     checks: all-pass
     migration_ready: true
@@ -30,7 +30,7 @@ cases:
     migration_ready: true
     expected_error: invalid for prior state
   - name: same-version-repacked
-    previous: {state: same, version: 0.4.0, source_version: different-release, resolution: not-needed}
+    previous: {state: same, version: 0.5.0, source_version: different-release, resolution: not-needed}
     access_mode: update
     checks: all-pass
     migration_ready: true

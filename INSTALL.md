@@ -60,11 +60,11 @@ Search authorized common memory for exact stable ID
 
 If an installation exists:
 
-- verify its active version, commit identity, component digests, legacy
-  references, trust domain, and effective write authority;
+- verify its active version, commit identity, Release Index and Core Bundle
+  digests, legacy references, trust domain, and effective write authority;
 - fetch the manifest and adapter from its recorded immutable package, not from
   the repository's default branch;
-- perform an exact no-op or repair only missing generated components; and
+- perform an exact no-op or repair only missing core resources; and
 - do not consult the latest release unless the user asks for an upgrade.
 
 If no installation exists:
@@ -78,7 +78,8 @@ If no installation exists:
   [`protocol/common-memory-installation.md`](protocol/common-memory-installation.md).
 
 Repository branches, release pages, and tags are discovery pointers. The exact
-commit and component digests are installation evidence. Never overwrite a
+commit, Release Index, and core resource digests are installation evidence.
+Never overwrite a
 same-version identity conflict, downgrade automatically, replace legacy
 guidance, or infer private-knowledge authority from protocol access.
 
@@ -215,7 +216,7 @@ uv run --frozen scripts/e2e_cross_client.py
 ## Upgrade, Repair, Or Add A Client
 
 Explicitly ask to install, update, repair, roll back, or add a client. Exact same
-release is a no-op; missing generated projections are repaired;
+release is a no-op; missing core resources are repaired;
 same-version/different-package is a conflict; newer releases stage before
 activation; older releases require explicit rollback/downgrade approval. A
 protocol update never edits existing client adapters. A new client adds its

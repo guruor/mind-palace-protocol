@@ -14,6 +14,11 @@ from jsonschema import Draft202012Validator
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def release_resources(release: dict[str, Any]) -> list[dict[str, Any]]:
+    """Return legacy components or the compact core bundle."""
+    return release.get("core_bundle", release.get("components", []))
+
+
 def installation_errors(state: dict[str, Any]) -> list[str]:
     schema_path = ROOT / "schemas/common-memory-installation.schema.json"
     schema = json.loads(schema_path.read_text(encoding="utf-8"))
@@ -33,9 +38,9 @@ def installation_errors(state: dict[str, Any]) -> list[str]:
         if len(active) != 1 or active[0]["id"] != state["active_release"]:
             errors.append("active release pointer must identify the only active release")
     for release in state["releases"]:
-        paths = [item["path"] for item in release["components"]]
+        paths = [item["path"] for item in release_resources(release)]
         if len(paths) != len(set(paths)):
-            errors.append(f"release contains duplicate component paths: {release['id']}")
+            errors.append(f"release contains duplicate runtime resource paths: {release['id']}")
     clients = [item["client_id"] for item in state["client_receipts"]]
     if len(clients) != len(set(clients)):
         errors.append("client receipt IDs must be unique")
@@ -60,10 +65,12 @@ def install_release(
     if same_identity:
         if same_identity["protocol"]["version"] != candidate["protocol"]["version"]:
             return "conflict", result
-        existing = {item["path"]: item for item in same_identity["components"]}
-        for component in candidate["components"]:
-            current = existing.get(component["path"])
-            if current and current["digest"] != component["digest"]:
+        if same_identity.get("release_index") != candidate.get("release_index"):
+            return "conflict", result
+        existing = {item["path"]: item for item in release_resources(same_identity)}
+        for resource in release_resources(candidate):
+            current = existing.get(resource["path"])
+            if current and current["digest"] != resource["digest"]:
                 return "conflict", result
         active = next(
             (item for item in result["releases"] if item["id"] == result["active_release"]),
@@ -77,9 +84,10 @@ def install_release(
                     return "blocked", result
                 _activate(result, same_identity["id"])
                 return "rolled-back", result
-        missing = [item for item in candidate["components"] if item["path"] not in existing]
+        missing = [item for item in release_resources(candidate) if item["path"] not in existing]
         if missing:
-            same_identity["components"].extend(copy.deepcopy(missing))
+            target = "core_bundle" if "core_bundle" in same_identity else "components"
+            same_identity[target].extend(copy.deepcopy(missing))
             return "repaired", result
         if same_identity["status"] == "staged" and approval_reference:
             _activate(result, same_identity["id"])
@@ -143,7 +151,12 @@ def synthetic_release(version: str, source_version: str) -> dict[str, Any]:
         "package_locator": f"synthetic://mind-palace/{source_version}",
         "source_version": source_version,
         "status": "staged",
-        "components": [
+        "release_index": {
+            "path": "protocol/release-index.yaml",
+            "digest": "sha256:" + "0" * 64,
+            "locator": f"synthetic://mind-palace/{source_version}/release-index",
+        },
+        "core_bundle": [
             {
                 "path": "protocol/manifest.yaml",
                 "digest": "sha256:" + "1" * 64,
@@ -190,10 +203,16 @@ def run_scenario() -> None:
         raise ValueError("exact reinstall was not idempotent")
 
     damaged = copy.deepcopy(installed)
-    damaged["releases"][0]["components"].pop()
+    damaged["releases"][0]["core_bundle"].pop()
     action, repaired = install_release(damaged, release)
     if action != "repaired" or repaired != installed:
-        raise ValueError("missing generated component was not repaired")
+        raise ValueError("missing core resource was not repaired")
+
+    changed_index = copy.deepcopy(release)
+    changed_index["release_index"]["digest"] = "sha256:" + "9" * 64
+    action, unchanged = install_release(installed, changed_index)
+    if action != "conflict" or unchanged != installed:
+        raise ValueError("changed release index did not cause a conflict")
 
     repacked = synthetic_release("0.1.0", "different-release-001")
     action, unchanged = install_release(installed, repacked)

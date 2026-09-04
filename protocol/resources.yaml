@@ -1,0 +1,54 @@
+source:
+  locator_template: https://github.com/guruor/mind-palace-protocol/blob/{revision}/{path}
+  revision_from: release-record
+resources:
+  - {path: protocol/manifest.yaml, class: core, cache: always, purpose: Identify the active protocol and built-in packages.}
+  - {path: protocol/general-guide.md, class: core, cache: always, purpose: Define shared collaboration and safety behavior.}
+  - {path: schemas/artifact.schema.json, class: core, cache: always, purpose: Define the portable document metadata envelope.}
+  - {path: methodologies/product-engineering/method.yaml, class: core, cache: always, purpose: Identify the active built-in Knowledge Method.}
+  - {path: methodologies/product-engineering/README.md, class: core, cache: always, purpose: Define behavior across Product Engineering document types.}
+  - {path: bindings/notion-runtime.md, class: core, cache: always, purpose: Map normal runtime operations to Notion safely.}
+
+  - {path: schemas/document-type.schema.json, class: on-demand, cache: automatic, purpose: Validate a document-type contract.}
+  - {path: schemas/product-engineering.schema.json, class: on-demand, cache: automatic, purpose: Validate Product Engineering document metadata.}
+  - {path: schemas/knowledge-method.schema.json, class: on-demand, cache: automatic, purpose: Validate a Knowledge Method package.}
+  - {path: schemas/storage-binding.schema.json, class: on-demand, cache: automatic, purpose: Validate a Storage Binding package.}
+  - {path: schemas/instance-config.schema.json, class: on-demand, cache: automatic, purpose: Validate instance method and binding selection.}
+  - {path: protocol/conflict-template.md, class: on-demand, cache: automatic, purpose: Preserve a proposal when source state changed.}
+  - {path: bindings/markdown-git.md, class: on-demand, cache: automatic, purpose: Map portable documents to Markdown and Git.}
+  - {path: bindings/notion.md, class: on-demand, cache: automatic, purpose: Explain detailed Notion representation and limits.}
+  - {path: methodologies/product-engineering/document-types/project-hub.yaml, class: on-demand, cache: automatic, purpose: Define the Project Hub document type.}
+  - {path: methodologies/product-engineering/document-types/product-specification.yaml, class: on-demand, cache: automatic, purpose: Define the Product Specification document type.}
+  - {path: methodologies/product-engineering/document-types/technical-specification.yaml, class: on-demand, cache: automatic, purpose: Define the Technical Specification document type.}
+  - {path: methodologies/product-engineering/document-types/discovery-record.yaml, class: on-demand, cache: automatic, purpose: Define the Discovery Record document type.}
+  - {path: methodologies/product-engineering/document-types/decision-record.yaml, class: on-demand, cache: automatic, purpose: Define the Decision Record document type.}
+  - {path: methodologies/product-engineering/document-types/change-log.yaml, class: on-demand, cache: automatic, purpose: Define the Change Log document type.}
+  - {path: methodologies/product-engineering/document-types/delivery-baseline.yaml, class: on-demand, cache: automatic, purpose: Define the Delivery Baseline document type.}
+  - {path: methodologies/product-engineering/document-types/implementation-report.yaml, class: on-demand, cache: automatic, purpose: Define the Implementation Report document type.}
+  - {path: methodologies/product-engineering/document-types/validation-report.yaml, class: on-demand, cache: automatic, purpose: Define the Validation Report document type.}
+  - {path: methodologies/product-engineering/document-types/reconciliation-report.yaml, class: on-demand, cache: automatic, purpose: Define the Reconciliation Report document type.}
+  - {path: methodologies/product-engineering/templates/project-hub.md, class: on-demand, cache: automatic, purpose: Create a Project Hub.}
+  - {path: methodologies/product-engineering/templates/product-specification.md, class: on-demand, cache: automatic, purpose: Create a Product Specification.}
+  - {path: methodologies/product-engineering/templates/technical-specification.md, class: on-demand, cache: automatic, purpose: Create a Technical Specification.}
+  - {path: methodologies/product-engineering/templates/discovery-record.md, class: on-demand, cache: automatic, purpose: Create a Discovery Record.}
+  - {path: methodologies/product-engineering/templates/decision-record.md, class: on-demand, cache: automatic, purpose: Create a Decision Record.}
+  - {path: methodologies/product-engineering/templates/change-log.md, class: on-demand, cache: automatic, purpose: Create a Change Log.}
+  - {path: methodologies/product-engineering/templates/delivery-baseline.md, class: on-demand, cache: automatic, purpose: Create a Delivery Baseline.}
+  - {path: methodologies/product-engineering/templates/implementation-report.md, class: on-demand, cache: automatic, purpose: Create an Implementation Report.}
+  - {path: methodologies/product-engineering/templates/validation-report.md, class: on-demand, cache: automatic, purpose: Create a Validation Report.}
+  - {path: methodologies/product-engineering/templates/reconciliation-report.md, class: on-demand, cache: automatic, purpose: Create a Reconciliation Report.}
+
+  - {path: INSTALL.md, class: maintenance, cache: never, purpose: Install or validate the protocol and client setup.}
+  - {path: protocol/client-installation.md, class: maintenance, cache: never, purpose: Install or repair a client adapter.}
+  - {path: protocol/common-memory-installation.md, class: maintenance, cache: never, purpose: Install, update, repair, or roll back common memory.}
+  - {path: bindings/client-adapter.md, class: maintenance, cache: never, purpose: Implement or validate a client adapter.}
+  - {path: bindings/clients/hosted-chat.md, class: maintenance, cache: never, purpose: Configure a hosted chat client.}
+  - {path: bindings/clients/opencode.md, class: maintenance, cache: never, purpose: Configure OpenCode.}
+  - {path: bindings/clients/chatgpt.md, class: maintenance, cache: never, purpose: Configure ChatGPT.}
+  - {path: bindings/clients/claude.md, class: maintenance, cache: never, purpose: Configure Claude.}
+  - {path: bindings/clients/agent-skill/mind-palace/SKILL.md, class: maintenance, cache: never, purpose: Configure an Agent Skills client.}
+  - {path: schemas/client-installation.schema.json, class: maintenance, cache: never, purpose: Validate a client receipt.}
+  - {path: schemas/common-memory-installation.schema.json, class: maintenance, cache: never, purpose: Validate common-memory installation state.}
+  - {path: schemas/client-handoff.schema.json, class: maintenance, cache: never, purpose: Validate a cross-client handoff.}
+  - {path: docs/migration-preflight.md, class: maintenance, cache: never, purpose: Plan a safe user-document migration.}
+  - {path: methodologies/product-engineering/migration/README.md, class: maintenance, cache: never, purpose: Plan a Product Engineering method migration.}

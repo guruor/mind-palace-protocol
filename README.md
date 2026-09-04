@@ -9,11 +9,11 @@ knowledge and user configuration do not belong in this repository.
 
 ## Status
 
-Version `0.4.0` provides the first complete built-in Knowledge Method. Product
-Engineering now has a package manifest and one portable contract for each
-document type. The protocol defines types rather than tracking individual user
-documents. Existing Mind Palace content is not yet migrated, and common memory
-remains on the active `v0.1.0` installation.
+Version `0.5.0` adds compact protocol distribution. A generated Release Index
+classifies runtime resources and identifies them by path, size, and digest. New
+common-memory releases use one small Core Bundle and fetch other resources on
+demand instead of creating one record per file. Existing Mind Palace content is
+not migrated, and common memory remains on active `v0.1.0`.
 
 ## Start Here
 
@@ -50,6 +50,10 @@ Run the deterministic two-client migration scenario with
 Run shared-installation and non-destructive client-configuration cases with
 `uv run --frozen scripts/common_memory_install.py` and
 `uv run --frozen scripts/client_adapter_config.py`.
+
+Regenerate the compact release index with
+`uv run --frozen scripts/build_release_index.py`. Validation fails when the
+committed index is stale.
 
 Use [`docs/live-cross-client-canary.md`](docs/live-cross-client-canary.md) for
 the Fresh-Client Setup Check, Cross-Client Handoff Check, approved write canary,

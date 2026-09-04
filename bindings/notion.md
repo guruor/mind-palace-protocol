@@ -29,23 +29,24 @@ The bridge is migration state, not the target architecture.
 
 Represent shared protocol installation as one full-page registry database in
 the configured AI-collaboration/configuration area. Use one item per root,
-release, projected component, client receipt, legacy reference, or conflict.
+release, client receipt, legacy reference, cache entry, or conflict. Retained
+legacy releases may still have projected component records.
 Recommended properties are:
 
 - `Record` (title);
 - `Stable ID` (text, unique by validation);
-- `Record Type` (installation, release, component, client-receipt, legacy, or
-  conflict);
+- `Record Type` (installation, release, cache, client-receipt, legacy, or
+  conflict; `component` is retained for legacy releases);
 - `Protocol Version`, `Source Version`, `Status`, `Trust Domain`, and `Digest`;
 - `Package Locator` when the immutable package is reachable;
 - self-relation `Parent Record`/`Child Records`.
 
 The root stable ID defaults to `mind-palace-protocol-installation`. Its active
-release is a relation, not copied content. Release components are generated from
-the immutable package and carry per-component digests; clients fetch their page
-bodies when direct repository access is unavailable. Client receipts and legacy
-guidance are related records, so reinstall can upsert them without changing the
-legacy page.
+release is a relation, not copied content. A new release item holds or attaches
+one compact Release Index and Core Bundle. The index points to immutable remote
+resources and their digests. Do not create one registry item per source file.
+Client receipts and legacy guidance are related records, so reinstall can
+upsert them without changing the legacy page.
 
 Before creating the registry, search both exact stable ID and title. A title
 match without the stable ID is an unversioned candidate requiring review, not a
