@@ -5,6 +5,12 @@ installation and updates happen only after an explicit user request. Each client
 adds a version-neutral discovery adapter once, then follows whatever release the
 common-memory installation marks active.
 
+**In plain terms:** you install Mind Palace once into shared memory, then give
+each AI client a small one-time "adapter" (a short instruction or Skill). After
+that, whenever a client does Mind Palace work it reads the currently active
+release on its own — so a protocol update never requires reinstalling clients or
+re-editing their instructions.
+
 ## One-Link Prompt
 
 Give a client this prompt:
@@ -61,8 +67,8 @@ Search authorized common memory for exact stable ID
 If an installation exists:
 
 - verify its active version, commit identity, Release Index, and required core
-  resource digests
-  digests, legacy references, trust domain, and effective write authority;
+  resource digests;
+- confirm its legacy references, trust domain, and effective write authority;
 - fetch the manifest and adapter from its recorded immutable package, not from
   the repository's default branch;
 - perform an exact no-op or repair only missing core resources; and

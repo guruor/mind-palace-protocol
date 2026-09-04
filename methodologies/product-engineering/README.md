@@ -13,6 +13,36 @@ The package manifest is [`method.yaml`](method.yaml). Portable contracts under
 ownership, lifecycle, sections, relationships, retrieval, writes, and migration.
 This guide owns behavior that spans those types.
 
+## At a glance
+
+A maintained project keeps one **Project Hub** that points to the documents that
+matter for the current task. Specifications hold approved current intent;
+reports hold attributable evidence; the Change Log holds accepted history.
+
+```mermaid
+flowchart LR
+    HUB["Project Hub
+    current status + navigation"] --> PS["Product Specification
+    approved intent & scope"]
+    HUB --> TS["Technical Specification
+    approved design"]
+    HUB --> CL["Change Log
+    accepted history (append-only)"]
+    PS --> DB["Delivery Baseline
+    frozen approval for build"]
+    DB --> IR["Implementation Report
+    evidence"]
+    DB --> VR["Validation Report
+    evidence"]
+    DIS["Discovery Record
+    unapproved exploration"] -. optional .-> HUB
+    DEC["Decision Record
+    one decision + rationale"] -. optional .-> HUB
+```
+
+Read the Hub first, then the Product Specification before the Technical
+Specification, and load reports/history only when a task needs them.
+
 ## Applicability
 
 Use for maintained products, software projects, reusable agents, developer

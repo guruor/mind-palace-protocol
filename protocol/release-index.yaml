@@ -24,8 +24,8 @@ resources:
   cache: always
   purpose: Identify the active built-in Knowledge Method.
 - path: methodologies/product-engineering/README.md
-  digest: sha256:e368cf471827fbf5beb17b6d579d36c37362d409463cf4f033becb062a25b3e6
-  bytes: 4922
+  digest: sha256:6d1342f23d96b6210e18d2341f892d323aba71e1823d2de9c186bbc8610816fe
+  bytes: 5897
   class: core
   cache: always
   purpose: Define behavior across Product Engineering document types.
@@ -229,8 +229,8 @@ resources:
   cache: automatic
   purpose: Create a Reconciliation Report.
 - path: INSTALL.md
-  digest: sha256:852eb3056e0f4216f7a9b8b08df6c1ba7781462070ac03d304d79dcbf1b49a09
-  bytes: 9413
+  digest: sha256:3c0848a3d20cac25470f34d9f473c090676d59b13d23f6b2b8a61684aefc463b
+  bytes: 9767
   class: maintenance
   cache: never
   purpose: Install or validate the protocol and client setup.

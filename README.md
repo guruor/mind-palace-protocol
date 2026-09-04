@@ -3,9 +3,33 @@
 Portable contracts for organizing, retrieving, reviewing, updating, and
 migrating durable knowledge across AI clients and knowledge stores.
 
+**In plain terms:** Mind Palace is a shared "operating guide" that teaches any
+compatible AI client *how your knowledge is structured and should be kept* —
+which document type a task needs, how to read it, how to save it in the expected
+format, and how to migrate it safely — so you do not re-explain your process to
+every client. Humans read the same documents for navigation; AI clients follow
+them to stay consistent.
+
 The protocol is storage-neutral. Notion is the first active storage binding;
 Markdown plus YAML front matter is the portable representation. Private
 knowledge and user configuration do not belong in this repository.
+
+```mermaid
+flowchart LR
+    A["AI client (OpenCode / ChatGPT / ...)"] --> B["Common memory
+    stable installation"]
+    B --> C["Active release + awareness core
+    (what exists, how to operate)"]
+    C --> D["Immutable Git release
+    exact contracts, templates, schemas"]
+    D --> E["Notion / Markdown-Git / other store"]
+    C -. "read only when needed" .-> D
+```
+
+**Two channels keep it simple:** the shared memory store holds *state and
+awareness* (where the active protocol is, and a compact guide on how to use
+it); the open Git repository holds the *authoritative contracts* that clients
+fetch and verify when they need exact schemas or templates.
 
 ## Status
 

@@ -61,6 +61,24 @@ This is the split that matters:
 - **Capability** (immutable source): the complete, authoritative protocol and
   its exact contracts.
 
+```mermaid
+flowchart LR
+    subgraph Shared["Shared memory store (any vendor)"]
+        PTR["Source Pointer (version + commit + digest)"] --> CORE["Awareness core
+        guide summary + type catalog"]
+    end
+    subgraph Open["Open immutable source (Git)"]
+        IDX["Release Index"] --> RES["exact contracts, templates, schemas"]
+    end
+    CLIENT["Any compatible AI client"] --> PTR
+    CLIENT --> CORE
+    CLIENT -. "fetch on demand + verify digest" .-> RES
+```
+
+A client reads the pointer and awareness core from shared memory to become
+aware, then fetches only the byte-exact contracts it needs from the open source
+and verifies their digests.
+
 ## Vocabulary
 
 - **Protocol**: shared collaboration, safety, identity, and portability rules.
@@ -88,6 +106,28 @@ The protocol has four independently owned layers:
    search, relationships, assets, and visual presentation.
 4. **Derived Retrieval** provides rebuildable full-text search, embeddings,
    graphs, caches, catalogs, and visual views without becoming write authority.
+
+```mermaid
+flowchart TB
+    subgraph Core["Portable Core"]
+        direction LR
+        ID[identity & authority] --> TR[trust & revision]
+        TR --> REL[relationships & provenance]
+    end
+    subgraph Methods["Knowledge Methods"]
+        DT[document-type contracts & lifecycle]
+    end
+    subgraph Bindings["Storage Bindings"]
+        B1[Notion] --- B2[Markdown / Git] --- B3[other stores]
+    end
+    subgraph Derived["Derived Retrieval"]
+        IDX[indexes, search, graphs, views]
+    end
+    Core --> Methods
+    Methods --> Bindings
+    Methods --> Derived
+    Core -. constrains .-> Bindings
+```
 
 Knowledge Methods and Storage Bindings are declarative, versioned extension
 packages. Built-in packages use the same contracts as custom packages. During
