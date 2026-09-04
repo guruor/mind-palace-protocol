@@ -1,0 +1,28 @@
+id: product-engineering/delivery-baseline
+version: 0.2.0
+method: {id: product-engineering, version: 0.2.0}
+purpose: Freeze the exact approved intent and design references for implementation.
+applies_when: A reviewed scope is ready for build or formal validation.
+format: markdown
+location: {pattern: "projects/<project-id>/baselines/<baseline-id>.md"}
+metadata:
+  shared_required: [protocol, id, kind, title, authority, trust_domain, revision, relations, provenance]
+  type_specific:
+    - {name: state, required: true, purpose: Show review, build, implementation, and validation state.}
+ownership: {authority: intent, owner: delivery-owner}
+lifecycle: {mutability: immutable, states: [candidate, reviewed, approved-for-build, implemented, validated, blocked, superseded, deviated]}
+sections:
+  required: [Frozen Inputs, Current Scope And Non-goals, Acceptance And Validation, Review Verdict And Human Approval, Supersession And Deviation Policy]
+  optional: []
+language: {style: Plain, exact, and independently verifiable., audience: Builders, reviewers, and validation clients.}
+relations:
+  - {type: part_of, targets: [product-engineering/project-hub], query: Match the project stable ID.}
+  - {type: product-engineering/baselines, targets: [product-engineering/product-specification, product-engineering/technical-specification], query: Resolve exact revisions and source identities before build.}
+retrieval:
+  from_current: [Use the exact frozen references rather than latest titles., Read before implementation or validation.]
+  keywords: [title, state, scope, source identity]
+writes:
+  route: Create a new baseline when approved intent changes.
+  rules: [Do not edit frozen content., Record deviations explicitly.]
+migration: {compatibility: Preserve exact source identities, approval evidence, scope, and acceptance criteria., guide: migration/README.md}
+template: templates/delivery-baseline.md

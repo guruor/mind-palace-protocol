@@ -1,0 +1,26 @@
+id: product-engineering/reconciliation-report
+version: 0.2.0
+method: {id: product-engineering, version: 0.2.0}
+purpose: Compare current intent, status, and implementation evidence without guessing.
+applies_when: Project documents and repository evidence may have drifted.
+format: markdown
+location: {pattern: "projects/<project-id>/reports/reconciliation/<report-id>.md"}
+metadata:
+  shared_required: [protocol, id, kind, title, authority, trust_domain, revision, relations, provenance]
+  type_specific: []
+ownership: {authority: evidence, owner: reconciliation-client}
+lifecycle: {mutability: immutable, states: [submitted, corrected, superseded]}
+sections:
+  required: [Evidence Boundary, Status Map, Contradictions And Missing Evidence, Recommended Updates]
+  optional: []
+language: {style: Factual and explicit about evidence, drift, and unknowns., audience: Product owners, engineers, and AI coordination clients.}
+relations:
+  - {type: product-engineering/reconciles, targets: [product-engineering/project-hub, product-engineering/product-specification, product-engineering/technical-specification, product-engineering/implementation-report, product-engineering/validation-report], query: Resolve current authoritative intent and attributable implementation evidence.}
+retrieval:
+  from_current: [Read only when status or cross-store drift matters., Re-read authoritative sources before acting on recommendations.]
+  keywords: [drift, status, source identity, recommended actions]
+writes:
+  route: Write a report; route accepted corrections to each owning document.
+  rules: [Do not make the evidence report self-approving., Record UNKNOWN when evidence is insufficient.]
+migration: {compatibility: Preserve source identities, observed differences, unknowns, and recommendations., guide: migration/README.md}
+template: templates/reconciliation-report.md

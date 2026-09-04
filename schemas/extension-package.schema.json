@@ -25,14 +25,28 @@
       "additionalProperties": true
     },
     "source": {
-      "type": "object",
-      "required": ["locator", "revision", "digest"],
-      "properties": {
-        "locator": {"type": "string", "minLength": 1},
-        "revision": {"type": "string", "minLength": 1},
-        "digest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}
-      },
-      "additionalProperties": false
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["type", "path"],
+          "properties": {
+            "type": {"const": "built-in"},
+            "path": {"type": "string", "minLength": 1}
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["type", "locator", "revision", "digest"],
+          "properties": {
+            "type": {"const": "remote"},
+            "locator": {"type": "string", "minLength": 1},
+            "revision": {"type": "string", "minLength": 1},
+            "digest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}
+          },
+          "additionalProperties": false
+        }
+      ]
     },
     "resources": {
       "type": "array",

@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:mind-palace:schema:product-engineering:0.1.0",
-  "title": "Product Engineering V1 artifact metadata",
+  "$id": "urn:mind-palace:schema:product-engineering:0.2.0",
+  "title": "Product Engineering artifact metadata",
   "allOf": [
     {"$ref": "urn:mind-palace:schema:artifact:0.1.0"},
     {
@@ -13,7 +13,7 @@
           "required": ["id", "version"],
           "properties": {
             "id": {"const": "product-engineering"},
-            "version": {"$ref": "urn:mind-palace:schema:artifact:0.1.0#/$defs/semver"}
+            "version": {"const": "0.2.0"}
           },
           "additionalProperties": true
         },

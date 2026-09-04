@@ -1,0 +1,40 @@
+id: mind-palace/product-engineering
+kind: knowledge-method
+version: 0.2.0
+requires:
+  protocol: ">=0.4.0 <1.0.0"
+  packages: []
+source:
+  type: built-in
+  path: methodologies/product-engineering
+guide: README.md
+provides:
+  methodology_id: product-engineering
+  document_types:
+    - product-engineering/project-hub
+    - product-engineering/product-specification
+    - product-engineering/technical-specification
+    - product-engineering/discovery-record
+    - product-engineering/decision-record
+    - product-engineering/change-log
+    - product-engineering/delivery-baseline
+    - product-engineering/implementation-report
+    - product-engineering/validation-report
+    - product-engineering/reconciliation-report
+resources:
+  - path: README.md
+    class: core
+    cache: always
+    purpose: Define Product Engineering behavior across document types.
+  - path: document-types
+    class: on-demand
+    cache: automatic
+    purpose: Define one portable contract for each document type.
+  - path: templates
+    class: on-demand
+    cache: automatic
+    purpose: Create documents that follow their selected type contract.
+  - path: migration/README.md
+    class: maintenance
+    cache: never
+    purpose: Plan a reviewed migration to or from this method.

@@ -191,12 +191,51 @@ def validate_manifest() -> None:
         for item in manifest[collection]:
             if not (ROOT / item["guide"]).is_file():
                 raise ValueError(f"manifest guide does not exist: {item['guide']}")
+            package = item.get("package")
+            if package and not (ROOT / package).is_file():
+                raise ValueError(f"manifest package does not exist: {package}")
     for adapter in manifest["client_adapters"]:
         if not (ROOT / adapter["guide"]).is_file():
             raise ValueError(f"client adapter guide does not exist: {adapter['guide']}")
         entrypoint = adapter.get("entrypoint")
         if entrypoint and not (ROOT / entrypoint).is_file():
             raise ValueError(f"client adapter entrypoint does not exist: {entrypoint}")
+
+
+def validate_builtin_method(schemas: dict[str, dict], registry: Registry) -> None:
+    root = ROOT / "methodologies/product-engineering"
+    package = yaml.safe_load((root / "method.yaml").read_text(encoding="utf-8"))
+    method_errors = list(validator("knowledge-method.schema.json", schemas, registry).iter_errors(package))
+    if method_errors:
+        raise ValueError(f"product-engineering package is invalid: {method_errors[0].message}")
+
+    expected = set(package["provides"]["document_types"])
+    found: set[str] = set()
+    document_validator = validator("document-type.schema.json", schemas, registry)
+    for path in sorted((root / "document-types").glob("*.yaml")):
+        contract = yaml.safe_load(path.read_text(encoding="utf-8"))
+        errors = list(document_validator.iter_errors(contract))
+        if errors:
+            raise ValueError(f"document type is invalid: {path.relative_to(ROOT)}: {errors[0].message}")
+        if contract["method"] != {"id": "product-engineering", "version": package["version"]}:
+            raise ValueError(f"document type has wrong method identity: {path.relative_to(ROOT)}")
+        for field in ("template",):
+            if not (root / contract[field]).is_file():
+                raise ValueError(f"document type has missing {field}: {path.relative_to(ROOT)}")
+        template = (root / contract["template"]).read_text(encoding="utf-8")
+        headings = {line[2:].strip() for line in template.splitlines() if line.startswith("# ")}
+        missing_headings = set(contract["sections"]["required"]) - headings
+        if missing_headings:
+            raise ValueError(
+                f"document type template lacks required headings: {path.relative_to(ROOT)}: "
+                f"{sorted(missing_headings)}"
+            )
+        guide = contract["migration"]["guide"]
+        if not (root / guide).is_file():
+            raise ValueError(f"document type has missing migration guide: {path.relative_to(ROOT)}")
+        found.add(contract["id"])
+    if found != expected:
+        raise ValueError(f"product-engineering document catalog mismatch: expected {sorted(expected)}, found {sorted(found)}")
 
 
 def validate_agent_skill() -> None:
@@ -305,6 +344,7 @@ def main() -> int:
         validate_fixtures(schemas, registry)
         validate_markdown_links()
         validate_manifest()
+        validate_builtin_method(schemas, registry)
         validate_agent_skill()
         validate_hosted_chat_adapter()
         validate_privacy()

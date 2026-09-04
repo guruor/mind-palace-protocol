@@ -6,7 +6,12 @@ Support continuous product discovery and reliable software delivery without
 silently changing an approved implementation baseline. This methodology adds
 product-specific behavior to the [General Guide](../../protocol/general-guide.md).
 
-Version: `0.1.0` (experimental).
+Version: `0.2.0` (experimental).
+
+The package manifest is [`method.yaml`](method.yaml). Portable contracts under
+[`document-types/`](document-types/) define each type's location, metadata,
+ownership, lifecycle, sections, relationships, retrieval, writes, and migration.
+This guide owns behavior that spans those types.
 
 ## Applicability
 
@@ -98,3 +103,8 @@ Templates under [`templates/`](templates/) explain their own fields and
 sections. Remove instructional placeholders when creating a real artifact.
 The General Guide and this methodology remain authoritative when a template is
 incomplete or stale.
+
+## Migration
+
+Use [`migration/README.md`](migration/README.md) for an explicit reviewed
+migration. Selecting this method never migrates existing documents by itself.

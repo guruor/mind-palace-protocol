@@ -1,0 +1,29 @@
+id: product-engineering/decision-record
+version: 0.2.0
+method: {id: product-engineering, version: 0.2.0}
+purpose: Preserve one material decision, its context, alternatives, and rationale.
+applies_when: A choice materially affects product behavior, architecture, compatibility, risk, or scope.
+format: markdown
+location: {pattern: "projects/<project-id>/decisions/<decision-id>.md"}
+metadata:
+  shared_required: [protocol, id, kind, title, authority, trust_domain, revision, relations, provenance]
+  type_specific:
+    - {name: state, required: true, purpose: Show the decision lifecycle state.}
+ownership: {authority: history, owner: decision-owner}
+lifecycle: {mutability: append-only, states: [proposed, accepted, rejected, deferred, superseded]}
+sections:
+  required: [Context, Decision, Alternatives And Trade-offs, Consequences, Status And Supersession]
+  optional: []
+language: {style: Plain and explicit about the chosen option and trade-offs., audience: Decision owners, implementers, and future reviewers.}
+relations:
+  - {type: part_of, targets: [product-engineering/project-hub], query: Match the project stable ID.}
+  - {type: references, targets: [product-engineering/product-specification, product-engineering/technical-specification], query: Follow stable IDs to the current documents affected by the decision.}
+  - {type: supersedes, targets: [product-engineering/decision-record], query: Follow the supersedes relation to prior decisions.}
+retrieval:
+  from_current: [Read only when rationale or a material trade-off matters., Prefer current specifications for current truth.]
+  keywords: [title, decision, alternatives, tags]
+writes:
+  route: Append accepted corrections or supersession facts without rewriting historical rationale.
+  rules: [Create a new decision for a materially different choice., Update current specifications after acceptance.]
+migration: {compatibility: Preserve decision state, rationale, alternatives, consequences, and supersession chain., guide: migration/README.md}
+template: templates/decision-record.md

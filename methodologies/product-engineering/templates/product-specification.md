@@ -1,8 +1,8 @@
 ---
-protocol: {id: mind-palace, version: 0.1.0}
+protocol: {id: mind-palace, version: 0.4.0}
 id: "{{stable-product-spec-id}}"
 kind: product-engineering/product-specification
-methodology: {id: product-engineering, version: 0.1.0}
+methodology: {id: product-engineering, version: 0.2.0}
 title: "Product Specification — {{Project Name}}"
 authority: intent
 trust_domain: "{{configured-trust-domain}}"

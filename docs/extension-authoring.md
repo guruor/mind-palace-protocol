@@ -11,12 +11,17 @@ Every package declares:
 - a namespaced ID such as `team/research-method`;
 - package type and Semantic Version;
 - compatible protocol versions;
-- immutable source locator, revision, and SHA-256 digest;
+- source identity;
 - resource paths, classes, cache policy, and purpose;
 - dependencies and provided capabilities.
 
 Packages contain no private user documents. Access to a package does not grant
 access to a Mind Palace instance.
+
+A built-in package declares its path inside the immutable protocol release. The
+outer release supplies its revision and integrity. A remote package declares an
+immutable locator, revision, and SHA-256 digest. This avoids placing a package's
+own digest inside the content being hashed.
 
 ## Knowledge Method
 

@@ -1,0 +1,27 @@
+id: product-engineering/validation-report
+version: 0.2.0
+method: {id: product-engineering, version: 0.2.0}
+purpose: Record attributable validation results against an exact baseline and implementation.
+applies_when: A project needs evidence before claiming that expected behavior works.
+format: markdown
+location: {pattern: "projects/<project-id>/reports/validation/<report-id>.md"}
+metadata:
+  shared_required: [protocol, id, kind, title, authority, trust_domain, revision, relations, provenance]
+  type_specific:
+    - {name: verdict, required: true, purpose: State pass, fail, partial, or blocked.}
+ownership: {authority: evidence, owner: validation-client}
+lifecycle: {mutability: immutable, states: [submitted, corrected, superseded]}
+sections:
+  required: [Evidence Boundary, Validation Results, "Failures, Skips, And Limitations", Verdict]
+  optional: []
+language: {style: Factual, reproducible, and explicit about untested behavior., audience: Product owners, engineers, and reviewers.}
+relations:
+  - {type: product-engineering/validates, targets: [product-engineering/delivery-baseline, product-engineering/implementation-report], query: Resolve exact baseline and implementation source identities.}
+retrieval:
+  from_current: [Read before claiming validation., Inspect linked raw evidence when confidence matters.]
+  keywords: [verdict, checks, baseline, source identity]
+writes:
+  route: Create a new report or explicit correction; do not rewrite submitted results.
+  rules: [Separate observed results from conclusions., Never mark an unrun check as passed.]
+migration: {compatibility: Preserve attribution, exact targets, checks, results, gaps, and verdict., guide: migration/README.md}
+template: templates/validation-report.md

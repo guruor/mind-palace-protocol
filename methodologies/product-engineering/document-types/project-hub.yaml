@@ -1,0 +1,28 @@
+id: product-engineering/project-hub
+version: 0.2.0
+method: {id: product-engineering, version: 0.2.0}
+purpose: Give people and AI clients one compact entry point for a project.
+applies_when: A maintained product or engineering project needs durable navigation and status.
+format: markdown
+location: {pattern: "projects/<project-id>/README.md"}
+metadata:
+  shared_required: [protocol, id, kind, title, authority, trust_domain, revision, relations, provenance]
+  type_specific:
+    - {name: state, required: true, purpose: Show the current project lifecycle state.}
+    - {name: active_baseline, required: false, purpose: Identify the approved delivery baseline.}
+ownership: {authority: intent, owner: project-owner}
+lifecycle: {mutability: mutable, states: [idea, discovery, planned, implementing, validating, active, parked, blocked, retired]}
+sections:
+  required: [Summary, Current Status, Canonical Artifacts, Implementation]
+  optional: []
+language: {style: Plain, current, and concise., audience: People and AI clients.}
+relations:
+  - {type: references, targets: [product-engineering/product-specification, product-engineering/technical-specification, product-engineering/change-log], query: Follow stable IDs in the Documents section or relations metadata.}
+retrieval:
+  from_current: [Read this hub before loading detailed project documents., Follow only relations needed by the task.]
+  keywords: [title, aliases, tags, state]
+writes:
+  route: Update only compact project status and document references here.
+  rules: [Put detailed product and technical content in their owning documents., Do not create empty documents for symmetry.]
+migration: {compatibility: Preserve project identity and all document relations., guide: migration/README.md}
+template: templates/project-hub.md

@@ -1,8 +1,8 @@
 ---
-protocol: {id: mind-palace, version: 0.1.0}
+protocol: {id: mind-palace, version: 0.4.0}
 id: "{{stable-decision-id}}"
 kind: product-engineering/decision-record
-methodology: {id: product-engineering, version: 0.1.0}
+methodology: {id: product-engineering, version: 0.2.0}
 title: "Decision — {{Imperative Decision Title}}"
 authority: history
 trust_domain: "{{configured-trust-domain}}"

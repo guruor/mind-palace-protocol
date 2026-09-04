@@ -9,11 +9,11 @@ knowledge and user configuration do not belong in this repository.
 
 ## Status
 
-Version `0.3.0` adds declarative contracts for document types, Knowledge Method
-packages, Storage Binding packages, and instance selection. The protocol defines
-types rather than tracking individual user documents. Existing Mind Palace
-content is not yet migrated, and common memory remains on the active `v0.1.0`
-installation.
+Version `0.4.0` provides the first complete built-in Knowledge Method. Product
+Engineering now has a package manifest and one portable contract for each
+document type. The protocol defines types rather than tracking individual user
+documents. Existing Mind Palace content is not yet migrated, and common memory
+remains on the active `v0.1.0` installation.
 
 ## Start Here
 

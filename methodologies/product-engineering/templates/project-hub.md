@@ -1,8 +1,8 @@
 ---
-protocol: {id: mind-palace, version: 0.1.0}
+protocol: {id: mind-palace, version: 0.4.0}
 id: "{{stable-project-hub-id}}"
 kind: product-engineering/project-hub
-methodology: {id: product-engineering, version: 0.1.0}
+methodology: {id: product-engineering, version: 0.2.0}
 title: "{{Project Name}}"
 authority: intent
 trust_domain: "{{configured-trust-domain}}"

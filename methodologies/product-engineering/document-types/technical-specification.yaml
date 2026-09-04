@@ -1,0 +1,28 @@
+id: product-engineering/technical-specification
+version: 0.2.0
+method: {id: product-engineering, version: 0.2.0}
+purpose: Hold the current approved technical design and constraints.
+applies_when: Implementation needs a durable architecture or technical contract.
+format: markdown
+location: {pattern: "projects/<project-id>/technical-specification.md"}
+metadata:
+  shared_required: [protocol, id, kind, title, authority, trust_domain, revision, relations, provenance]
+  type_specific:
+    - {name: state, required: true, purpose: Show whether the design is draft, approved, or superseded.}
+ownership: {authority: intent, owner: technical-owner}
+lifecycle: {mutability: mutable, states: [draft, in-review, approved, superseded, archived]}
+sections:
+  required: [Context And Constraints, Architecture And Data Flow, Interfaces And Persistence, Alternatives And Decisions, Validation Strategy]
+  optional: ["Rollout, Recovery, And Risks", Deferred Scope And Open Questions]
+language: {style: Plain, precise, and implementation-oriented without copying source code., audience: Engineers, reviewers, and AI delivery clients.}
+relations:
+  - {type: part_of, targets: [product-engineering/project-hub], query: Match the project stable ID.}
+  - {type: references, targets: [product-engineering/product-specification, product-engineering/decision-record, product-engineering/delivery-baseline], query: Follow explicit stable-ID relations for intent, decisions, and approved baselines.}
+retrieval:
+  from_current: [Read the related Product Specification first., Inspect repository truth when implementation status matters.]
+  keywords: [title, architecture, interfaces, constraints, tags]
+writes:
+  route: Update this document for accepted design changes.
+  rules: [Link to source instead of copying implementation., Record material rationale in a Decision Record or Change Log.]
+migration: {compatibility: Preserve architecture, constraints, decisions, validation, and implementation references., guide: migration/README.md}
+template: templates/technical-specification.md

@@ -1,8 +1,8 @@
 ---
-protocol: {id: mind-palace, version: 0.1.0}
+protocol: {id: mind-palace, version: 0.4.0}
 id: "{{stable-baseline-id}}"
 kind: product-engineering/delivery-baseline
-methodology: {id: product-engineering, version: 0.1.0}
+methodology: {id: product-engineering, version: 0.2.0}
 title: "Delivery Baseline — {{Project Name}} — {{Version Or Scope}}"
 authority: intent
 trust_domain: "{{configured-trust-domain}}"

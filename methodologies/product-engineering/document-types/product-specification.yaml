@@ -1,0 +1,28 @@
+id: product-engineering/product-specification
+version: 0.2.0
+method: {id: product-engineering, version: 0.2.0}
+purpose: Hold the current approved product intent, scope, and success conditions.
+applies_when: A project has durable product behavior or requirements.
+format: markdown
+location: {pattern: "projects/<project-id>/product-specification.md"}
+metadata:
+  shared_required: [protocol, id, kind, title, authority, trust_domain, revision, relations, provenance]
+  type_specific:
+    - {name: state, required: true, purpose: Show whether the specification is draft, approved, or superseded.}
+ownership: {authority: intent, owner: product-owner}
+lifecycle: {mutability: mutable, states: [draft, in-review, approved, superseded, archived]}
+sections:
+  required: [Problem And Users, Outcomes And Behavior, Scope, Constraints And Principles, Acceptance Criteria]
+  optional: [Open Product Questions]
+language: {style: Plain, testable, and free of implementation detail where possible., audience: Product owners, people, and AI delivery clients.}
+relations:
+  - {type: part_of, targets: [product-engineering/project-hub], query: Match the project stable ID.}
+  - {type: references, targets: [product-engineering/technical-specification, product-engineering/delivery-baseline, product-engineering/change-log], query: Follow explicit relation targets for design, baseline, and history.}
+retrieval:
+  from_current: [Read before the Technical Specification when product intent matters., Read the Change Log only when rationale or evolution matters.]
+  keywords: [title, goals, requirements, tags]
+writes:
+  route: Update this document for accepted product intent changes.
+  rules: [Record material accepted evolution in the Change Log., Keep unapproved ideas in a Discovery Record.]
+migration: {compatibility: Preserve approved intent, exclusions, rationale links, and revision history., guide: migration/README.md}
+template: templates/product-specification.md

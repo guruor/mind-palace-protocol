@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "requires": {"protocol": ">=0.3.0 <1.0.0"},
   "source": {
+    "type": "remote",
     "locator": "https://example.com/plain-files-binding",
     "revision": "example-revision-001",
     "digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222"

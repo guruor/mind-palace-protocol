@@ -1,0 +1,28 @@
+id: product-engineering/discovery-record
+version: 0.2.0
+method: {id: product-engineering, version: 0.2.0}
+purpose: Preserve unapproved exploration, hypotheses, evidence, and open questions.
+applies_when: Product or technical discovery is useful but not approved delivery scope.
+format: markdown
+location: {pattern: "projects/<project-id>/discovery/<discovery-id>.md"}
+metadata:
+  shared_required: [protocol, id, kind, title, authority, trust_domain, revision, relations, provenance]
+  type_specific:
+    - {name: state, required: true, purpose: Show whether discovery is open, parked, promoted, or closed.}
+ownership: {authority: evidence, owner: discovery-owner}
+lifecycle: {mutability: mutable, states: [open, parked, promoted, closed]}
+sections:
+  required: [Question Or Opportunity, Evidence And Observations, Hypotheses And Options, Open Questions, Promotion Or Parking]
+  optional: []
+language: {style: Plain and explicit about evidence, assumptions, and uncertainty., audience: People and AI research clients.}
+relations:
+  - {type: part_of, targets: [product-engineering/project-hub], query: Match the project stable ID.}
+  - {type: derived_from, targets: [product-engineering/product-specification, product-engineering/technical-specification, product-engineering/decision-record], query: Follow promotion relations only after explicit approval.}
+retrieval:
+  from_current: [Read when the task needs unresolved questions or supporting evidence., Do not treat discovery as approved intent.]
+  keywords: [title, question, hypotheses, tags]
+writes:
+  route: Add findings here until an explicit decision promotes them.
+  rules: [Keep evidence separate from hypotheses., Do not silently edit an active delivery baseline.]
+migration: {compatibility: Preserve evidence, uncertainty, provenance, and promotion status., guide: migration/README.md}
+template: templates/discovery-record.md

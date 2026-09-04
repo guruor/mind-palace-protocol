@@ -1,0 +1,26 @@
+id: product-engineering/implementation-report
+version: 0.2.0
+method: {id: product-engineering, version: 0.2.0}
+purpose: Record attributable evidence of what was implemented.
+applies_when: Implementation work changes repository or runtime behavior.
+format: markdown
+location: {pattern: "projects/<project-id>/reports/implementation/<report-id>.md"}
+metadata:
+  shared_required: [protocol, id, kind, title, authority, trust_domain, revision, relations, provenance]
+  type_specific: []
+ownership: {authority: evidence, owner: implementation-client}
+lifecycle: {mutability: immutable, states: [submitted, corrected, superseded]}
+sections:
+  required: [Evidence Boundary, Implemented Changes, Baseline Coverage, Deviations And Unknowns, Validation Reference]
+  optional: []
+language: {style: Factual, attributable, and linked to repository evidence., audience: Product owners, reviewers, and validation clients.}
+relations:
+  - {type: product-engineering/implements, targets: [product-engineering/delivery-baseline], query: Resolve the exact baseline stable ID and revision.}
+retrieval:
+  from_current: [Inspect repository truth when current implementation status matters., Use this report as evidence rather than self-approved intent.]
+  keywords: [baseline, commit, changes, deviations]
+writes:
+  route: Create a new report or explicit correction; do not rewrite submitted evidence.
+  rules: [Link to source and tests instead of copying implementation., Report unknown or deviated behavior plainly.]
+migration: {compatibility: Preserve attribution, baseline, source identity, evidence, and deviations., guide: migration/README.md}
+template: templates/implementation-report.md

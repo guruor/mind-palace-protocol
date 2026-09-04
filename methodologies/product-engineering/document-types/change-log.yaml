@@ -1,0 +1,27 @@
+id: product-engineering/change-log
+version: 0.2.0
+method: {id: product-engineering, version: 0.2.0}
+purpose: Keep an append-only history of accepted material project changes.
+applies_when: A project has an approved baseline or material accepted evolution.
+format: markdown
+location: {pattern: "projects/<project-id>/change-log.md"}
+metadata:
+  shared_required: [protocol, id, kind, title, authority, trust_domain, revision, relations, provenance]
+  type_specific: []
+ownership: {authority: history, owner: project-owner}
+lifecycle: {mutability: append-only, states: [active, archived]}
+sections:
+  required: [Entry Format]
+  optional: []
+language: {style: Plain, dated, and explicit about change, reason, impact, and supersession., audience: People and AI clients reviewing project evolution.}
+relations:
+  - {type: part_of, targets: [product-engineering/project-hub], query: Match the project stable ID.}
+  - {type: references, targets: [product-engineering/product-specification, product-engineering/technical-specification, product-engineering/decision-record], query: Follow referenced stable IDs for affected current truth and detailed rationale.}
+retrieval:
+  from_current: [Read only when history or rationale matters., Prefer current specifications for current truth.]
+  keywords: [date, change, decision, tags]
+writes:
+  route: Append one entry for each accepted material change.
+  rules: [Never rewrite accepted history except through an explicit correction entry., Keep current truth in specifications.]
+migration: {compatibility: Preserve entry order, dates, rationale, impact, and references., guide: migration/README.md}
+template: templates/change-log.md

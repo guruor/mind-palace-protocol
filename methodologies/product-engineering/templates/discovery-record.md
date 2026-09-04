@@ -1,8 +1,8 @@
 ---
-protocol: {id: mind-palace, version: 0.1.0}
+protocol: {id: mind-palace, version: 0.4.0}
 id: "{{stable-discovery-id}}"
 kind: product-engineering/discovery-record
-methodology: {id: product-engineering, version: 0.1.0}
+methodology: {id: product-engineering, version: 0.2.0}
 title: "Discovery — {{Topic Or Project}}"
 authority: evidence
 trust_domain: "{{configured-trust-domain}}"

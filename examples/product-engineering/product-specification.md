@@ -1,12 +1,12 @@
 ---
 protocol:
   id: mind-palace
-  version: 0.1.0
+  version: 0.4.0
 id: example-project-product-spec
 kind: product-engineering/product-specification
 methodology:
   id: product-engineering
-  version: 0.1.0
+  version: 0.2.0
 title: Product Specification — Example Project
 authority: intent
 trust_domain: example

@@ -1,8 +1,8 @@
 ---
-protocol: {id: mind-palace, version: 0.1.0}
+protocol: {id: mind-palace, version: 0.4.0}
 id: "{{stable-reconciliation-report-id}}"
 kind: product-engineering/reconciliation-report
-methodology: {id: product-engineering, version: 0.1.0}
+methodology: {id: product-engineering, version: 0.2.0}
 title: "Reconciliation — {{Project Name}} — {{Date Or Milestone}}"
 authority: evidence
 trust_domain: "{{configured-trust-domain}}"
