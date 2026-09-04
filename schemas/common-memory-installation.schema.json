@@ -76,6 +76,17 @@
             },
             "additionalProperties": true
           },
+          "awareness": {
+            "type": "object",
+            "required": ["path", "digest", "bytes"],
+            "description": "The derived awareness-core projection materialized on the release record. It is a non-authoritative rendering of protocol guidance; the immutable Git release remains authoritative.",
+            "properties": {
+              "path": {"const": "protocol/awareness-core.md"},
+              "digest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+              "bytes": {"type": "integer", "minimum": 1}
+            },
+            "additionalProperties": true
+          },
           "omissions": {"type": "array", "items": {"type": "string"}}
         },
         "oneOf": [

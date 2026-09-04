@@ -13,6 +13,8 @@ from jsonschema import Draft202012Validator
 from referencing import Registry, Resource
 
 from client_adapter_config import run_scenario as run_client_adapter_scenario
+from build_awareness_core import OUTPUT as AWARENESS_CORE
+from build_awareness_core import expected_text as render_awareness_core
 from build_release_index import OUTPUT as RELEASE_INDEX
 from build_release_index import render as render_release_index
 from common_memory_install import run_scenario as run_common_memory_install_scenario
@@ -279,17 +281,31 @@ def validate_release_index(schemas: dict[str, dict], registry: Registry) -> None
     required_core = {
         "protocol/manifest.yaml",
         "protocol/general-guide.md",
-        "schemas/artifact.schema.json",
         "methodologies/product-engineering/method.yaml",
         "methodologies/product-engineering/README.md",
         "bindings/notion-runtime.md",
     }
     actual_core = {item["path"] for item in index["resources"] if item["class"] == "core"}
     if actual_core != required_core:
-        raise ValueError(f"release index core bundle mismatch: {sorted(actual_core)}")
+        raise ValueError(f"release index core awareness set mismatch: {sorted(actual_core)}")
+    artifact_class = next(
+        (item["class"] for item in index["resources"] if item["path"] == "schemas/artifact.schema.json"),
+        None,
+    )
+    if artifact_class != "on-demand":
+        raise ValueError("schemas/artifact.schema.json must be an on-demand byte-exact contract")
     forbidden = ("scripts/", "tests/", ".github/")
     if any(path.startswith(forbidden) for path in paths):
         raise ValueError("release index includes a development resource")
+
+
+def validate_awareness_core() -> None:
+    if AWARENESS_CORE.read_text(encoding="utf-8") != render_awareness_core():
+        raise ValueError("protocol/awareness-core.md is stale")
+    if "non-authoritative" not in AWARENESS_CORE.read_text(encoding="utf-8"):
+        raise ValueError("awareness core must declare it is a non-authoritative projection")
+    if "protocol/release-index.yaml" not in AWARENESS_CORE.read_text(encoding="utf-8"):
+        raise ValueError("awareness core must reference the authoritative Release Index")
 
 
 def validate_write_planning(schemas: dict[str, dict], registry: Registry) -> None:
@@ -446,6 +462,7 @@ def main() -> int:
         validate_manifest()
         validate_builtin_method(schemas, registry)
         validate_release_index(schemas, registry)
+        validate_awareness_core()
         validate_write_planning(schemas, registry)
         run_migration_plan_scenario()
         validate_example_extensions(schemas, registry)

@@ -11,6 +11,10 @@ from typing import Any, Callable
 
 import yaml
 
+from build_awareness_core import OUTPUT as AWARENESS_CORE
+from build_awareness_core import digest_of
+from build_awareness_core import expected_text as render_awareness_core
+
 
 ROOT = Path(__file__).resolve().parents[1]
 INDEX = ROOT / "protocol/release-index.yaml"
@@ -41,6 +45,8 @@ def source_pointer(index: dict[str, Any], source_revision: str) -> dict[str, Any
             raise ValueError(f"core resource differs from Release Index: {item['path']}")
         verified_resources.append({"path": item["path"], "bytes": item["bytes"], "digest": item["digest"]})
     index_bytes = INDEX.read_bytes()
+    awareness_text = render_awareness_core()
+    awareness_bytes = len(awareness_text.encode("utf-8"))
     raw_root = f"https://raw.githubusercontent.com/guruor/mind-palace-protocol/{source_revision}"
     return {
         "pointer": {
@@ -52,6 +58,11 @@ def source_pointer(index: dict[str, Any], source_revision: str) -> dict[str, Any
             },
         },
         "verified_core_resources": verified_resources,
+        "awareness": {
+            "path": "protocol/awareness-core.md",
+            "digest": digest_of(awareness_text),
+            "bytes": awareness_bytes,
+        },
     }
 
 
@@ -78,6 +89,8 @@ def _finish_plan(plan: dict[str, Any], budget: dict[str, Any]) -> dict[str, Any]
 def stage_plan(index: dict[str, Any], budget: dict[str, Any], source_revision: str) -> dict[str, Any]:
     proof = source_pointer(index, source_revision)
     version = index["protocol"]["version"]
+    if not AWARENESS_CORE.is_file() or AWARENESS_CORE.read_text(encoding="utf-8") != render_awareness_core():
+        raise ValueError("protocol/awareness-core.md is stale")
     plan = {
         "operation": "stage",
         "provider": budget["provider"],
@@ -85,7 +98,7 @@ def stage_plan(index: dict[str, Any], budget: dict[str, Any], source_revision: s
         "reasons": [],
         "summary": {
             "records": 1,
-            "text_bytes": 0,
+            "text_bytes": proof["awareness"]["bytes"],
             "attachments": 0,
             "attachment_bytes": 0,
             "requests": 2,
@@ -96,9 +109,10 @@ def stage_plan(index: dict[str, Any], budget: dict[str, Any], source_revision: s
                 "id": f"mind-palace-release-{version}",
                 "action": "create",
                 "bytes": 0,
-                "transport": "immutable-source-pointer",
+                "transport": "source-pointer-plus-awareness-core",
                 "package_locator": f"https://github.com/guruor/mind-palace-protocol/tree/{source_revision}",
                 "source_pointer": proof["pointer"],
+                "awareness": proof["awareness"],
                 "verification": {"core_resources": proof["verified_core_resources"]},
             }
         ],
@@ -162,8 +176,13 @@ def run_scenario() -> None:
         raise ValueError("compact staging plan is not within budget")
     pointer = stage["writes"][0]["source_pointer"]
     proof = stage["writes"][0]["verification"]
-    if pointer["source_revision"] != "synthetic-revision" or len(proof["core_resources"]) != 6:
+    awareness = stage["writes"][0]["awareness"]
+    if pointer["source_revision"] != "synthetic-revision" or len(proof["core_resources"]) != 5:
         raise ValueError("compact staging plan lacks an exact source pointer")
+    if awareness["path"] != "protocol/awareness-core.md" or not awareness["digest"].startswith("sha256:"):
+        raise ValueError("compact staging plan lacks an exact awareness core")
+    if stage["summary"]["text_bytes"] <= 0:
+        raise ValueError("compact staging plan does not account for awareness content bytes")
 
     denied_budget = json.loads(json.dumps(budget))
     denied_budget["operation"]["max_records"] = 0

@@ -9,10 +9,13 @@ knowledge and user configuration do not belong in this repository.
 
 ## Status
 
-Version `0.9.3` keeps only one verified release pointer in common memory.
-Protocol resources stay in the immutable Git release, and successful activation
-is followed by bounded cleanup of superseded protocol records. User documents
-are not migrated by a protocol update.
+Version `0.9.4` keeps one active Source Pointer in common memory and renders the
+compact **awareness core** (General Guide, selected methodology, and storage
+binding) on that single release record. A client resolves the pointer, reads the
+awareness core to become aware and operate, and fetches byte-exact schemas,
+templates, and document-type contracts from the immutable Git release on demand.
+Successful activation is followed by bounded cleanup of superseded protocol
+records. User documents are not migrated by a protocol update.
 
 ## Start Here
 
@@ -62,7 +65,7 @@ vendor client and cannot perform writes.
 
 Resolve one explicitly approved external package with
 `uv run --frozen scripts/extension_resolver.py <reference.json>
---protocol-version 0.9.3`. The reference must use an immutable HTTPS source and
+--protocol-version 0.9.4`. The reference must use an immutable HTTPS source and
 an expected manifest digest.
 
 Use [`docs/live-cross-client-canary.md`](docs/live-cross-client-canary.md) for

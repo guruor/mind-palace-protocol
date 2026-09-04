@@ -21,9 +21,10 @@ Append this block without replacing existing instructions:
 When a task installs Mind Palace or uses an authorized knowledge connector for
 durable knowledge, first determine whether it targets the configured Mind
 Palace scope. For Mind Palace work, resolve the common-memory installation by
-exact stable ID mind-palace-protocol-installation, read its active immutable
-release, and follow that release's General Guide, selected methodology, and
-storage binding before acting.
+exact stable ID mind-palace-protocol-installation, read the awareness core on
+its active release record (General Guide, selected methodology, and storage
+binding), and fetch any exact contract or template you need from that release's
+immutable source before acting.
 
 Protocol access does not grant knowledge access or write authority. Preserve
 existing instructions and legacy guidance, remain read-only when scope, trust,

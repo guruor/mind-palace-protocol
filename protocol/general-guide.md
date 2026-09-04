@@ -25,6 +25,26 @@ version resolution, and conformance results in the receipt defined by
 [`client-installation.md`](client-installation.md). A conversation-only claim
 that the protocol was installed is not sufficient evidence.
 
+## Becoming Aware
+
+A client becomes aware of the Mind Palace by resolving, in order:
+
+1. the common-memory installation by its stable ID
+   (`mind-palace-protocol-installation`, or an explicit instance override);
+2. the active Source Pointer, verifying its Release Index digest against the
+   immutable release;
+3. the awareness core on the active release record (this guide's summary, the
+   selected methodology, and the storage binding);
+4. the document-type catalog to identify which artifact a task needs;
+5. on demand, the exact contract, template, or schema from the immutable
+   release, verified by digest.
+
+The awareness core is a rendered projection for direct reading. It is not an
+authority: when it conflicts with the immutable release, the release wins.
+Exact contracts are always fetched and verified from the immutable source; they
+are never read from a projection. "Aware" means a client can complete steps 1-3
+and knows how to complete 4-5; the installation receipt records that capability.
+
 Resolve configuration in this order:
 
 1. project or topic override;

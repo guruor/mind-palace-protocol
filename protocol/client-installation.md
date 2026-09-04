@@ -82,8 +82,10 @@ authority for the same instance.
 1. Install the version-neutral adapter without replacing existing instructions.
 2. In a fresh client session, resolve the common-memory installation and its
    active release without pasted protocol text.
-3. Resolve the General Guide, selected methodology, and binding from that active
-   release.
+3. Read the General Guide, selected methodology, and binding from the active
+   release's awareness core in common memory, then fetch any byte-exact
+   contract, template, or schema from that release's immutable source and
+   verify its digest.
 4. Run trust-isolation, read, proposal, and conflict probes using synthetic or
    explicitly authorized content.
 5. Record the results in the client's single installation receipt conforming to
@@ -99,8 +101,8 @@ rollback.
 
 Every Mind Palace operation resolves the shared installation's active release
 before loading protocol behavior. When the active release differs from the
-receipt, validate its identity, compatibility, required guides, methodology,
-and binding, then follow it. Refresh the same receipt before a
+receipt, validate its identity, compatibility, and awareness core, then follow
+it. Refresh the same receipt before a
 protocol-governed write or when explicitly requested; do not write receipt
 evidence as a side effect of an ordinary read. Do not edit persistent client
 instructions or require a fresh setup conversation merely because the protocol

@@ -1,5 +1,5 @@
 ---
-protocol: {id: mind-palace, version: 0.9.3}
+protocol: {id: mind-palace, version: 0.9.4}
 id: "{{stable-validation-report-id}}"
 kind: product-engineering/validation-report
 methodology: {id: product-engineering, version: 0.2.0}

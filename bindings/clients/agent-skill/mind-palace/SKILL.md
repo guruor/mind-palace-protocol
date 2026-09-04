@@ -19,8 +19,10 @@ metadata:
    installations; never replace them silently.
    Do not discover or activate a newer release unless the user explicitly asks
    to install, update, repair, or roll back the shared protocol.
-4. Read the active release's General Guide, selected methodology, and storage
-   binding. Load only task-relevant artifacts.
+4. Read the awareness core on the active release record (General Guide,
+   selected methodology, and storage binding). Fetch exact contracts, templates,
+   and schemas from that release's immutable source only when a task needs them,
+   and verify their digests. Load only task-relevant artifacts.
 5. Treat common-memory access as separate from write authorization. Preserve
    trust boundaries and remain read-only when effective policy is ambiguous.
 6. For migration, require a passing client receipt, source snapshot, mapping,

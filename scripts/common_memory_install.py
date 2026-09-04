@@ -73,6 +73,8 @@ def install_release(
             return "conflict", result
         if same_identity.get("source_pointer") != candidate.get("source_pointer"):
             return "conflict", result
+        if same_identity.get("awareness") != candidate.get("awareness"):
+            return "conflict", result
         existing = {item["path"]: item for item in release_resources(same_identity)}
         for resource in release_resources(candidate):
             current = existing.get(resource["path"])
@@ -203,6 +205,11 @@ def synthetic_pointer_release(version: str, source_version: str) -> dict[str, An
         "release_index": release.pop("release_index"),
     }
     release.pop("core_bundle")
+    release["awareness"] = {
+        "path": "protocol/awareness-core.md",
+        "digest": "sha256:" + "7" * 64,
+        "bytes": 4096,
+    }
     return release
 
 
@@ -282,6 +289,11 @@ def run_scenario() -> None:
     action, unchanged = install_release(pointer_staged, changed_pointer)
     if action != "conflict" or unchanged != pointer_staged:
         raise ValueError("changed source pointer did not cause a conflict")
+    changed_awareness = copy.deepcopy(pointer_release)
+    changed_awareness["awareness"]["digest"] = "sha256:" + "8" * 64
+    action, unchanged = install_release(pointer_staged, changed_awareness)
+    if action != "conflict" or unchanged != pointer_staged:
+        raise ValueError("changed awareness projection did not cause a conflict")
 
     upgrade = synthetic_release("0.2.0", "release-002")
     action, staged = install_release(installed, upgrade)

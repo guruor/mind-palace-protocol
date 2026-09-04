@@ -1,28 +1,22 @@
 protocol:
   id: mind-palace
-  version: 0.9.3
+  version: 0.9.4
 source:
   locator_template: https://github.com/guruor/mind-palace-protocol/blob/{revision}/{path}
   revision_from: release-record
 resources:
 - path: protocol/manifest.yaml
-  digest: sha256:a8365e3151be93225bc5a53a21197b8e3dc21d5b06aa6f65f22cf15ee1c3a9eb
+  digest: sha256:596b5ce7ef27478b4c9f387fda841038aee2b283385257abed4470f9f087b2b1
   bytes: 2086
   class: core
   cache: always
   purpose: Identify the active protocol and built-in packages.
 - path: protocol/general-guide.md
-  digest: sha256:27b96188926274c0f8b7b316f74f61ba665419a2c122f02cef3f67f0b4ed026a
-  bytes: 5136
+  digest: sha256:cf691e0d7b804441bba18f40e9984a9a457e237ee173316dbd967aab21f58b4c
+  bytes: 6147
   class: core
   cache: always
   purpose: Define shared collaboration and safety behavior.
-- path: schemas/artifact.schema.json
-  digest: sha256:a52da642003aba42f274ff4f3f80db323bd2c43ef7e327718f6d8382b1688d4a
-  bytes: 2465
-  class: core
-  cache: always
-  purpose: Define the portable document metadata envelope.
 - path: methodologies/product-engineering/method.yaml
   digest: sha256:0558a06ef1cc69fbf5b54e8ad3f3cdb5ba9b025c56df372d2b508a66e902f33f
   bytes: 1257
@@ -41,6 +35,13 @@ resources:
   class: core
   cache: always
   purpose: Map normal runtime operations to Notion safely.
+- path: schemas/artifact.schema.json
+  digest: sha256:a52da642003aba42f274ff4f3f80db323bd2c43ef7e327718f6d8382b1688d4a
+  bytes: 2465
+  class: on-demand
+  cache: automatic
+  purpose: Define the portable document metadata envelope (byte-exact contract; fetched
+    for validation).
 - path: schemas/document-type.schema.json
   digest: sha256:29f630a39ddbb8fd4c7834f61a3b76383c47ca7670fef0aa4bb2fed73fedab50
   bytes: 5056
@@ -168,61 +169,61 @@ resources:
   cache: automatic
   purpose: Define the Reconciliation Report document type.
 - path: methodologies/product-engineering/templates/project-hub.md
-  digest: sha256:42c696b1fb279c11b0544da131bf69c27f0487806e94c94ee7490bcb265a5995
+  digest: sha256:61d22e56983b1b59ab6a15740e50872d4772bc17995d5e50f44919294b09107a
   bytes: 861
   class: on-demand
   cache: automatic
   purpose: Create a Project Hub.
 - path: methodologies/product-engineering/templates/product-specification.md
-  digest: sha256:c98f4cf0117a5cfb59b8cadaa2222d5a1d6aa8687e4ae43a0352750205704e8d
+  digest: sha256:107631ea2d70cba2375ffbd38fcd353ffc4308f2aef94f5edd2650b7442d05b0
   bytes: 1111
   class: on-demand
   cache: automatic
   purpose: Create a Product Specification.
 - path: methodologies/product-engineering/templates/technical-specification.md
-  digest: sha256:63bc0a2b1a4303186a565ebb7bc1b8d562a8c0a1a3ee1fdffc366208674eeb89
+  digest: sha256:26b11445c46b491473d482ec5bfe00214fc7f06920d013b0289bcad5206780aa
   bytes: 1315
   class: on-demand
   cache: automatic
   purpose: Create a Technical Specification.
 - path: methodologies/product-engineering/templates/discovery-record.md
-  digest: sha256:8348f85d87b7d1e28d41106ec5df46e8c751ad27a3dd60c49359f5f380409fb4
+  digest: sha256:3f390d995bcd228071d6ec978311fe3a290a9941c0b90b49590ece7784e5bda5
   bytes: 1026
   class: on-demand
   cache: automatic
   purpose: Create a Discovery Record.
 - path: methodologies/product-engineering/templates/decision-record.md
-  digest: sha256:6ccc8e11f67e64cdff974166292358c481be5bb22b4118e917a0eb33880dbb5c
+  digest: sha256:c3f1fe361f0f1eea04e099ec1c54c8458103ad30f0d546a5116b75ccb7c67123
   bytes: 974
   class: on-demand
   cache: automatic
   purpose: Create a Decision Record.
 - path: methodologies/product-engineering/templates/change-log.md
-  digest: sha256:1e916daea2ba592bffa891a008eb94468c7aaaebdb48e965dae7b85e4666e831
+  digest: sha256:cf5f0836a76cd91867325b9a744a462cb9cbeb80e0ca197ab836e3eb6a86799b
   bytes: 896
   class: on-demand
   cache: automatic
   purpose: Create a Change Log.
 - path: methodologies/product-engineering/templates/delivery-baseline.md
-  digest: sha256:6f39944a6fd65851664e4fddfab8f55bf8b551081ef8f8baf394a5d7f7cda376
+  digest: sha256:692c00b181459a23e0c1514b2c2b3407a26927467cecc4d642b70b01d8b69bb1
   bytes: 1225
   class: on-demand
   cache: automatic
   purpose: Create a Delivery Baseline.
 - path: methodologies/product-engineering/templates/implementation-report.md
-  digest: sha256:d37883fd1f65f3f962755fd803fdc398fd5d140e57c788e7aa130c7efb936453
+  digest: sha256:63e679107479bb738b87b0973303e089c7fd6f2f9e0f9bfe7369641072b64149
   bytes: 1082
   class: on-demand
   cache: automatic
   purpose: Create an Implementation Report.
 - path: methodologies/product-engineering/templates/validation-report.md
-  digest: sha256:314fd85337edafe6b47f3cfd0f3c2f5ceb5e63705fc9b8f987d8542e5719c514
+  digest: sha256:90a56fa4b8d58b9d418c1ff9a36de10139b63e0a3b28ceacff93c3e1cc287df4
   bytes: 981
   class: on-demand
   cache: automatic
   purpose: Create a Validation Report.
 - path: methodologies/product-engineering/templates/reconciliation-report.md
-  digest: sha256:82cb2ce3e3f64fe91a8bde426f4e335e11bd4c1e271fd18c312e450429167fe6
+  digest: sha256:06b01e70618e1984a275c448bc1311b7d79a8faf02497bc0c1cae7e8425673ff
   bytes: 1071
   class: on-demand
   cache: automatic
@@ -234,14 +235,14 @@ resources:
   cache: never
   purpose: Install or validate the protocol and client setup.
 - path: protocol/client-installation.md
-  digest: sha256:f8d58768ce82fb11d5777ab8422a298c2306eaca01af3013b373659b3d06485f
-  bytes: 7352
+  digest: sha256:7d73dbbfd1a76e6254b59938fe8d1e2d77c86ec333d53fb9785ddef422b159e3
+  bytes: 7481
   class: maintenance
   cache: never
   purpose: Install or repair a client adapter.
 - path: protocol/common-memory-installation.md
-  digest: sha256:0011eed04f7d672703889e759388df386e74e9290991cb9b3931e3021ba01f88
-  bytes: 7320
+  digest: sha256:b492bad0d4b42fc36c23573344548039a9d1fd76378ca2cacd0bd83caa812c6b
+  bytes: 8089
   class: maintenance
   cache: never
   purpose: Install
@@ -252,8 +253,8 @@ resources:
   cache: never
   purpose: Implement or validate a client adapter.
 - path: bindings/clients/hosted-chat.md
-  digest: sha256:6ac21889b9de4a82febf93b75f6d956d716193e808ce86ab33938a104a6da421
-  bytes: 3814
+  digest: sha256:ff5d0b5a266de609e686460d77c213532dbb232bbcdfd783028751acd9142988
+  bytes: 3896
   class: maintenance
   cache: never
   purpose: Configure a hosted chat client.
@@ -276,8 +277,8 @@ resources:
   cache: never
   purpose: Configure Claude.
 - path: bindings/clients/agent-skill/mind-palace/SKILL.md
-  digest: sha256:ebae56d22e069f024c2fb27a48772e206bff43c1f24f6c178d51b294e05da47f
-  bytes: 1918
+  digest: sha256:6f269595867ee7ce09f5a2e86b234e23ab3a31789bd8b40a489238ad65ac34d5
+  bytes: 2091
   class: maintenance
   cache: never
   purpose: Configure an Agent Skills client.
@@ -288,8 +289,8 @@ resources:
   cache: never
   purpose: Validate a client receipt.
 - path: schemas/common-memory-installation.schema.json
-  digest: sha256:059f0be14505a7dba47f081120dc3ab2dface62219e99530569cfc7c833cf76f
-  bytes: 4810
+  digest: sha256:5a1121a90589b4be14d2289e5f8d0fb25c6be5fd39df6130829008cc04783391
+  bytes: 5426
   class: maintenance
   cache: never
   purpose: Validate common-memory installation state.

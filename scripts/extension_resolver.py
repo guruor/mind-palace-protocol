@@ -141,14 +141,14 @@ def run_scenario() -> None:
         "approval_reference": "synthetic-approval",
     }
     fetcher = lambda locator: payload
-    resolved = resolve_extension(reference, "0.9.3", fetcher)
+    resolved = resolve_extension(reference, "0.9.4", fetcher)
     if resolved["id"] != "example/research":
         raise ValueError("approved extension did not resolve")
 
     changed = json.loads(json.dumps(reference))
     changed["manifest"]["digest"] = "sha256:" + "0" * 64
     try:
-        resolve_extension(changed, "0.9.3", fetcher)
+        resolve_extension(changed, "0.9.4", fetcher)
     except ValueError:
         pass
     else:
@@ -164,7 +164,7 @@ def run_scenario() -> None:
     try:
         resolve_extension(
             reference,
-            "0.9.3",
+            "0.9.4",
             fetcher,
             document_owners={"example-research/research-note": "other/method"},
         )
@@ -179,7 +179,7 @@ def run_scenario() -> None:
     dependency_reference = json.loads(json.dumps(reference))
     dependency_reference["manifest"]["digest"] = f"sha256:{hashlib.sha256(dependency_payload).hexdigest()}"
     try:
-        resolve_extension(dependency_reference, "0.9.3", lambda locator: dependency_payload)
+        resolve_extension(dependency_reference, "0.9.4", lambda locator: dependency_payload)
     except ValueError:
         pass
     else:
@@ -193,7 +193,7 @@ def run_scenario() -> None:
     executable_reference = json.loads(json.dumps(reference))
     executable_reference["manifest"]["digest"] = f"sha256:{hashlib.sha256(executable_payload).hexdigest()}"
     try:
-        resolve_extension(executable_reference, "0.9.3", lambda locator: executable_payload)
+        resolve_extension(executable_reference, "0.9.4", lambda locator: executable_payload)
     except ValueError:
         pass
     else:
@@ -215,7 +215,7 @@ def run_scenario() -> None:
     }
     resolved_binding = resolve_extension(
         binding_reference,
-        "0.9.3",
+        "0.9.4",
         lambda locator: binding_payload,
         required_capabilities={"markdown", "yaml-front-matter"},
     )
@@ -224,7 +224,7 @@ def run_scenario() -> None:
     try:
         resolve_extension(
             binding_reference,
-            "0.9.3",
+            "0.9.4",
             lambda locator: binding_payload,
             required_capabilities={"native-relations"},
         )

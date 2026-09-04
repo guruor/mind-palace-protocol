@@ -4,11 +4,11 @@ source:
 resources:
   - {path: protocol/manifest.yaml, class: core, cache: always, purpose: Identify the active protocol and built-in packages.}
   - {path: protocol/general-guide.md, class: core, cache: always, purpose: Define shared collaboration and safety behavior.}
-  - {path: schemas/artifact.schema.json, class: core, cache: always, purpose: Define the portable document metadata envelope.}
   - {path: methodologies/product-engineering/method.yaml, class: core, cache: always, purpose: Identify the active built-in Knowledge Method.}
   - {path: methodologies/product-engineering/README.md, class: core, cache: always, purpose: Define behavior across Product Engineering document types.}
   - {path: bindings/notion-runtime.md, class: core, cache: always, purpose: Map normal runtime operations to Notion safely.}
 
+  - {path: schemas/artifact.schema.json, class: on-demand, cache: automatic, purpose: Define the portable document metadata envelope (byte-exact contract; fetched for validation).}
   - {path: schemas/document-type.schema.json, class: on-demand, cache: automatic, purpose: Validate a document-type contract.}
   - {path: schemas/product-engineering.schema.json, class: on-demand, cache: automatic, purpose: Validate Product Engineering document metadata.}
   - {path: schemas/knowledge-method.schema.json, class: on-demand, cache: automatic, purpose: Validate a Knowledge Method package.}

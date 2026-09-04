@@ -1,5 +1,5 @@
 ---
-protocol: {id: mind-palace, version: 0.9.3}
+protocol: {id: mind-palace, version: 0.9.4}
 id: "{{stable-reconciliation-report-id}}"
 kind: product-engineering/reconciliation-report
 methodology: {id: product-engineering, version: 0.2.0}
