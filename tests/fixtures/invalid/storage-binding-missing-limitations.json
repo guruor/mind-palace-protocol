@@ -1,0 +1,14 @@
+{
+  "id": "example/plain-files",
+  "kind": "storage-binding",
+  "version": "0.1.0",
+  "requires": {"protocol": ">=0.3.0 <1.0.0"},
+  "source": {
+    "locator": "https://example.com/plain-files-binding",
+    "revision": "example-revision-001",
+    "digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+  },
+  "guide": "README.md",
+  "provides": {"storage": "plain-files", "capabilities": []},
+  "resources": []
+}

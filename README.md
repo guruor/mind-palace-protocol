@@ -9,11 +9,11 @@ knowledge and user configuration do not belong in this repository.
 
 ## Status
 
-Version `0.2.0` records the architecture baseline for an AI-first shared
-knowledge system. The protocol defines document types rather than tracking
-individual user documents. Knowledge Methods and Storage Bindings are the
-declarative extension points. Existing Mind Palace content is not yet migrated,
-and common memory remains on the active `v0.1.0` installation.
+Version `0.3.0` adds declarative contracts for document types, Knowledge Method
+packages, Storage Binding packages, and instance selection. The protocol defines
+types rather than tracking individual user documents. Existing Mind Palace
+content is not yet migrated, and common memory remains on the active `v0.1.0`
+installation.
 
 ## Start Here
 
@@ -30,6 +30,10 @@ and common memory remains on the active `v0.1.0` installation.
 7. Read the applicable storage and client adapters under [`bindings/`](bindings/).
 8. Run `uv run --frozen scripts/validate.py` before proposing a release or
    migration.
+
+Use [`docs/extension-authoring.md`](docs/extension-authoring.md) to understand
+the declarative method and binding contracts. External package resolution is
+not enabled until the later custom-package release.
 
 Calculate a frozen artifact digest with
 `uv run --frozen scripts/digest.py <artifact.md>`.

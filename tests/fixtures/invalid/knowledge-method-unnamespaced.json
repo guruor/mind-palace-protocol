@@ -1,0 +1,14 @@
+{
+  "id": "research",
+  "kind": "knowledge-method",
+  "version": "0.1.0",
+  "requires": {"protocol": ">=0.3.0 <1.0.0"},
+  "source": {
+    "locator": "https://example.com/mind-palace-research",
+    "revision": "example-revision-001",
+    "digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+  },
+  "guide": "README.md",
+  "provides": {"document_types": ["example/working-note"]},
+  "resources": []
+}

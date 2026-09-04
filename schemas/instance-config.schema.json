@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:mind-palace:schema:instance-config:0.1.0",
+  "title": "Mind Palace instance configuration",
+  "type": "object",
+  "required": ["id", "protocol", "work_modes", "storage"],
+  "properties": {
+    "id": {"type": "string", "minLength": 1},
+    "protocol": {
+      "type": "object",
+      "required": ["id", "version"],
+      "properties": {
+        "id": {"const": "mind-palace"},
+        "version": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "work_modes": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "required": ["method"],
+        "properties": {
+          "method": {"type": "string", "minLength": 1}
+        },
+        "additionalProperties": true
+      }
+    },
+    "storage": {
+      "type": "object",
+      "required": ["primary"],
+      "properties": {
+        "primary": {
+          "type": "object",
+          "required": ["binding", "root"],
+          "properties": {
+            "binding": {"type": "string", "minLength": 1},
+            "root": {"type": "string", "minLength": 1}
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:mind-palace:schema:extension-package:0.1.0",
+  "title": "Mind Palace extension package",
+  "type": "object",
+  "required": ["id", "kind", "version", "requires", "source", "resources"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*/[a-z0-9][a-z0-9-]*$"
+    },
+    "kind": {"enum": ["knowledge-method", "storage-binding"]},
+    "version": {"$ref": "#/$defs/semver"},
+    "requires": {
+      "type": "object",
+      "required": ["protocol"],
+      "properties": {
+        "protocol": {"type": "string", "minLength": 1},
+        "packages": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1},
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "source": {
+      "type": "object",
+      "required": ["locator", "revision", "digest"],
+      "properties": {
+        "locator": {"type": "string", "minLength": 1},
+        "revision": {"type": "string", "minLength": 1},
+        "digest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}
+      },
+      "additionalProperties": false
+    },
+    "resources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "class", "cache", "purpose"],
+        "properties": {
+          "path": {"type": "string", "minLength": 1},
+          "class": {"enum": ["core", "on-demand", "maintenance", "development"]},
+          "cache": {"enum": ["always", "automatic", "never"]},
+          "purpose": {"type": "string", "minLength": 1}
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "semver": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-((?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*)(?:\\.(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*))*))?(?:\\+([0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*))?$"
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:mind-palace:schema:storage-binding:0.1.0",
+  "title": "Mind Palace Storage Binding package",
+  "allOf": [
+    {"$ref": "urn:mind-palace:schema:extension-package:0.1.0"},
+    {
+      "type": "object",
+      "required": ["guide", "provides", "limitations"],
+      "properties": {
+        "kind": {"const": "storage-binding"},
+        "guide": {"type": "string", "minLength": 1},
+        "provides": {
+          "type": "object",
+          "required": ["storage", "capabilities"],
+          "properties": {
+            "storage": {"type": "string", "minLength": 1},
+            "capabilities": {
+              "type": "array",
+              "items": {"type": "string", "minLength": 1},
+              "uniqueItems": true
+            }
+          },
+          "additionalProperties": true
+        },
+        "limitations": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  ]
+}

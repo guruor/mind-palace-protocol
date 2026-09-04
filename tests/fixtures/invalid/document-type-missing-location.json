@@ -1,0 +1,18 @@
+{
+  "id": "example/working-note",
+  "version": "0.1.0",
+  "method": {"id": "example/method", "version": "0.1.0"},
+  "purpose": "Keep current understanding.",
+  "applies_when": "A topic needs a durable note.",
+  "format": "markdown",
+  "metadata": {"shared_required": [], "type_specific": []},
+  "ownership": {"authority": "intent", "owner": "topic-owner"},
+  "lifecycle": {"mutability": "mutable", "states": ["active"]},
+  "sections": {"required": [], "optional": []},
+  "language": {"style": "Plain.", "audience": "People and AI clients."},
+  "relations": [],
+  "retrieval": {"from_current": [], "keywords": []},
+  "writes": {"route": "Update it.", "rules": []},
+  "migration": {"compatibility": "Preserve data.", "guide": "migration.md"},
+  "template": "templates/working-note.md"
+}

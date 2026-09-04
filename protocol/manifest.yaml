@@ -1,5 +1,5 @@
 id: mind-palace
-version: 0.2.0
+version: 0.3.0
 status: experimental
 general_guide: protocol/general-guide.md
 installation_guide: protocol/client-installation.md
@@ -11,6 +11,10 @@ common_memory_installation_schema: schemas/common-memory-installation.schema.jso
 handoff_schema: schemas/client-handoff.schema.json
 client_adapter_contract: bindings/client-adapter.md
 conflict_template: protocol/conflict-template.md
+document_type_schema: schemas/document-type.schema.json
+knowledge_method_schema: schemas/knowledge-method.schema.json
+storage_binding_schema: schemas/storage-binding.schema.json
+instance_config_schema: schemas/instance-config.schema.json
 methodologies:
   - id: product-engineering
     version: 0.1.0

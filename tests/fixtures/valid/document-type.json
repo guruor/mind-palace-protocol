@@ -1,0 +1,22 @@
+{
+  "id": "example/working-note",
+  "version": "0.1.0",
+  "method": {"id": "example/method", "version": "0.1.0"},
+  "purpose": "Keep the current understanding of one topic.",
+  "applies_when": "A topic needs durable current knowledge.",
+  "format": "markdown",
+  "location": {"pattern": "topics/<topic-id>/current.md"},
+  "metadata": {
+    "shared_required": ["protocol", "id", "kind", "title", "authority", "trust_domain", "revision", "relations", "provenance"],
+    "type_specific": [{"name": "state", "required": true, "purpose": "Describe topic maturity."}]
+  },
+  "ownership": {"authority": "intent", "owner": "topic-owner"},
+  "lifecycle": {"mutability": "mutable", "states": ["exploring", "enough-for-now", "reopened"]},
+  "sections": {"required": ["Current understanding", "Open questions"], "optional": ["Applications"]},
+  "language": {"style": "Plain and direct.", "audience": "People and AI clients."},
+  "relations": [{"type": "part_of", "targets": ["example/topic-map"], "query": "Match the target stable ID."}],
+  "retrieval": {"from_current": ["Read relations before broad search."], "keywords": ["title", "aliases", "tags"]},
+  "writes": {"route": "Update the authoritative current note.", "rules": ["Read the current revision before writing."]},
+  "migration": {"compatibility": "Preserve unknown fields.", "guide": "migration.md"},
+  "template": "templates/working-note.md"
+}

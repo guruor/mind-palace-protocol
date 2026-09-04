@@ -1,0 +1,168 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:mind-palace:schema:document-type:0.1.0",
+  "title": "Mind Palace document-type contract",
+  "type": "object",
+  "required": [
+    "id",
+    "version",
+    "method",
+    "purpose",
+    "applies_when",
+    "format",
+    "location",
+    "metadata",
+    "ownership",
+    "lifecycle",
+    "sections",
+    "language",
+    "relations",
+    "retrieval",
+    "writes",
+    "migration",
+    "template"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*/[a-z0-9][a-z0-9-]*$"
+    },
+    "version": {"$ref": "#/$defs/semver"},
+    "method": {
+      "type": "object",
+      "required": ["id", "version"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "version": {"$ref": "#/$defs/semver"}
+      },
+      "additionalProperties": false
+    },
+    "purpose": {"type": "string", "minLength": 1},
+    "applies_when": {"type": "string", "minLength": 1},
+    "format": {"enum": ["markdown", "yaml", "json", "csv", "portable-asset"]},
+    "location": {
+      "type": "object",
+      "required": ["pattern"],
+      "properties": {
+        "pattern": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": true
+    },
+    "metadata": {
+      "type": "object",
+      "required": ["shared_required", "type_specific"],
+      "properties": {
+        "shared_required": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1},
+          "uniqueItems": true
+        },
+        "type_specific": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "required", "purpose"],
+            "properties": {
+              "name": {"type": "string", "minLength": 1},
+              "required": {"type": "boolean"},
+              "purpose": {"type": "string", "minLength": 1}
+            },
+            "additionalProperties": true
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "ownership": {
+      "type": "object",
+      "required": ["authority", "owner"],
+      "properties": {
+        "authority": {
+          "enum": ["intent", "configuration", "evidence", "history", "implementation-reference", "derived"]
+        },
+        "owner": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": true
+    },
+    "lifecycle": {
+      "type": "object",
+      "required": ["mutability", "states"],
+      "properties": {
+        "mutability": {"enum": ["mutable", "append-only", "immutable"]},
+        "states": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1},
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "sections": {
+      "type": "object",
+      "required": ["required", "optional"],
+      "properties": {
+        "required": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "optional": {"type": "array", "items": {"type": "string", "minLength": 1}}
+      },
+      "additionalProperties": false
+    },
+    "language": {
+      "type": "object",
+      "required": ["style", "audience"],
+      "properties": {
+        "style": {"type": "string", "minLength": 1},
+        "audience": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": true
+    },
+    "relations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "targets", "query"],
+        "properties": {
+          "type": {"type": "string", "minLength": 1},
+          "targets": {"type": "array", "items": {"type": "string", "minLength": 1}},
+          "query": {"type": "string", "minLength": 1}
+        },
+        "additionalProperties": true
+      }
+    },
+    "retrieval": {
+      "type": "object",
+      "required": ["from_current", "keywords"],
+      "properties": {
+        "from_current": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "keywords": {"type": "array", "items": {"type": "string", "minLength": 1}}
+      },
+      "additionalProperties": true
+    },
+    "writes": {
+      "type": "object",
+      "required": ["route", "rules"],
+      "properties": {
+        "route": {"type": "string", "minLength": 1},
+        "rules": {"type": "array", "items": {"type": "string", "minLength": 1}}
+      },
+      "additionalProperties": true
+    },
+    "migration": {
+      "type": "object",
+      "required": ["compatibility", "guide"],
+      "properties": {
+        "compatibility": {"type": "string", "minLength": 1},
+        "guide": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": true
+    },
+    "template": {"type": "string", "minLength": 1}
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "semver": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-((?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*)(?:\\.(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*))*))?(?:\\+([0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*))?$"
+    }
+  }
+}

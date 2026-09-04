@@ -1,0 +1,6 @@
+{
+  "id": "example-mind-palace",
+  "protocol": {"id": "mind-palace", "version": "0.3.0"},
+  "work_modes": {"product": {}},
+  "storage": {"primary": {"binding": "mind-palace/notion@0.1.0", "root": "example://mind-palace"}}
+}

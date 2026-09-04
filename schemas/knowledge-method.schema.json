@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:mind-palace:schema:knowledge-method:0.1.0",
+  "title": "Mind Palace Knowledge Method package",
+  "allOf": [
+    {"$ref": "urn:mind-palace:schema:extension-package:0.1.0"},
+    {
+      "type": "object",
+      "required": ["guide", "provides"],
+      "properties": {
+        "kind": {"const": "knowledge-method"},
+        "guide": {"type": "string", "minLength": 1},
+        "provides": {
+          "type": "object",
+          "required": ["document_types"],
+          "properties": {
+            "document_types": {
+              "type": "array",
+              "minItems": 1,
+              "items": {"type": "string", "minLength": 1},
+              "uniqueItems": true
+            }
+          },
+          "additionalProperties": true
+        }
+      }
+    }
+  ]
+}

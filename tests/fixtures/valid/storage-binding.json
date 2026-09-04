@@ -1,0 +1,15 @@
+{
+  "id": "example/plain-files",
+  "kind": "storage-binding",
+  "version": "0.1.0",
+  "requires": {"protocol": ">=0.3.0 <1.0.0", "packages": []},
+  "source": {
+    "locator": "https://example.com/plain-files-binding",
+    "revision": "example-revision-001",
+    "digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+  },
+  "guide": "README.md",
+  "provides": {"storage": "plain-files", "capabilities": ["markdown", "yaml-front-matter", "filesystem-search"]},
+  "limitations": ["No native relation database."],
+  "resources": [{"path": "README.md", "class": "core", "cache": "always", "purpose": "Binding guide."}]
+}

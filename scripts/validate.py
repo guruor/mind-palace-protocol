@@ -76,9 +76,21 @@ def validate_fixtures(schemas: dict[str, dict], registry: Registry) -> None:
     installation = validator("client-installation.schema.json", schemas, registry)
     handoff = validator("client-handoff.schema.json", schemas, registry)
     common_memory = validator("common-memory-installation.schema.json", schemas, registry)
+    document_type = validator("document-type.schema.json", schemas, registry)
+    knowledge_method = validator("knowledge-method.schema.json", schemas, registry)
+    storage_binding = validator("storage-binding.schema.json", schemas, registry)
+    instance_config = validator("instance-config.schema.json", schemas, registry)
 
     for path in sorted((ROOT / "tests/fixtures/valid").glob("*.json")):
-        if "common-memory-installation" in path.name:
+        if "document-type" in path.name:
+            selected = document_type
+        elif "knowledge-method" in path.name:
+            selected = knowledge_method
+        elif "storage-binding" in path.name:
+            selected = storage_binding
+        elif "instance-config" in path.name:
+            selected = instance_config
+        elif "common-memory-installation" in path.name:
             selected = common_memory
         elif "client-handoff" in path.name:
             selected = handoff
@@ -93,7 +105,15 @@ def validate_fixtures(schemas: dict[str, dict], registry: Registry) -> None:
             raise ValueError(f"valid fixture rejected: {path.relative_to(ROOT)}: {errors[0].message}")
 
     for path in sorted((ROOT / "tests/fixtures/invalid").glob("*.json")):
-        if "common-memory-installation" in path.name:
+        if "document-type" in path.name:
+            selected = document_type
+        elif "knowledge-method" in path.name:
+            selected = knowledge_method
+        elif "storage-binding" in path.name:
+            selected = storage_binding
+        elif "instance-config" in path.name:
+            selected = instance_config
+        elif "common-memory-installation" in path.name:
             selected = common_memory
         elif "client-handoff" in path.name:
             selected = handoff
@@ -153,6 +173,10 @@ def validate_manifest() -> None:
         "handoff_schema",
         "client_adapter_contract",
         "conflict_template",
+        "document_type_schema",
+        "knowledge_method_schema",
+        "storage_binding_schema",
+        "instance_config_schema",
     )
     for field in path_fields:
         path = ROOT / manifest[field]
