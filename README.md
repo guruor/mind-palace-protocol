@@ -9,10 +9,10 @@ knowledge and user configuration do not belong in this repository.
 
 ## Status
 
-Version `0.9.2` transfers the deterministic common-memory payload through a
-binary file upload, eliminating model-mediated byte copying. Staging verifies
-the uploaded payload digest before activation. Existing Mind Palace content is
-not migrated, and common memory remains on active `v0.7.0`.
+Version `0.9.3` keeps only one verified release pointer in common memory.
+Protocol resources stay in the immutable Git release, and successful activation
+is followed by bounded cleanup of superseded protocol records. User documents
+are not migrated by a protocol update.
 
 ## Start Here
 
@@ -56,13 +56,13 @@ Regenerate the compact release index with
 committed index is stale.
 
 Print the read-only common-memory staging plan with
-`uv run --frozen scripts/common_memory_plan.py`. Use `--operation cache
---resource <path>` to inspect one cache decision. This tool has no vendor client
-and cannot perform writes.
+`uv run --frozen scripts/common_memory_plan.py`. Use `--operation cleanup
+--record <id>` to inspect one bounded, resumable cleanup batch. This tool has no
+vendor client and cannot perform writes.
 
 Resolve one explicitly approved external package with
 `uv run --frozen scripts/extension_resolver.py <reference.json>
---protocol-version 0.9.2`. The reference must use an immutable HTTPS source and
+--protocol-version 0.9.3`. The reference must use an immutable HTTPS source and
 an expected manifest digest.
 
 Use [`docs/live-cross-client-canary.md`](docs/live-cross-client-canary.md) for

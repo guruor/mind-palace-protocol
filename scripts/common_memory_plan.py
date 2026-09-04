@@ -4,13 +4,12 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
 from typing import Any, Callable
 
 import yaml
-
-from common_memory_payload import build_payload, run_scenario as run_payload_scenario
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -29,6 +28,31 @@ def load_yaml(path: Path) -> dict[str, Any]:
     if not isinstance(value, dict):
         raise ValueError(f"expected an object: {path}")
     return value
+
+
+def source_pointer(index: dict[str, Any], source_revision: str) -> dict[str, Any]:
+    verified_resources = []
+    for item in index["resources"]:
+        if item["class"] != "core":
+            continue
+        content = (ROOT / item["path"]).read_bytes()
+        digest = f"sha256:{hashlib.sha256(content).hexdigest()}"
+        if len(content) != item["bytes"] or digest != item["digest"]:
+            raise ValueError(f"core resource differs from Release Index: {item['path']}")
+        verified_resources.append({"path": item["path"], "bytes": item["bytes"], "digest": item["digest"]})
+    index_bytes = INDEX.read_bytes()
+    raw_root = f"https://raw.githubusercontent.com/guruor/mind-palace-protocol/{source_revision}"
+    return {
+        "pointer": {
+            "source_revision": source_revision,
+            "release_index": {
+                "path": "protocol/release-index.yaml",
+                "digest": f"sha256:{hashlib.sha256(index_bytes).hexdigest()}",
+                "locator": f"{raw_root}/protocol/release-index.yaml",
+            },
+        },
+        "verified_core_resources": verified_resources,
+    }
 
 
 def _finish_plan(plan: dict[str, Any], budget: dict[str, Any]) -> dict[str, Any]:
@@ -52,9 +76,7 @@ def _finish_plan(plan: dict[str, Any], budget: dict[str, Any]) -> dict[str, Any]
 
 
 def stage_plan(index: dict[str, Any], budget: dict[str, Any], source_revision: str) -> dict[str, Any]:
-    core = [item for item in index["resources"] if item["class"] == "core"]
-    _, proof = build_payload(source_revision)
-    attachment_bytes = proof["payload_bytes"]
+    proof = source_pointer(index, source_revision)
     version = index["protocol"]["version"]
     plan = {
         "operation": "stage",
@@ -64,21 +86,20 @@ def stage_plan(index: dict[str, Any], budget: dict[str, Any], source_revision: s
         "summary": {
             "records": 1,
             "text_bytes": 0,
-            "attachments": 1,
-            "attachment_bytes": attachment_bytes,
-            "requests": 4,
+            "attachments": 0,
+            "attachment_bytes": 0,
+            "requests": 2,
             "rollback_writes": 1,
         },
         "writes": [
             {
                 "id": f"mind-palace-release-{version}",
                 "action": "create",
-                "bytes": attachment_bytes,
-                "filename": f"mind-palace-{version}-payload.md",
-                "transport": "notion-file-upload",
-                "core_resources": [item["path"] for item in core],
-                "payload_digest": proof["payload_digest"],
-                "release_index_digest": proof["release_index_digest"],
+                "bytes": 0,
+                "transport": "immutable-source-pointer",
+                "package_locator": f"https://github.com/guruor/mind-palace-protocol/tree/{source_revision}",
+                "source_pointer": proof["pointer"],
+                "verification": {"core_resources": proof["verified_core_resources"]},
             }
         ],
         "batches": [],
@@ -87,42 +108,27 @@ def stage_plan(index: dict[str, Any], budget: dict[str, Any], source_revision: s
     return _finish_plan(plan, budget)
 
 
-def cache_plan(
-    resource: dict[str, Any],
-    budget: dict[str, Any],
-    cached_paths: set[str],
-    cached_bytes: int,
-) -> dict[str, Any]:
-    reasons = []
-    if resource["class"] not in {"core", "on-demand"} or resource["cache"] == "never":
-        reasons.append("resource is not cache eligible")
-    if resource["path"] in cached_paths:
-        action = "retain"
-    else:
-        action = "create"
-        if len(cached_paths) >= budget["cache"]["max_records"]:
-            reasons.append("cache record budget is full")
-        if resource["bytes"] > budget["cache"]["max_resource_bytes"]:
-            reasons.append("resource exceeds cache item budget")
-        if cached_bytes + resource["bytes"] > budget["cache"]["max_bytes"]:
-            reasons.append("resource exceeds total cache byte budget")
-    records = 0 if action == "retain" else 1
+def cleanup_plan(record_ids: list[str], budget: dict[str, Any]) -> dict[str, Any]:
+    batch_size = budget["operation"]["batch_size"]
+    selected = record_ids[:batch_size]
+    records = len(selected)
     plan = {
-        "operation": "cache",
+        "operation": "cleanup",
         "provider": budget["provider"],
         "allowed": False,
-        "reasons": reasons,
+        "reasons": [],
         "summary": {
             "records": records,
-            "text_bytes": 0 if action == "retain" else resource["bytes"],
+            "text_bytes": 0,
             "attachments": 0,
             "attachment_bytes": 0,
             "requests": records,
             "rollback_writes": records,
         },
-        "writes": [{"id": resource["path"], "action": action, "bytes": resource["bytes"]}],
+        "writes": [{"id": record_id, "action": "remove", "bytes": 0} for record_id in selected],
         "batches": [],
-        "rollback": ["Remove only the new cache entry."] if records else [],
+        "remaining": record_ids[batch_size:],
+        "rollback": ["Recreate a removed release pointer from its immutable repository release."],
     }
     return _finish_plan(plan, budget)
 
@@ -149,18 +155,18 @@ def execute_plan(
 
 
 def run_scenario() -> None:
-    run_payload_scenario()
     index = load_yaml(INDEX)
     budget = load_yaml(BUDGET)
     stage = stage_plan(index, budget, "synthetic-revision")
     if not stage["allowed"] or stage["summary"]["records"] != 1:
         raise ValueError("compact staging plan is not within budget")
-    write = stage["writes"][0]
-    if not write["payload_digest"].startswith("sha256:") or not write["release_index_digest"].startswith("sha256:"):
-        raise ValueError("compact staging plan lacks payload proof")
+    pointer = stage["writes"][0]["source_pointer"]
+    proof = stage["writes"][0]["verification"]
+    if pointer["source_revision"] != "synthetic-revision" or len(proof["core_resources"]) != 6:
+        raise ValueError("compact staging plan lacks an exact source pointer")
 
     denied_budget = json.loads(json.dumps(budget))
-    denied_budget["operation"]["max_attachment_bytes"] = 1
+    denied_budget["operation"]["max_records"] = 0
     denied = stage_plan(index, denied_budget, "synthetic-revision")
     calls: list[str] = []
     try:
@@ -172,16 +178,11 @@ def run_scenario() -> None:
     if calls:
         raise ValueError("over-budget plan called the writer")
 
-    resource = next(item for item in index["resources"] if item["class"] == "on-demand")
-    cache = cache_plan(resource, budget, set(), 0)
-    if not cache["allowed"]:
-        raise ValueError("eligible resource was not admitted to cache")
-    reused = cache_plan(resource, budget, {resource["path"]}, resource["bytes"])
-    if not reused["allowed"] or reused["writes"][0]["action"] != "retain":
-        raise ValueError("existing cache resource was not reused")
-    maintenance = next(item for item in index["resources"] if item["class"] == "maintenance")
-    if cache_plan(maintenance, budget, set(), 0)["allowed"]:
-        raise ValueError("maintenance resource was admitted to cache")
+    cleanup = cleanup_plan(["old-1", "old-2", "old-3"], budget)
+    if not cleanup["allowed"] or cleanup["batches"] != [["old-1", "old-2"]]:
+        raise ValueError("cleanup plan is not provider bounded")
+    if cleanup["remaining"] != ["old-3"]:
+        raise ValueError("cleanup plan did not preserve resumable work")
 
     writes = [
         {"id": f"write-{number}", "action": "create", "bytes": 1}
@@ -215,8 +216,8 @@ def run_scenario() -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--operation", choices=("stage", "cache"), default="stage")
-    parser.add_argument("--resource", help="release-index path for a cache plan")
+    parser.add_argument("--operation", choices=("stage", "cleanup"), default="stage")
+    parser.add_argument("--record", action="append", default=[], help="obsolete record ID for cleanup")
     parser.add_argument("--source-revision", help="immutable source revision for a stage plan")
     args = parser.parse_args()
     try:
@@ -227,12 +228,9 @@ def main() -> int:
                 raise ValueError("--source-revision is required for a stage plan")
             plan = stage_plan(index, budget, args.source_revision)
         else:
-            if not args.resource:
-                raise ValueError("--resource is required for a cache plan")
-            resource = next((item for item in index["resources"] if item["path"] == args.resource), None)
-            if resource is None:
-                raise ValueError(f"resource is not in the release index: {args.resource}")
-            plan = cache_plan(resource, budget, set(), 0)
+            if not args.record:
+                raise ValueError("at least one --record is required for a cleanup plan")
+            plan = cleanup_plan(args.record, budget)
     except (OSError, ValueError, KeyError, TypeError, yaml.YAMLError) as exc:
         print(f"write planning failed: {exc}")
         return 1

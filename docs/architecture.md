@@ -18,7 +18,8 @@ their portable metadata, relationships, logical locations, and storage search.
 - **Document type**: the contract for one kind of document.
 - **Storage Binding**: a vendor-specific mapping of portable rules.
 - **Release Index**: an immutable list of protocol resources and their digests.
-- **Core Bundle**: the small runtime set kept in common memory.
+- **Source Pointer**: the latest active immutable repository revision and
+  Release Index digest kept in common memory.
 - **On-Demand Resource**: a resource fetched only when a task needs it.
 - **Cache**: a disposable, verified copy of an immutable resource.
 
@@ -103,27 +104,29 @@ The common-memory installation owns protocol release activation. An installation
 receipt records the latest release and capabilities the client resolved without
 becoming a second copy of protocol instructions or a release pin.
 
-Common memory will contain one stable installation root, a compact Core Bundle,
-the active-release pointer, retained legacy references, and links to client
+Common memory contains one stable installation root, one latest active Source
+Pointer, explicitly retained non-protocol references, and links to client
 receipts. A Release Index identifies remote resources by immutable revision,
-path, digest, class, and cache policy. It does not require one common-memory
-record per repository file.
+path, digest, class, and cache policy. Protocol source remains in the repository;
+common memory does not copy it or retain superseded protocol releases.
 
 Resources have four classes:
 
-- `core`: always present in the Core Bundle;
+- `core`: fetched and verified from the active immutable source for normal work;
 - `on-demand`: fetched and verified when a task needs them;
 - `maintenance`: fetched only for explicit setup, update, repair, rollback, or
   migration work;
 - `development`: never distributed through common memory.
 
-Verified `core` and `on-demand` text resources may use an automatic bounded
-cache. Cache entries are disposable and cannot redefine a release. Cache
-failure must not block read or proposal work.
+Verified resources may use a runtime-local disposable cache. Provider-backed
+common memory does not retain protocol cache records. Cache failure must not
+block read or proposal work.
 
-The `v0.1.x` installation representation remains in force until the compact
-distribution and write-planning releases replace it. No architecture-only
-release changes common memory.
+After a new Source Pointer is staged, verified, activated, and resolved by the
+required client checks, remove the prior protocol pointer and provider-specific
+protocol copies. Rollback reconstructs a selected previous pointer from an
+immutable repository release rather than retaining every release in common
+memory.
 
 Client adapters remain thin discovery hooks. Every Mind Palace operation
 resolves the current active release; clients do not discover or activate newer
@@ -133,7 +136,7 @@ releases automatically.
 
 Source publication and common-memory deployment are separate operations. Before
 any common-memory write, a read-only plan must report records, bytes,
-attachments, batches, provider limits, retries, cache writes, and rollback cost.
+attachments, batches, provider limits, retries, cleanup writes, and rollback cost.
 An over-budget plan writes nothing. Bounded writes must resume without
 duplicates and must not change the active release before validation and explicit
 approval.

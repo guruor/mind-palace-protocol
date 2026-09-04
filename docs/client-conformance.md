@@ -6,21 +6,22 @@ Every client adapter must demonstrate:
 
 1. fresh staged installation and post-activation resolution;
 2. same-version no-op/repair without duplicate copies;
-3. compatible upgrade with rollback pointer preserved;
+3. compatible upgrade with an immutable repository rollback reference;
 4. migration-required upgrade blocked until approval;
 5. newer installed version protected from automatic downgrade;
-6. unversioned legacy guidance retained until mapped or explicitly retired;
+6. explicitly exempted unversioned legacy guidance retained;
 7. invalid installation constrained to read-only behavior;
 8. parallel installations with only one write authority per instance;
 9. interrupted activation restored or resumed deterministically;
-10. uninstall/rollback restoring the prior validated pointer and configuration.
+10. uninstall/rollback reconstructing the prior validated pointer and
+    configuration from its immutable repository release.
 
 The executable receipt cases are in
 `tests/conformance/client-installation-cases.yaml`.
 
 Before those client-local cases, run the shared-installation scenario. It proves
-first install, exact no-op, missing-component repair, same-version package
-conflict, staged/approved upgrade, downgrade refusal, approved rollback, legacy
+first install, exact no-op/repair, same-version package conflict,
+staged/approved upgrade, downgrade refusal, approved rollback, explicit legacy
 preservation, and client-receipt deduplication. The adapter-configuration
 scenario proves existing OpenCode configuration and ChatGPT/Claude instruction
 text survive install, reinstall, upgrade, and malformed-marker refusal.

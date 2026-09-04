@@ -15,7 +15,9 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def release_resources(release: dict[str, Any]) -> list[dict[str, Any]]:
-    """Return legacy components or the compact core bundle."""
+    """Return legacy, compact, or pointer-based runtime resources."""
+    if "source_pointer" in release:
+        return []
     return release.get("core_bundle", release.get("components", []))
 
 
@@ -68,6 +70,8 @@ def install_release(
         if same_identity.get("release_index") != candidate.get("release_index"):
             return "conflict", result
         if same_identity.get("payload") != candidate.get("payload"):
+            return "conflict", result
+        if same_identity.get("source_pointer") != candidate.get("source_pointer"):
             return "conflict", result
         existing = {item["path"]: item for item in release_resources(same_identity)}
         for resource in release_resources(candidate):
@@ -192,6 +196,26 @@ def synthetic_payload_release(version: str, source_version: str) -> dict[str, An
     }
 
 
+def synthetic_pointer_release(version: str, source_version: str) -> dict[str, Any]:
+    release = synthetic_release(version, source_version)
+    release["source_pointer"] = {
+        "source_revision": source_version,
+        "release_index": release.pop("release_index"),
+    }
+    release.pop("core_bundle")
+    return release
+
+
+def cleanup_superseded_releases(state: dict[str, Any], active_release: str) -> tuple[list[str], dict[str, Any]]:
+    """Remove protocol records only after the caller verifies client resolution."""
+    if state.get("active_release") != active_release:
+        raise ValueError("cleanup target is not the active release")
+    result = copy.deepcopy(state)
+    removed = [item["id"] for item in result["releases"] if item["id"] != active_release]
+    result["releases"] = [item for item in result["releases"] if item["id"] == active_release]
+    return removed, result
+
+
 def empty_state() -> dict[str, Any]:
     return {
         "installation_id": "synthetic-mind-palace-installation",
@@ -249,6 +273,16 @@ def run_scenario() -> None:
     if action != "conflict" or unchanged != payload_staged:
         raise ValueError("changed attachment payload did not cause a conflict")
 
+    pointer_release = synthetic_pointer_release("0.1.2", "pointer-release-001")
+    action, pointer_staged = install_release(installed, pointer_release)
+    if action != "staged" or installation_errors(pointer_staged):
+        raise ValueError("source-pointer release did not stage")
+    changed_pointer = copy.deepcopy(pointer_release)
+    changed_pointer["source_pointer"]["release_index"]["digest"] = "sha256:" + "6" * 64
+    action, unchanged = install_release(pointer_staged, changed_pointer)
+    if action != "conflict" or unchanged != pointer_staged:
+        raise ValueError("changed source pointer did not cause a conflict")
+
     upgrade = synthetic_release("0.2.0", "release-002")
     action, staged = install_release(installed, upgrade)
     if action != "staged" or staged["active_release"] != installed["active_release"]:
@@ -258,6 +292,11 @@ def run_scenario() -> None:
         raise ValueError("approved upgrade did not activate")
     if installed["legacy_installations"] != upgraded["legacy_installations"]:
         raise ValueError("upgrade changed retained legacy installation")
+    removed, cleaned = cleanup_superseded_releases(upgraded, upgrade["id"])
+    if removed != [release["id"]] or [item["id"] for item in cleaned["releases"]] != [upgrade["id"]]:
+        raise ValueError("post-resolution cleanup did not remove only superseded releases")
+    if cleaned["legacy_installations"] != upgraded["legacy_installations"]:
+        raise ValueError("post-resolution cleanup changed exempted legacy guidance")
 
     action, unchanged = install_release(upgraded, release)
     if action != "blocked" or unchanged != upgraded:

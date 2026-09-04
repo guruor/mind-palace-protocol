@@ -3,7 +3,7 @@
   "$id": "urn:mind-palace:schema:provider-budget:0.1.0",
   "title": "Mind Palace provider write budget",
   "type": "object",
-  "required": ["provider", "operation", "cache", "retry"],
+  "required": ["provider", "operation", "retry"],
   "properties": {
     "provider": {"type": "string", "minLength": 1},
     "operation": {
@@ -17,16 +17,6 @@
         "max_requests": {"type": "integer", "minimum": 1},
         "batch_size": {"type": "integer", "minimum": 1},
         "delay_seconds": {"type": "number", "minimum": 0}
-      },
-      "additionalProperties": false
-    },
-    "cache": {
-      "type": "object",
-      "required": ["max_records", "max_bytes", "max_resource_bytes"],
-      "properties": {
-        "max_records": {"type": "integer", "minimum": 0},
-        "max_bytes": {"type": "integer", "minimum": 0},
-        "max_resource_bytes": {"type": "integer", "minimum": 0}
       },
       "additionalProperties": false
     },

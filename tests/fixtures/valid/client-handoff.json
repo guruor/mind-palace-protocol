@@ -1,5 +1,5 @@
 {
-  "protocol": {"id": "mind-palace", "version": "0.9.2"},
+  "protocol": {"id": "mind-palace", "version": "0.9.3"},
   "methodology": {"id": "product-engineering", "version": "0.2.0"},
   "instance": {"id": "synthetic-instance", "trust_domain": "synthetic"},
   "task": "Produce a read-only migration preflight for the synthetic project",

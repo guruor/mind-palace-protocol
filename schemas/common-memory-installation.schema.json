@@ -67,12 +67,22 @@
             },
             "additionalProperties": true
           },
+          "source_pointer": {
+            "type": "object",
+            "required": ["source_revision", "release_index"],
+            "properties": {
+              "source_revision": {"type": "string", "minLength": 1},
+              "release_index": {"$ref": "#/$defs/resource"}
+            },
+            "additionalProperties": true
+          },
           "omissions": {"type": "array", "items": {"type": "string"}}
         },
         "oneOf": [
           {"required": ["components"]},
           {"required": ["release_index", "core_bundle"]},
-          {"required": ["payload"]}
+          {"required": ["payload"]},
+          {"required": ["source_pointer"]}
         ],
         "additionalProperties": true
       }

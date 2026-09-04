@@ -43,7 +43,7 @@ Recommended properties are:
 
 The root stable ID defaults to `mind-palace-protocol-installation`. Its active
 release is a relation, not copied content. A new release item holds or attaches
-one compact Release Index and Core Bundle. The index points to immutable remote
+one compact Source Pointer. The index at that immutable source points to remote
 resources and their digests. Do not create one registry item per source file.
 Client receipts and legacy guidance are related records, so reinstall can
 upsert them without changing the legacy page.

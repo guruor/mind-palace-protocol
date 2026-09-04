@@ -95,9 +95,9 @@ The user may answer, request targeted evidence, or request independent review.
   grants access to a Mind Palace instance.
 - Discover and classify an existing installation before activation. Never
   overwrite an older, newer, invalid, or unversioned installation silently.
-- During `0.y.z`, assess every version transition explicitly. Preserve a
-  rollback pointer and require approval when behavior or persisted
-  configuration must migrate.
+- During `0.y.z`, assess every version transition explicitly. Preserve an
+  immutable repository rollback reference and require approval when behavior or
+  persisted configuration must migrate.
 
 ## Migration
 

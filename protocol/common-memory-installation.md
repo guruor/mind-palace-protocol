@@ -23,10 +23,8 @@ Create or resolve one root record by stable installation ID, never by title
 alone. The root contains:
 
 - active immutable release pointer;
-- staged, active, retired, and blocked releases;
-- one digest-verified Markdown payload containing the compact Release Index and
-  Core Bundle for each new release;
-- retained legacy installation references and dispositions;
+- one latest active Source Pointer after successful activation;
+- only explicitly exempted non-protocol legacy references;
 - links to client installation receipts;
 - actual storage binding and trust domain.
 
@@ -34,20 +32,22 @@ Unless instance configuration overrides it, use stable installation ID
 `mind-palace-protocol-installation` and human title
 `Mind Palace Protocol Installation`.
 
-Each release comes from one immutable protocol package. It is not edited
-independently. Upload one generated Markdown payload containing the compact
-Release Index and small Core Bundle needed for normal work. The index gives
-every remote resource's path, digest, class, cache policy, and purpose. It does
-not create one common-memory record per source file.
+Each release comes from one immutable protocol package. A staged release record
+stores only its version, immutable package locator, source revision, Release
+Index digest, trust domain, and relation to the installation root. It does not
+copy or attach protocol resources. Clients fetch the Release Index and required
+resources from that immutable source and verify their declared digests.
 
-Fetch `on-demand` resources only when a task needs them. Verify the immutable
-release revision and digest before use. A verified text resource may enter a
-bounded disposable cache. Cache failure must not block read or proposal work.
+Fetch `core` resources for normal protocol work and `on-demand` resources only
+when a task needs them. Verify the immutable release revision and digest before
+use. A verified resource may enter a runtime-local disposable cache, never a
+provider-backed protocol record. Cache failure must not block read or proposal
+work.
 Fetch `maintenance` resources only for an explicit maintenance operation. Never
 place `development` resources in common memory.
 
-Retained `v0.1.x` releases may keep their legacy component records for rollback.
-New compact releases do not copy that representation.
+Rollback recreates a Source Pointer from an immutable prior repository release.
+It does not require retaining prior protocol records in common memory.
 
 ## Write Plan
 
@@ -57,16 +57,9 @@ retry limits, cache impact, and rollback writes. Reuse existing records and
 reject the plan before its first write when any configured provider budget is
 exceeded.
 
-Build a deterministic Markdown staging payload directly from the immutable Release Index
-and Core Bundle sources. Bind approval to its source revision, payload digest,
-Release Index digest, ordered resource list, and per-resource bytes and digests.
-Never manually rewrite, reformat, or summarize embedded resources. Generate the
-payload twice and require identical output before presenting the plan.
-
-Transfer that exact local file through the provider's binary file-upload path;
-do not copy it through a model-generated string. Count the attachment and its
-bytes separately from page text. Store only immutable identity and proof
-metadata plus the uploaded file on the release record.
+Bind approval to the source revision, Release Index digest, target stable ID,
+operations, validation, and rollback. Verify the Release Index and all required
+core-resource digests directly from the immutable source before staging.
 
 Writes use bounded batches and persist completed stable IDs. On a rate limit,
 stop new writes, honor the provider retry delay or the configured fallback,
@@ -79,31 +72,35 @@ failure does not block read or proposal work.
 1. Search the authorized common-memory boundary for the stable installation ID.
 2. If absent, create the root and candidate release with an inactive write
    surface, validate it, then set the active pointer.
-3. If the same version and immutable package identity exists, verify the Release
-   Index, Core Bundle digests, and references. Return `no-op`, or repair only
-   missing core resources and return `repaired`.
+3. If the same version and immutable package identity exists, verify the Source
+   Pointer and return `no-op`; never create or repair copied protocol resources.
 4. If the same version has another package identity or a component digest
    differs, do not overwrite it. Record a conflict and remain on the current
    release.
 5. Only after an explicit update request, if the candidate is newer, create it
    as `staged`. During `0.y.z`, assess compatibility explicitly. Activate after
-   package/projection validation and required approval, retaining the prior
-   release for rollback. Do not require unrelated document migrations or every
-   client to pass a cross-client handoff before protocol activation.
+   source validation and required approval. After the required client-resolution
+   check passes, remove superseded protocol releases and components. Do not
+   require unrelated document migrations before protocol activation.
 6. If the candidate is older, do not downgrade automatically.
-7. Preserve every legacy/unversioned instruction source. Record whether it is
-   retained read-only, mapped, superseded, or blocked; removal requires explicit
-   approval after all clients resolve the replacement.
+7. Preserve only legacy/unversioned instruction sources explicitly exempted by
+   the user. Remove superseded protocol records after replacement validation.
 8. Validate `schemas/common-memory-installation.schema.json`, active-pointer
    uniqueness, stable IDs, index and core digests, trust boundary, and
    permissions.
 
-Read the staged record back before activation. Download the uploaded payload,
-verify its exact SHA-256 digest, then extract the Release Index and each ordered
-Core Bundle code block and compare their exact UTF-8 bytes and digests with the
-immutable package. If any
-section is missing, duplicated, reordered, normalized, or changed, mark only the
-candidate blocked and leave the active pointer unchanged.
+Read the staged record back before activation and verify its exact properties.
+Fetch the Release Index from the immutable package locator, verify its digest,
+then fetch and verify every required core resource. If identity, availability,
+bytes, or digest differs, mark only the candidate blocked and leave the active
+pointer unchanged.
+
+After successful activation and client-resolution validation, cleanup is
+automatic and resumable: remove all older protocol release and component
+records from the installation map in provider-bounded batches. Preserve the
+installation root, client receipts, user documents, and explicitly exempted
+legacy guidance. When the provider cannot permanently delete records, remove
+them from active discovery and report the exact manual deletion list.
 
 ## Idempotency
 
@@ -145,7 +142,5 @@ deduplication, and rollback:
 
 ```sh
 uv run --frozen scripts/common_memory_install.py
-uv run --frozen scripts/common_memory_payload.py --source-revision COMMIT --output payload.md
-uv run --frozen scripts/common_memory_payload.py --source-revision COMMIT --verify payload.md
 uv run --frozen scripts/common_memory_plan.py --source-revision COMMIT
 ```

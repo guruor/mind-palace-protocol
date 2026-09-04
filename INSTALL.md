@@ -60,7 +60,8 @@ Search authorized common memory for exact stable ID
 
 If an installation exists:
 
-- verify its active version, commit identity, Release Index and Core Bundle
+- verify its active version, commit identity, Release Index, and required core
+  resource digests
   digests, legacy references, trust domain, and effective write authority;
 - fetch the manifest and adapter from its recorded immutable package, not from
   the repository's default branch;
@@ -208,7 +209,8 @@ uv run --frozen scripts/e2e_cross_client.py
 - Keep credentials in the host's connector or credential store.
 - Preserve existing system, developer, user, repository, Project, Custom, and
   `AGENTS.md` instructions.
-- Keep prior releases and legacy guidance recoverable.
+- Reconstruct prior releases from immutable repository tags when rollback is
+  requested; retain only explicitly exempted legacy guidance in common memory.
 - Treat protocol installation, connector authorization, private-knowledge
   access, and production migration approval as separate permissions.
 - Remove only the managed adapter block/path/link during client rollback.
