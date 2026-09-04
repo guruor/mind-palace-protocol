@@ -9,11 +9,11 @@ knowledge and user configuration do not belong in this repository.
 
 ## Status
 
-Version `0.5.0` adds compact protocol distribution. A generated Release Index
-classifies runtime resources and identifies them by path, size, and digest. New
-common-memory releases use one small Core Bundle and fetch other resources on
-demand instead of creating one record per file. Existing Mind Palace content is
-not migrated, and common memory remains on active `v0.1.0`.
+Version `0.6.0` adds provider-aware write planning and bounded automatic cache
+safety to compact protocol distribution. Over-budget plans write nothing, and
+rate-limited work preserves resumable progress without changing the active
+release. Existing Mind Palace content is not migrated, and common memory remains
+on active `v0.1.0`.
 
 ## Start Here
 
@@ -54,6 +54,11 @@ Run shared-installation and non-destructive client-configuration cases with
 Regenerate the compact release index with
 `uv run --frozen scripts/build_release_index.py`. Validation fails when the
 committed index is stale.
+
+Print the read-only common-memory staging plan with
+`uv run --frozen scripts/common_memory_plan.py`. Use `--operation cache
+--resource <path>` to inspect one cache decision. This tool has no vendor client
+and cannot perform writes.
 
 Use [`docs/live-cross-client-canary.md`](docs/live-cross-client-canary.md) for
 the Fresh-Client Setup Check, Cross-Client Handoff Check, approved write canary,

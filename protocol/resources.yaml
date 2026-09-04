@@ -50,5 +50,8 @@ resources:
   - {path: schemas/client-installation.schema.json, class: maintenance, cache: never, purpose: Validate a client receipt.}
   - {path: schemas/common-memory-installation.schema.json, class: maintenance, cache: never, purpose: Validate common-memory installation state.}
   - {path: schemas/client-handoff.schema.json, class: maintenance, cache: never, purpose: Validate a cross-client handoff.}
+  - {path: schemas/provider-budget.schema.json, class: maintenance, cache: never, purpose: Validate provider write limits.}
+  - {path: schemas/write-plan.schema.json, class: maintenance, cache: never, purpose: Validate a common-memory write plan.}
+  - {path: protocol/provider-budgets.yaml, class: maintenance, cache: never, purpose: Set conservative provider and cache limits.}
   - {path: docs/migration-preflight.md, class: maintenance, cache: never, purpose: Plan a safe user-document migration.}
   - {path: methodologies/product-engineering/migration/README.md, class: maintenance, cache: never, purpose: Plan a Product Engineering method migration.}

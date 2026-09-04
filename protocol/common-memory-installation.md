@@ -48,6 +48,20 @@ place `development` resources in common memory.
 Retained `v0.1.x` releases may keep their legacy component records for rollback.
 New compact releases do not copy that representation.
 
+## Write Plan
+
+Before any staging, repair, cache, rollback, or cleanup write, create a read-only
+plan. Report records, text bytes, attachments, requests, batch size, delays,
+retry limits, cache impact, and rollback writes. Reuse existing records and
+reject the plan before its first write when any configured provider budget is
+exceeded.
+
+Writes use bounded batches and persist completed stable IDs. On a rate limit,
+stop new writes, honor the provider retry delay or the configured fallback,
+re-read current state, and resume only missing work. Never move the active
+release pointer until staged validation and explicit approval pass. Cache
+failure does not block read or proposal work.
+
 ## Install Or Check
 
 1. Search the authorized common-memory boundary for the stable installation ID.

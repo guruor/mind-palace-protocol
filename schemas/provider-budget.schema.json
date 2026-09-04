@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:mind-palace:schema:provider-budget:0.1.0",
+  "title": "Mind Palace provider write budget",
+  "type": "object",
+  "required": ["provider", "operation", "cache", "retry"],
+  "properties": {
+    "provider": {"type": "string", "minLength": 1},
+    "operation": {
+      "type": "object",
+      "required": ["max_records", "max_text_bytes", "max_attachments", "max_requests", "batch_size", "delay_seconds"],
+      "properties": {
+        "max_records": {"type": "integer", "minimum": 1},
+        "max_text_bytes": {"type": "integer", "minimum": 1},
+        "max_attachments": {"type": "integer", "minimum": 0},
+        "max_requests": {"type": "integer", "minimum": 1},
+        "batch_size": {"type": "integer", "minimum": 1},
+        "delay_seconds": {"type": "number", "minimum": 0}
+      },
+      "additionalProperties": false
+    },
+    "cache": {
+      "type": "object",
+      "required": ["max_records", "max_bytes", "max_resource_bytes"],
+      "properties": {
+        "max_records": {"type": "integer", "minimum": 0},
+        "max_bytes": {"type": "integer", "minimum": 0},
+        "max_resource_bytes": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": false
+    },
+    "retry": {
+      "type": "object",
+      "required": ["max_attempts", "default_wait_seconds"],
+      "properties": {
+        "max_attempts": {"type": "integer", "minimum": 0},
+        "default_wait_seconds": {"type": "number", "minimum": 0}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

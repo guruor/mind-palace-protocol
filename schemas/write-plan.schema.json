@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:mind-palace:schema:write-plan:0.1.0",
+  "title": "Mind Palace common-memory write plan",
+  "type": "object",
+  "required": ["operation", "provider", "allowed", "reasons", "summary", "writes", "batches", "rollback"],
+  "properties": {
+    "operation": {"enum": ["stage", "cache", "repair", "rollback", "cleanup"]},
+    "provider": {"type": "string", "minLength": 1},
+    "allowed": {"type": "boolean"},
+    "reasons": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "summary": {
+      "type": "object",
+      "required": ["records", "text_bytes", "attachments", "requests", "rollback_writes"],
+      "properties": {
+        "records": {"type": "integer", "minimum": 0},
+        "text_bytes": {"type": "integer", "minimum": 0},
+        "attachments": {"type": "integer", "minimum": 0},
+        "requests": {"type": "integer", "minimum": 0},
+        "rollback_writes": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": false
+    },
+    "writes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "action", "bytes"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "action": {"enum": ["create", "update", "retain", "remove"]},
+          "bytes": {"type": "integer", "minimum": 0}
+        },
+        "additionalProperties": true
+      }
+    },
+    "batches": {
+      "type": "array",
+      "items": {"type": "array", "items": {"type": "string", "minLength": 1}}
+    },
+    "rollback": {"type": "array", "items": {"type": "string", "minLength": 1}}
+  },
+  "additionalProperties": true
+}

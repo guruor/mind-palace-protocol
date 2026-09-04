@@ -16,6 +16,9 @@ from client_adapter_config import run_scenario as run_client_adapter_scenario
 from build_release_index import OUTPUT as RELEASE_INDEX
 from build_release_index import render as render_release_index
 from common_memory_install import run_scenario as run_common_memory_install_scenario
+from common_memory_plan import load_yaml as load_plan_yaml
+from common_memory_plan import run_scenario as run_common_memory_plan_scenario
+from common_memory_plan import stage_plan
 from digest import canonical_digest
 from e2e_cross_client import run_scenario
 from validate_installation import installation_errors, load_manifest
@@ -182,6 +185,9 @@ def validate_manifest() -> None:
         "release_index",
         "release_index_schema",
         "resource_catalog",
+        "provider_budget",
+        "provider_budget_schema",
+        "write_plan_schema",
     )
     for field in path_fields:
         path = ROOT / manifest[field]
@@ -267,6 +273,19 @@ def validate_release_index(schemas: dict[str, dict], registry: Registry) -> None
     forbidden = ("scripts/", "tests/", ".github/")
     if any(path.startswith(forbidden) for path in paths):
         raise ValueError("release index includes a development resource")
+
+
+def validate_write_planning(schemas: dict[str, dict], registry: Registry) -> None:
+    budget = load_plan_yaml(ROOT / "protocol/provider-budgets.yaml")
+    budget_errors = list(validator("provider-budget.schema.json", schemas, registry).iter_errors(budget))
+    if budget_errors:
+        raise ValueError(f"provider budget is invalid: {budget_errors[0].message}")
+    index = load_plan_yaml(RELEASE_INDEX)
+    plan = stage_plan(index, budget)
+    plan_errors = list(validator("write-plan.schema.json", schemas, registry).iter_errors(plan))
+    if plan_errors:
+        raise ValueError(f"write plan is invalid: {plan_errors[0].message}")
+    run_common_memory_plan_scenario()
 
 
 def validate_agent_skill() -> None:
@@ -377,6 +396,7 @@ def main() -> int:
         validate_manifest()
         validate_builtin_method(schemas, registry)
         validate_release_index(schemas, registry)
+        validate_write_planning(schemas, registry)
         validate_agent_skill()
         validate_hosted_chat_adapter()
         validate_privacy()
