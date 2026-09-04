@@ -1,0 +1,17 @@
+id: example/plain-files
+kind: storage-binding
+version: 0.1.0
+requires:
+  protocol: ">=0.7.0 <1.0.0"
+  packages: []
+source:
+  type: remote
+  locator: https://example.com/plain-files-binding
+  revision: example-revision-001
+guide: README.md
+provides:
+  storage: plain-files
+  capabilities: [markdown, yaml-front-matter, filesystem-search, portable-links]
+limitations: [No native relation database or visual views.]
+resources:
+  - {path: README.md, class: core, cache: always, purpose: Map portable documents to plain files.}

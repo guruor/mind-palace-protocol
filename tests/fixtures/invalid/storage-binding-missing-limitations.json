@@ -6,8 +6,7 @@
   "source": {
     "type": "remote",
     "locator": "https://example.com/plain-files-binding",
-    "revision": "example-revision-001",
-    "digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+    "revision": "example-revision-001"
   },
   "guide": "README.md",
   "provides": {"storage": "plain-files", "capabilities": []},

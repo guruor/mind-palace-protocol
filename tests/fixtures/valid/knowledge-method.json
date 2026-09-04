@@ -6,8 +6,7 @@
   "source": {
     "type": "remote",
     "locator": "https://example.com/mind-palace-research",
-    "revision": "example-revision-001",
-    "digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+    "revision": "example-revision-001"
   },
   "guide": "README.md",
   "provides": {"document_types": ["example/working-note"]},

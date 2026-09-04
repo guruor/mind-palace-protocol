@@ -1,0 +1,18 @@
+id: example/research
+kind: knowledge-method
+version: 0.1.0
+requires:
+  protocol: ">=0.7.0 <1.0.0"
+  packages: []
+source:
+  type: remote
+  locator: https://example.com/research-method
+  revision: example-revision-001
+guide: README.md
+provides:
+  methodology_id: example-research
+  document_types: [example-research/research-note]
+resources:
+  - {path: README.md, class: core, cache: always, purpose: Explain the example research method.}
+  - {path: document-types/research-note.yaml, class: on-demand, cache: automatic, purpose: Define the example research note.}
+  - {path: templates/research-note.md, class: on-demand, cache: automatic, purpose: Create an example research note.}

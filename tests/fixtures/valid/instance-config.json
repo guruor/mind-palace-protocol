@@ -1,6 +1,17 @@
 {
   "id": "example-mind-palace",
-  "protocol": {"id": "mind-palace", "version": "0.6.0"},
+  "protocol": {"id": "mind-palace", "version": "0.7.0"},
   "work_modes": {"product": {"method": "mind-palace/product-engineering@0.2.0"}},
-  "storage": {"primary": {"binding": "mind-palace/notion@0.1.0", "root": "example://mind-palace"}}
+  "storage": {"primary": {"binding": "mind-palace/notion@0.1.0", "root": "example://mind-palace"}},
+  "extensions": [{
+    "id": "example/research",
+    "kind": "knowledge-method",
+    "version": "0.1.0",
+    "manifest": {
+      "locator": "https://example.com/research/method.yaml",
+      "revision": "example-revision-001",
+      "digest": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+    },
+    "approval_reference": "example-approval"
+  }]
 }

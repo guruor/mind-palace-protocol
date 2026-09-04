@@ -1,0 +1,21 @@
+id: example-research/research-note
+version: 0.1.0
+method: {id: example-research, version: 0.1.0}
+purpose: Keep evidence and current understanding for one research question.
+applies_when: A question needs durable evidence and synthesis.
+format: markdown
+location: {pattern: "research/<topic-id>/current.md"}
+metadata:
+  shared_required: [protocol, id, kind, title, authority, trust_domain, revision, relations, provenance]
+  type_specific:
+    - {name: state, required: true, purpose: Show whether research is open, sufficient, or parked.}
+ownership: {authority: evidence, owner: research-owner}
+lifecycle: {mutability: mutable, states: [open, sufficient, parked, reopened]}
+sections: {required: [Question, Evidence, Current Understanding, Open Questions], optional: [Applications]}
+language: {style: Plain and clear about evidence and uncertainty., audience: People and AI research clients.}
+relations:
+  - {type: references, targets: [example-research/research-note], query: Follow stable related-topic IDs before broad search.}
+retrieval: {from_current: [Read current understanding before history.], keywords: [title, question, tags]}
+writes: {route: Update current understanding and preserve material changes., rules: [Keep evidence separate from hypotheses.]}
+migration: {compatibility: Preserve evidence, uncertainty, provenance, and relations., guide: README.md}
+template: templates/research-note.md

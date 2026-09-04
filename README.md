@@ -9,11 +9,11 @@ knowledge and user configuration do not belong in this repository.
 
 ## Status
 
-Version `0.6.0` adds provider-aware write planning and bounded automatic cache
-safety to compact protocol distribution. Over-budget plans write nothing, and
-rate-limited work preserves resumable progress without changing the active
-release. Existing Mind Palace content is not migrated, and common memory remains
-on active `v0.1.0`.
+Version `0.7.0` adds safe resolution of approved declarative Knowledge Methods
+and Storage Bindings from immutable external sources. Identity, version,
+revision, digest, compatibility, dependencies, capabilities, and document-type
+ownership are checked before use. Existing Mind Palace content is not migrated,
+and common memory remains on active `v0.1.0`.
 
 ## Start Here
 
@@ -32,8 +32,7 @@ on active `v0.1.0`.
    migration.
 
 Use [`docs/extension-authoring.md`](docs/extension-authoring.md) to understand
-the declarative method and binding contracts. External package resolution is
-not enabled until the later custom-package release.
+the declarative method and binding contracts.
 
 Calculate a frozen artifact digest with
 `uv run --frozen scripts/digest.py <artifact.md>`.
@@ -59,6 +58,11 @@ Print the read-only common-memory staging plan with
 `uv run --frozen scripts/common_memory_plan.py`. Use `--operation cache
 --resource <path>` to inspect one cache decision. This tool has no vendor client
 and cannot perform writes.
+
+Resolve one explicitly approved external package with
+`uv run --frozen scripts/extension_resolver.py <reference.json>
+--protocol-version 0.7.0`. The reference must use an immutable HTTPS source and
+an expected manifest digest.
 
 Use [`docs/live-cross-client-canary.md`](docs/live-cross-client-canary.md) for
 the Fresh-Client Setup Check, Cross-Client Handoff Check, approved write canary,

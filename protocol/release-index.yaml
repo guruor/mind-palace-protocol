@@ -1,13 +1,13 @@
 protocol:
   id: mind-palace
-  version: 0.6.0
+  version: 0.7.0
 source:
   locator_template: https://github.com/guruor/mind-palace-protocol/blob/{revision}/{path}
   revision_from: release-record
 resources:
 - path: protocol/manifest.yaml
-  digest: sha256:c8167261759f0ac30324f786d826641845cb05391ebcde3be52bd0a3d64c0bbe
-  bytes: 1909
+  digest: sha256:cda3908552c9a6d96964d8d4407a90a2caeb73fdb9957b3ef77ea0ffe5445559
+  bytes: 1971
   class: core
   cache: always
   purpose: Identify the active protocol and built-in packages.
@@ -66,11 +66,17 @@ resources:
   cache: automatic
   purpose: Validate a Storage Binding package.
 - path: schemas/instance-config.schema.json
-  digest: sha256:8df660dc80b5e5c70f808aa9bf9ff583833567fc56f12f51712a2f77e156db40
-  bytes: 1337
+  digest: sha256:57649ee225a1834cbdeb9ac7f62ccb6a43214aa7bf3daa8c3d35d61a13a8594a
+  bytes: 1460
   class: on-demand
   cache: automatic
   purpose: Validate instance method and binding selection.
+- path: schemas/extension-source.schema.json
+  digest: sha256:a313a200f2568e783dfcaa31d18804c4fce366a711558bc6c2ea32185244fa4e
+  bytes: 944
+  class: on-demand
+  cache: automatic
+  purpose: Validate an approved external package source.
 - path: protocol/conflict-template.md
   digest: sha256:08ad398e81745927baa0709df34aa96076feeb5ea584491f3ab0164b16b2e33f
   bytes: 844
@@ -150,61 +156,61 @@ resources:
   cache: automatic
   purpose: Define the Reconciliation Report document type.
 - path: methodologies/product-engineering/templates/project-hub.md
-  digest: sha256:6845fd11512d6d402ca6c669db10aecf41d76e21313011ebc03c1f093940c18d
+  digest: sha256:57de9160a85a733d733ca008986b3eca78f0c6c7d08fad1ee98d0626f1364ba8
   bytes: 861
   class: on-demand
   cache: automatic
   purpose: Create a Project Hub.
 - path: methodologies/product-engineering/templates/product-specification.md
-  digest: sha256:168ed0bf592f5021617cb283bbd83f5a4e5a254e24348c9ab4c518f411c2c41f
+  digest: sha256:c212ce23e13d4e59f5be3a3ed3601c228c283f4f8d2bb277ddb531f036c86bf6
   bytes: 1111
   class: on-demand
   cache: automatic
   purpose: Create a Product Specification.
 - path: methodologies/product-engineering/templates/technical-specification.md
-  digest: sha256:e259c91d6a2ec0166130c02fa2d8183c3832af3d315a54bb2eca9523fe68f90e
+  digest: sha256:da089f7f29be8f6139a510cc4efe569eeffcd5f9414d61431e490ef754de4442
   bytes: 1315
   class: on-demand
   cache: automatic
   purpose: Create a Technical Specification.
 - path: methodologies/product-engineering/templates/discovery-record.md
-  digest: sha256:2cd10952da3eff5e824c6646036482e426a80e6850c06d2b8142d19223ee88fd
+  digest: sha256:48d9a0e2f8741e06b97f104dc3c8889d411899160f31e647d4226285fc0ad688
   bytes: 1026
   class: on-demand
   cache: automatic
   purpose: Create a Discovery Record.
 - path: methodologies/product-engineering/templates/decision-record.md
-  digest: sha256:3a0cef656c99415f02c066d688aafeae123aa9cffa288d019bd7c6a038dd0c56
+  digest: sha256:4be5ecd74273831ebdc3155239806b58d3e86ae4c1d75328e9659cecea764b40
   bytes: 974
   class: on-demand
   cache: automatic
   purpose: Create a Decision Record.
 - path: methodologies/product-engineering/templates/change-log.md
-  digest: sha256:8da79904b497c4f30ce823d1307346847f4c300973be417529954a51e2cb1def
+  digest: sha256:6c006a815db6aa6ec7d418f5a2f58786afd00d79a549e0683a0b1d95eef01469
   bytes: 896
   class: on-demand
   cache: automatic
   purpose: Create a Change Log.
 - path: methodologies/product-engineering/templates/delivery-baseline.md
-  digest: sha256:a63df6ea054e231b59e91b763717063d2c087cefbd6a789158a47fcdf720df8e
+  digest: sha256:1f18be04a554b2c2c28af3184fee37a850d3484b4aeb9b72a0fd640f05d43b1a
   bytes: 1225
   class: on-demand
   cache: automatic
   purpose: Create a Delivery Baseline.
 - path: methodologies/product-engineering/templates/implementation-report.md
-  digest: sha256:886acb20f74459dba13b7c2ea9a97eb1ff61bfee4aeacaa598ca8a74aed5e0c8
+  digest: sha256:e9deb3be982cd06af59f2cecf02b322fbb6fcd1e3739e1e64842e3c589c1bf6d
   bytes: 1082
   class: on-demand
   cache: automatic
   purpose: Create an Implementation Report.
 - path: methodologies/product-engineering/templates/validation-report.md
-  digest: sha256:8dc9e20b2a47af31fed9bb5075b897d7ae05979f1966c9510176bc0380530107
+  digest: sha256:e0682d6867c60aaaba2dc415f3eaf3844ee7ea2bc58924a3570b2c8356a1ca02
   bytes: 981
   class: on-demand
   cache: automatic
   purpose: Create a Validation Report.
 - path: methodologies/product-engineering/templates/reconciliation-report.md
-  digest: sha256:d4bc16751e85bd1bffb2fc8afac6641e3a18965650ea72d901c2352d85c98b49
+  digest: sha256:ce5e884a624d068f4a78740aa7b3247a828fd770e95c3f32ededf0036ace6de1
   bytes: 1071
   class: on-demand
   cache: automatic

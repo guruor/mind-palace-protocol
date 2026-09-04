@@ -1,5 +1,5 @@
 ---
-protocol: {id: mind-palace, version: 0.6.0}
+protocol: {id: mind-palace, version: 0.7.0}
 id: "{{stable-technical-spec-id}}"
 kind: product-engineering/technical-specification
 methodology: {id: product-engineering, version: 0.2.0}

@@ -1,5 +1,5 @@
 id: mind-palace
-version: 0.6.0
+version: 0.7.0
 status: experimental
 general_guide: protocol/general-guide.md
 installation_guide: protocol/client-installation.md
@@ -21,6 +21,7 @@ resource_catalog: protocol/resources.yaml
 provider_budget: protocol/provider-budgets.yaml
 provider_budget_schema: schemas/provider-budget.schema.json
 write_plan_schema: schemas/write-plan.schema.json
+extension_source_schema: schemas/extension-source.schema.json
 methodologies:
   - id: product-engineering
     version: 0.2.0

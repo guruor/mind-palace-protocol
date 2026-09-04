@@ -21,6 +21,7 @@ from common_memory_plan import run_scenario as run_common_memory_plan_scenario
 from common_memory_plan import stage_plan
 from digest import canonical_digest
 from e2e_cross_client import run_scenario
+from extension_resolver import run_scenario as run_extension_scenario
 from validate_installation import installation_errors, load_manifest
 
 
@@ -85,6 +86,7 @@ def validate_fixtures(schemas: dict[str, dict], registry: Registry) -> None:
     knowledge_method = validator("knowledge-method.schema.json", schemas, registry)
     storage_binding = validator("storage-binding.schema.json", schemas, registry)
     instance_config = validator("instance-config.schema.json", schemas, registry)
+    extension_source = validator("extension-source.schema.json", schemas, registry)
 
     for path in sorted((ROOT / "tests/fixtures/valid").glob("*.json")):
         if "document-type" in path.name:
@@ -95,6 +97,8 @@ def validate_fixtures(schemas: dict[str, dict], registry: Registry) -> None:
             selected = storage_binding
         elif "instance-config" in path.name:
             selected = instance_config
+        elif "extension-source" in path.name:
+            selected = extension_source
         elif "common-memory-installation" in path.name:
             selected = common_memory
         elif "client-handoff" in path.name:
@@ -118,6 +122,8 @@ def validate_fixtures(schemas: dict[str, dict], registry: Registry) -> None:
             selected = storage_binding
         elif "instance-config" in path.name:
             selected = instance_config
+        elif "extension-source" in path.name:
+            selected = extension_source
         elif "common-memory-installation" in path.name:
             selected = common_memory
         elif "client-handoff" in path.name:
@@ -132,6 +138,8 @@ def validate_fixtures(schemas: dict[str, dict], registry: Registry) -> None:
             raise ValueError(f"invalid fixture accepted: {path.relative_to(ROOT)}")
 
     for path in sorted((ROOT / "examples").glob("**/*.md")):
+        if "extensions" in path.relative_to(ROOT / "examples").parts:
+            continue
         metadata = markdown_metadata(path)
         selected = product if metadata.get("methodology", {}).get("id") == "product-engineering" else artifact
         errors = list(selected.iter_errors(metadata))
@@ -188,6 +196,7 @@ def validate_manifest() -> None:
         "provider_budget",
         "provider_budget_schema",
         "write_plan_schema",
+        "extension_source_schema",
     )
     for field in path_fields:
         path = ROOT / manifest[field]
@@ -286,6 +295,39 @@ def validate_write_planning(schemas: dict[str, dict], registry: Registry) -> Non
     if plan_errors:
         raise ValueError(f"write plan is invalid: {plan_errors[0].message}")
     run_common_memory_plan_scenario()
+
+
+def validate_example_extensions(schemas: dict[str, dict], registry: Registry) -> None:
+    method_root = ROOT / "examples/extensions/research-method"
+    method = yaml.safe_load((method_root / "method.yaml").read_text(encoding="utf-8"))
+    errors = list(validator("knowledge-method.schema.json", schemas, registry).iter_errors(method))
+    if errors:
+        raise ValueError(f"example Knowledge Method is invalid: {errors[0].message}")
+    contract_path = method_root / "document-types/research-note.yaml"
+    contract = yaml.safe_load(contract_path.read_text(encoding="utf-8"))
+    errors = list(validator("document-type.schema.json", schemas, registry).iter_errors(contract))
+    if errors:
+        raise ValueError(f"example document type is invalid: {errors[0].message}")
+    template = method_root / contract["template"]
+    errors = list(validator("artifact.schema.json", schemas, registry).iter_errors(markdown_metadata(template)))
+    if errors:
+        raise ValueError(f"example extension template is invalid: {errors[0].message}")
+    headings = {line[2:].strip() for line in template.read_text(encoding="utf-8").splitlines() if line.startswith("# ")}
+    if not set(contract["sections"]["required"]).issubset(headings):
+        raise ValueError("example extension template lacks required headings")
+    for resource in method["resources"]:
+        if not (method_root / resource["path"]).is_file():
+            raise ValueError(f"example Knowledge Method resource is missing: {resource['path']}")
+
+    binding_root = ROOT / "examples/extensions/plain-files-binding"
+    binding = yaml.safe_load((binding_root / "binding.yaml").read_text(encoding="utf-8"))
+    errors = list(validator("storage-binding.schema.json", schemas, registry).iter_errors(binding))
+    if errors:
+        raise ValueError(f"example Storage Binding is invalid: {errors[0].message}")
+    for resource in binding["resources"]:
+        if not (binding_root / resource["path"]).is_file():
+            raise ValueError(f"example Storage Binding resource is missing: {resource['path']}")
+    run_extension_scenario()
 
 
 def validate_agent_skill() -> None:
@@ -397,6 +439,7 @@ def main() -> int:
         validate_builtin_method(schemas, registry)
         validate_release_index(schemas, registry)
         validate_write_planning(schemas, registry)
+        validate_example_extensions(schemas, registry)
         validate_agent_skill()
         validate_hosted_chat_adapter()
         validate_privacy()

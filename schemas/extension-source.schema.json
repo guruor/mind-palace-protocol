@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:mind-palace:schema:extension-source:0.1.0",
+  "title": "Mind Palace approved extension source",
+  "type": "object",
+  "required": ["id", "kind", "version", "manifest", "approval_reference"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*/[a-z0-9][a-z0-9-]*$"},
+    "kind": {"enum": ["knowledge-method", "storage-binding"]},
+    "version": {"type": "string", "minLength": 1},
+    "manifest": {
+      "type": "object",
+      "required": ["locator", "revision", "digest"],
+      "properties": {
+        "locator": {"type": "string", "pattern": "^https://"},
+        "revision": {"type": "string", "minLength": 1},
+        "digest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}
+      },
+      "additionalProperties": false
+    },
+    "approval_reference": {"type": "string", "minLength": 1}
+  },
+  "additionalProperties": true
+}
